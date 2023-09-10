@@ -56,14 +56,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-
-    // Cierra la conexión a la base de datos
-    mysqli_close($connection);
 }
-
 // Consulta para obtener las provincias desde la base de datos
 $get_provinces_query = "SELECT id, nombre_provincia FROM provincias";
 $provinces_result = mysqli_query($connection, $get_provinces_query);
+   // Cierra la conexión a la base de datos
+    mysqli_close($connection);
 ?>
 <!DOCTYPE html>
 <html lang="en">
