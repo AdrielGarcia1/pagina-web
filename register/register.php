@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Ejecuta la consulta
                 if (mysqli_query($connection, $insert_address_query)) {
                     // Registro exitoso, redirige a la página de inicio de sesión
-                    header("Location: ../login/login.html");
+                    header("Location: ../login/login.php");
                     exit();
                 } else {
                     echo "Error al registrar la dirección del usuario: " . mysqli_error($connection);
