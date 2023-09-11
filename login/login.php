@@ -1,4 +1,7 @@
 <?php
+// Inicia la sesión en la parte superior del archivo
+session_start();
+
 // Incluye el archivo de conexión a la base de datos
 require_once "../db_connection/db_connection.php";
 
@@ -14,25 +17,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = mysqli_real_escape_string($connection, $_POST["password"]);
 
     // Validación básica
-    if (empty($username)) {
-        array_push($errors, "El nombre de usuario es requerido");
+    if (empty($username) || empty($password)) {
+        array_push($errors, "El nombre de usuario y la contraseña son requeridos");
     }
-    if (empty($password)) {
-        array_push($errors, "La contraseña es requerida");
-    }
-
     // Si no hay errores de validación, procede con la autenticación
     if (count($errors) == 0) {
-        $query = "SELECT * FROM users WHERE username='$username'";
+        $query = "SELECT * FROM usuarios WHERE nombre='$username'";
         $result = mysqli_query($connection, $query);
 
         if (mysqli_num_rows($result) == 1) {
             $user = mysqli_fetch_assoc($result);
 
-            if (password_verify($password, $user['password'])) {
-                // Inicio de sesión exitoso, redirige a la página deseada
-                // Por ejemplo, aquí redirigiremos al usuario a la página de inicio después del inicio de sesión
-                header('location: index.html');
+            if (password_verify($password, $user['contrasena'])) {
+                // Inicio de sesión exitoso, establece una variable de sesión
+                $_SESSION['username'] = $username;
+
+                // Redirige a la página deseada
+                header('location: ../pag/index.html');
+                exit(); // Asegúrate de detener la ejecución del script después de redirigir
             } else {
                 array_push($errors, "Contraseña incorrecta");
             }
@@ -125,8 +127,7 @@ mysqli_close($connection);
             </div>
             <div class="col-lg-3 col-6 text-right">
                 <a href="" class="btn border">
-                    <i class="fas fa-heart text-primary"></i>
-                    <span class="badge">0</span>
+                    <i class="fas fa-user text-primary"></i>                    
                 </a>
                 <a href="" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
