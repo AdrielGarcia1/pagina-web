@@ -7,9 +7,9 @@ if (isset($_SESSION['username'])) {
     // El usuario ha iniciado sesión
     $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
 } else {
-    // El usuario no ha iniciado sesión, puedes redirigirlo a la página de inicio de sesión
-    header('Location: login.php'); // Cambia "login.php" al nombre de tu página de inicio de sesión
-    exit(); // Asegúrate de salir para evitar que se siga ejecutando el código
+    // El usuario no ha iniciado sesión,redirigirlo a la página de inicio de sesión
+    header('Location:../pag/login.php');
+    exit(); // salir para evitar que se siga ejecutando el código
 }
 ?>
 <!DOCTYPE html>
