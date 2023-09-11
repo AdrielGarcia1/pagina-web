@@ -1,3 +1,17 @@
+<?php
+// Inicia sesión (si aún no se ha iniciado)
+session_start();
+
+// Verificar si existe la variable de sesión del nombre de usuario
+if (isset($_SESSION['username'])) {
+    // El usuario ha iniciado sesión
+    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
+} else {
+    // El usuario no ha iniciado sesión, puedes redirigirlo a la página de inicio de sesión
+    header('Location: login.php'); // Cambia "login.php" al nombre de tu página de inicio de sesión
+    exit(); // Asegúrate de salir para evitar que se siga ejecutando el código
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -141,7 +155,7 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../pag/index.html" class="nav-item nav-link active">Home</a>
+                            <a href="../pag/index.php" class="nav-item nav-link active">Home</a>
                             <a href="../pag/shop.html" class="nav-item nav-link">Shop</a>
                             <a href="../pag/detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
@@ -235,8 +249,7 @@
     <div class="container-fluid pt-5">
         <div class="row px-xl-5 pb-3">
             <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="../img/cat-1.jpg" alt="">
                     </a>
@@ -244,8 +257,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="../img/cat-2.jpg" alt="">
                     </a>
@@ -253,8 +265,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="../img/cat-3.jpg" alt="">
                     </a>
@@ -262,8 +273,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="../img/cat-4.jpg" alt="">
                     </a>
@@ -271,8 +281,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="../img/cat-5.jpg" alt="">
                     </a>
@@ -280,8 +289,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
+                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="../img/cat-6.jpg" alt="">
                     </a>
@@ -307,7 +315,7 @@
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="../pag/index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            <a class="text-dark mb-2" href="../pag/index.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
                             <a class="text-dark mb-2" href="../pag/shop.html"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
                             <a class="text-dark mb-2" href="../pag/detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
                             <a class="text-dark mb-2" href="../pag/cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
@@ -357,5 +365,4 @@
     <script src="../lib/easing/easing.min.js"></script>
     <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
 </body>
-
 </html>
