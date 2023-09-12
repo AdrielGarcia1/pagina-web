@@ -19,6 +19,75 @@ if (isset($_SESSION['username'])) {
     $message = "Por favor, inicia sesión para acceder a todas las funciones.";
 }
 ?>
+<?php
+// Incluye el archivo de conexión a la base de datos
+include("../../db_connection/db_connection.php");
+
+// Verifica si la conexión a la base de datos se estableció correctamente
+if (!$connection) {
+    die("Error de conexión: " . mysqli_connect_error());
+}
+
+// Definir la cantidad de usuarios por página
+$usuariosPorPagina = 7;
+
+// Obtener el número de página actual
+if (isset($_GET['pagina'])) {
+    $paginaActual = $_GET['pagina'];
+} else {
+    $paginaActual = 1;
+}
+
+// Inicializar la variable de búsqueda
+$busqueda = "";
+
+// Verificar si se ha enviado el formulario de búsqueda
+if (isset($_GET['busqueda'])) {
+    // Limpiar y escapar el valor de búsqueda para evitar inyección de SQL
+    $busqueda = mysqli_real_escape_string($connection, $_GET['busqueda']);
+}
+
+// Calcular el offset
+$offset = ($paginaActual - 1) * $usuariosPorPagina;
+
+// Consultar los usuarios desde la base de datos con la condición de búsqueda y paginación
+$query = "SELECT usuarios.id, usuarios.nombre, usuarios.correo, usuarios.dni, usuarios.tipo, usuarios.fecha_registro 
+          FROM usuarios 
+          WHERE usuarios.nombre LIKE '%$busqueda%' 
+          OR usuarios.id LIKE '%$busqueda%'
+          OR usuarios.correo LIKE '%$busqueda%'
+          OR usuarios.dni LIKE '%$busqueda%'
+          OR usuarios.tipo LIKE '%$busqueda%'
+          OR usuarios.fecha_registro LIKE '%$busqueda%'
+          LIMIT $offset, $usuariosPorPagina";
+
+// Ejecutar la consulta SQL
+$result = mysqli_query($connection, $query);
+
+// Verificar si la consulta se ejecutó correctamente
+if (!$result) {
+    echo "Error en la consulta: " . mysqli_error($connection);
+    exit();
+}
+
+// Obtener el número total de usuarios (sin la condición de búsqueda)
+$queryTotal = "SELECT COUNT(*) AS total FROM usuarios 
+               WHERE usuarios.nombre LIKE '%$busqueda%' 
+               OR usuarios.id LIKE '%$busqueda%'
+               OR usuarios.correo LIKE '%$busqueda%'
+               OR usuarios.dni LIKE '%$busqueda%'
+               OR usuarios.tipo LIKE '%$busqueda%'
+               OR usuarios.fecha_registro LIKE '%$busqueda%'";
+$resultTotal = mysqli_query($connection, $queryTotal);
+$rowTotal = mysqli_fetch_assoc($resultTotal);
+$totalUsuarios = $rowTotal['total'];
+
+// Calcular el número total de páginas
+$totalPaginas = ceil($totalUsuarios / $usuariosPorPagina);
+
+// Cerrar la conexión a la base de datos
+mysqli_close($connection);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +99,7 @@ if (isset($_SESSION['username'])) {
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../img/d.jpg" rel="icon">
+    <link href="../../img/d.jpg" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -40,10 +109,10 @@ if (isset($_SESSION['username'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -112,48 +181,13 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
     <!-- Topbar End -->
-
-
-    <!-- Navbar Start -->
+ <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                    <h6 class="m-0">Categorias</h6>
-                    <i class="fa fa-angle-down text-dark"></i>
-                </a>
-                <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
-                    <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                        <a href="" class="nav-item nav-link">VESTIDOS</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-toggle="dropdown">CAMISAS <i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">camisas Hombres</a>
-                                <a href="" class="dropdown-item">camisas Mujeres</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-toggle="dropdown">JEANS<i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">camisas Hombres</a>
-                                <a href="" class="dropdown-item">camisas Mujeres</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-toggle="dropdown">TRAJES DE BAÑO<i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">trajes de baño Hombres</a>
-                                <a href="" class="dropdown-item">trajes de baño Mujeres</a>
-                            </div>
-                        </div>
-                        <a href="" class="nav-item nav-link">Sleepwear</a>
-                        <a href="" class="nav-item nav-link">Sportswear</a>
-                        <a href="" class="nav-item nav-link">Jumpsuits</a>
-                        <a href="" class="nav-item nav-link">Blazers</a>
-                        <a href="" class="nav-item nav-link">Jackets</a>
-                        <a href="" class="nav-item nav-link">Shoes</a>
-                    </div>
-                </nav>
+                    <h6 class="m-0">USUARIOS</h6>                    
+                </a>    
             </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
@@ -165,7 +199,7 @@ if (isset($_SESSION['username'])) {
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../admin/admin_index.php" class="nav-item nav-link active">Home</a>
+                            <a href="../admin_index.php" class="nav-item nav-link active">Home</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
@@ -192,133 +226,102 @@ if (isset($_SESSION['username'])) {
                             <a href="../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>                            
                         </div>
                     </div>
-                </nav>
-                <div id="header-carousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active" style="height: 410px;">
-                            <img class="img-fluid" src="../img/carousel-1.jpg" alt="Image">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 700px;">
-                                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                                    <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item" style="height: 410px;">
-                            <img class="img-fluid" src="../img/carousel-2.jpg" alt="Image">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 700px;">
-                                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                                    <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
-                        <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                            <span class="carousel-control-prev-icon mb-n2"></span>
-                        </div>
-                    </a>
-                    <a class="carousel-control-next" href="#header-carousel" data-slide="next">
-                        <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                            <span class="carousel-control-next-icon mb-n2"></span>
-                        </div>
-                    </a>
-                </div>
+                </nav>                
             </div>
         </div>
     </div>
     <!-- Navbar End -->
+    <!-- Navbar End -->
 
+    <!-- Contenido principal -->
+     <div class="container">
+        <h1>Lista de Clientes</h1>
 
-    <!-- Featured Start -->
-    <div class="container-fluid pt-5">
-        <div class="row px-xl-5 pb-3">
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
-                    <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
-                    <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
-                    <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
-                    <h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
-                    <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
-                    <h5 class="font-weight-semi-bold m-0">14-Day Return</h5>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
-                    <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
-                    <h5 class="font-weight-semi-bold m-0">24/7 Support</h5>
-                </div>
+    <!-- Formulario de búsqueda -->
+    <form action="user_list.php" method="GET">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Buscar por Nombre, Correo Electrónico, Tipo o Fecha de Registro" name="busqueda">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Buscar</button>
             </div>
         </div>
-    </div>
-    <!-- Featured End -->
+    </form>
+        <!-- Tabla de clientes estilo Excel -->
+        <table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo Electrónico</th>
+            <th>DNI</th>
+            <th>Tipo</th>
+            <th>Fecha de Registro</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
 
 
-    <!-- Categories Start -->
-    <div class="container-fluid pt-5">
-        <div class="row px-xl-5 pb-3">
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="../img/cat-1.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Men's dresses</h5>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="../img/cat-2.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Women's dresses</h5>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="../img/cat-3.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Baby's dresses</h5>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="../img/cat-4.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Accerssories</h5>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="../img/cat-5.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Bags</h5>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">                    
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="../img/cat-6.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Shoes</h5>
-                </div>
-            </div>
+        // Definir la cantidad de clientes por página
+        $clientesPorPagina = 7;
+
+        // Obtener el número de página actual
+        if (isset($_GET['pagina'])) {
+            $paginaActual = $_GET['pagina'];
+        } else {
+            $paginaActual = 1;
+        }
+
+        // Calcular el offset
+        $offset = ($paginaActual - 1) * $clientesPorPagina;
+
+        // Itera sobre los resultados de la consulta y muestra cada cliente en una fila de la tabla
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . $row['id'] . "</td>";
+            echo "<td>" . $row['nombre'] . "</td>";
+            echo "<td>" . $row['correo'] . "</td>";
+            echo "<td>" . $row['dni'] . "</td>"; // Agregamos la columna DNI
+            echo "<td>" . $row['tipo'] . "</td>";
+            echo "<td>" . $row['fecha_registro'] . "</td>";
+            echo "</tr>";
+        }
+        ?>
+    </tbody>
+</table>
+
+        <!-- Paginación -->
+        <div class="pagination justify-content-center">
+            <ul class="pagination">
+                <?php
+               // Calcula el número total de páginas
+$totalPaginas = ceil($totalUsuarios / $clientesPorPagina);
+
+// Muestra enlaces a páginas anteriores y siguientes
+if ($paginaActual > 1) {
+    echo '<li class="page-item"><a class="page-link" href="user_list.php?pagina=' . ($paginaActual - 1) . '">Anterior</a></li>';
+}
+
+for ($i = 1; $i <= $totalPaginas; $i++) {
+    echo '<li class="page-item ' . ($i == $paginaActual ? 'active' : '') . '"><a class="page-link" href="user_list.php?pagina=' . $i . '">' . $i . '</a></li>';
+}
+
+if ($paginaActual < $totalPaginas) {
+    echo '<li class="page-item"><a class="page-link" href="user_list.php?pagina=' . ($paginaActual + 1) . '">Siguiente</a></li>';
+}
+
+                ?>
+            </ul>
         </div>
     </div>
-    <!-- Categories End -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
+        <!-- ... (código del footer) ... -->
+    </div>
+    <!-- Footer End -->
+</html>
+
     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
         <div class="row px-xl-5 pt-5">
@@ -335,7 +338,7 @@ if (isset($_SESSION['username'])) {
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="../pag/index.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            <a class="text-dark mb-2" href="../admin_user.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
                             <a class="text-dark mb-2" href="../pag/shop.php"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
                             <a class="text-dark mb-2" href="../pag/detail.php"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
                             <a class="text-dark mb-2" href="../pag/cart.php"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
@@ -382,7 +385,7 @@ if (isset($_SESSION['username'])) {
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../lib/easing/easing.min.js"></script>
-    <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../lib/easing/easing.min.js"></script>
+    <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
 </body>
 </html>

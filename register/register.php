@@ -14,6 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $city = mysqli_real_escape_string($connection, $_POST["city"]);
     $address = mysqli_real_escape_string($connection, $_POST["address"]);
+    
+    // Captura el DNI del formulario
+    $dni = mysqli_real_escape_string($connection, $_POST["dni"]);
 
     // Verifica si las contraseñas coinciden
     if ($password != $confirm_password) {
@@ -31,8 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             // Prepara la consulta SQL para insertar el usuario en la base de datos
-            $insert_user_query = "INSERT INTO usuarios (nombre, correo, contrasena, tipo, fecha_registro) 
-                  VALUES ('$username', '$email', '$hashed_password', 'cliente', NOW())";
+            $insert_user_query = "INSERT INTO usuarios (nombre, correo, contrasena, dni, tipo, fecha_registro) 
+                  VALUES ('$username', '$email', '$hashed_password', '$dni', 'cliente', NOW())";
 
             // Ejecuta la consulta
             if (mysqli_query($connection, $insert_user_query)) {
@@ -60,8 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Consulta para obtener las provincias desde la base de datos
 $get_provinces_query = "SELECT id, nombre_provincia FROM provincias";
 $provinces_result = mysqli_query($connection, $get_provinces_query);
-   // Cierra la conexión a la base de datos
-    mysqli_close($connection);
+// Cierra la conexión a la base de datos
+mysqli_close($connection);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -236,6 +239,11 @@ $provinces_result = mysqli_query($connection, $get_provinces_query);
                                 <label for="password">Contraseña:</label>
                                 <input type="password" id="password" name="password" class="form-control" placeholder="Ingresa tu Contraseña" required>
                             </div>
+                            <div class="form-group">
+                                <label for="dni">DNI:</label>
+                                <input type="text" id="dni" name="dni" class="form-control" placeholder="Ingresa tu DNI" required>
+                            </div>
+
                             <div class="form-group">
                                 <label for="confirm_password">Confirmar Contraseña:</label>
                                 <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Ingresa nuevamente tu Contraseña" required>
