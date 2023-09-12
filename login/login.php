@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['username'] = $username;
 
                 // Redirige a la página deseada
-                header('location: ../pag/index.html');
+                header('location: ../pag/index.php');
                 exit(); // Asegúrate de detener la ejecución del script después de redirigir
             } else {
                 array_push($errors, "Contraseña incorrecta");
@@ -152,17 +152,17 @@ mysqli_close($connection);
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../pag/index.html" class="nav-item nav-link active">Home</a>
-                            <a href="../pag/shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="../pag/detail.html" class="nav-item nav-link">Shop Detail</a>
+                            <a href="../pag/index.php" class="nav-item nav-link active">Home</a>
+                            <a href="../pag/shop.php" class="nav-item nav-link">Shop</a>
+                            <a href="../pag/detail.php" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../pag/cart.html" class="dropdown-item">Shopping Cart</a>
-                                    <a href="../pag/checkout.html" class="dropdown-item">Checkout</a>
+                                    <a href="../pag/cart.php" class="dropdown-item">Shopping Cart</a>
+                                    <a href="../pag/checkout.php" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
-                            <a href="../pag/contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <a href="../login/login.php" class="nav-item nav-link">Login</a>

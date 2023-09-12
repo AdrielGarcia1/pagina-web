@@ -1,3 +1,24 @@
+<?php
+// Inicia sesión (si aún no se ha iniciado)
+session_start();
+
+// Verificar si existe la variable de sesión del nombre de usuario
+if (isset($_SESSION['username'])) {
+    // El usuario ha iniciado sesión
+    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
+
+    // Verificar si existe la variable de sesión del ID del usuario
+    $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null; // Obtener el ID del usuario de la sesión
+    $message = "¡Bienvenido, $username!";
+    if ($userId !== null) {
+        $message .= " Tu ID de usuario es: $userId";
+    }
+} else {
+    // El usuario no ha iniciado sesión
+    $username = null;
+    $message = "Por favor, inicia sesión para acceder a todas las funciones.";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,6 +57,8 @@
                     <a class="text-dark" href="">ayuda</a>
                     <span class="text-muted px-2">|</span>
                     <a class="text-dark" href="">Soporte</a>
+                     <span class="text-muted px-2">|</span>
+                     <p><?php echo $message; ?></p>
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
@@ -80,7 +103,7 @@
                 <a href="" class="btn border">
                     <i class="fas fa-user text-primary"></i>
                 </a>
-                <a href="../pag/cart.html" class="btn border">
+                <a href="../pag/cart.php" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
                     <span class="badge">0</span>
                 </a>
@@ -128,17 +151,17 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../pag/index.html" class="nav-item nav-link">Home</a>
-                            <a href="../pag/shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="../pag/detail.html" class="nav-item nav-link active">Shop Detail</a>
+                            <a href="../pag/index.php" class="nav-item nav-link">Home</a>
+                            <a href="../pag/shop.php" class="nav-item nav-link">Shop</a>
+                            <a href="../pag/detail.php" class="nav-item nav-link active">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../pag/cart.html" class="dropdown-item">Shopping Cart</a>
-                                    <a href="../pag/checkout.html" class="dropdown-item">Checkout</a>
+                                    <a href="../pag/cart.php" class="dropdown-item">Shopping Cart</a>
+                                    <a href="../pag/checkout.php" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <a href="../login/login.php" class="nav-item nav-link">Login</a>
@@ -150,18 +173,7 @@
         </div>
     </div>
     <!-- Navbar End -->
-    <!-- Page Header Start -->
-    <div class="container-fluid bg-secondary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Shop Detail</h1>
-            <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">Shop Detail</p>
-            </div>
-        </div>
-    </div>
-    <!-- Page Header End -->
+
     <!-- Shop Detail Start -->
     <div class="container-fluid py-5">
         <div class="row px-xl-5">
@@ -203,7 +215,7 @@
                     <small class="pt-1">(50 Reviews)</small>
                 </div>
                 <h3 class="font-weight-semi-bold mb-4">$150.00</h3>
-                <p class="mb-4">Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit clita ea. Sanc invidunt ipsum et, labore clita lorem magna lorem ut. Erat lorem duo dolor no sea nonumy. Accus labore stet, est lorem sit diam sea et justo, amet at lorem et eirmod ipsum diam et rebum kasd rebum.</p>
+                <p class="mb-4">AGREGAR CADA UNA DE LAS DESCRIPCIONES DE LOS PRODUCTOS</p>
                 <div class="d-flex mb-3">
                     <p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
                     <form>
@@ -269,23 +281,6 @@
                         </div>
                     </div>
                     <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
-                </div>
-                <div class="d-flex pt-2">
-                    <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
-                    <div class="d-inline-flex">
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-pinterest"></i>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -400,7 +395,7 @@
     <!-- Products Start -->
     <div class="container-fluid py-5">
         <div class="text-center mb-4">
-            <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
+            <h2 class="section-title px-5"><span class="px-2">También te puede interesar</span></h2>
         </div>
         <div class="row px-xl-5">
             <div class="col">
@@ -491,7 +486,7 @@
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
                 <a href="" class="text-decoration-none">
                     <h1 class="mb-4 display-5 font-weight-semi-bold">DISORDER</h1>
-                </a>                
+                </a>
                 <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
                 <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
                 <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
@@ -501,14 +496,14 @@
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="../pag/index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-dark mb-2" href="../pag/shop.html"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <a class="text-dark mb-2" href="../pag/detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                            <a class="text-dark mb-2" href="../pag/cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                            <a class="text-dark mb-2" href="../pag/checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-dark" href="../pag/contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                            <a class="text-dark mb-2" href="../pag/index.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            <a class="text-dark mb-2" href="../pag/shop.php"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
+                            <a class="text-dark mb-2" href="../pag/detail.php"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
+                            <a class="text-dark mb-2" href="../pag/cart.php"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
+                            <a class="text-dark mb-2" href="../pag/checkout.php"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
+                            <a class="text-dark" href="../pag/contact.php"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
-                    </div>                   
+                    </div>
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4">Newsletter</h5>
                         <form action="">

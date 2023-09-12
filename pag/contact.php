@@ -1,3 +1,24 @@
+<?php
+// Inicia sesión (si aún no se ha iniciado)
+session_start();
+
+// Verificar si existe la variable de sesión del nombre de usuario
+if (isset($_SESSION['username'])) {
+    // El usuario ha iniciado sesión
+    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
+
+    // Verificar si existe la variable de sesión del ID del usuario
+    $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null; // Obtener el ID del usuario de la sesión
+    $message = "¡Bienvenido, $username!";
+    if ($userId !== null) {
+        $message .= " Tu ID de usuario es: $userId";
+    }
+} else {
+    // El usuario no ha iniciado sesión
+    $username = null; 
+    $message = "Por favor, inicia sesión para acceder a todas las funciones.";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,6 +57,8 @@
                     <a class="text-dark" href="">ayuda</a>
                     <span class="text-muted px-2">|</span>
                     <a class="text-dark" href="">Soporte</a>
+                     <span class="text-muted px-2"></span>
+                    <p><?php echo $message; ?></p>
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
@@ -139,17 +162,17 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../pag/index.html" class="nav-item nav-link">Home</a>
-                            <a href="../pag/shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="../pag/detail.html" class="nav-item nav-link">Shop Detail</a>
+                            <a href="../pag/index.php" class="nav-item nav-link">Home</a>
+                            <a href="../pag/shop.php" class="nav-item nav-link">Shop</a>
+                            <a href="../pag/detail.php" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../pag/cart.html" class="dropdown-item">Shopping Cart</a>
-                                    <a href="../pag/checkout.html" class="dropdown-item">Checkout</a>
+                                    <a href="../pag/cart.php" class="dropdown-item">Shopping Cart</a>
+                                    <a href="../pag/checkout.php" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link active">Contact</a>
+                            <a href="../pag/contact.php" class="nav-item nav-link active">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <a href="../login/login.php" class="nav-item nav-link">Login</a>
@@ -237,12 +260,12 @@
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                            <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                            <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-dark" href="../pag/contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                            <a class="text-dark mb-2" href="../pag/index.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            <a class="text-dark mb-2" href="../pag/shop.php"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
+                            <a class="text-dark mb-2" href="../pag/detail.php"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
+                            <a class="text-dark mb-2" href="../pag/cart.php"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
+                            <a class="text-dark mb-2" href="../pag/checkout.php"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
+                            <a class="text-dark" href="../pag/contact.php"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
                     </div>                  
                     <div class="col-md-4 mb-5">
