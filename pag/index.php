@@ -13,10 +13,17 @@ if (isset($_SESSION['username'])) {
     if ($userId !== null) {
         $message .= " Tu ID de usuario es: $userId";
     }
+
+    // Botón de "Cerrar Sesión"
+    $logoutButton = '<a href="../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
 } else {
     // El usuario no ha iniciado sesión
-    $username = null; 
+    $username = null;
     $message = "Por favor, inicia sesión para acceder a todas las funciones.";
+
+    // Botones de "Login" y "Register"
+    $loginButton = '<a href="../login/login.php" class="nav-item nav-link">Login</a>';
+    $registerButton = '<a href="../register/register.php" class="nav-item nav-link">Register</a>';
 }
 ?>
 <!DOCTYPE html>
@@ -101,7 +108,7 @@ if (isset($_SESSION['username'])) {
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
+                <a href="../user/user.php" class="btn border">
                     <i class="fas fa-user text-primary"></i>                  
                 </a>
                 <a href="" class="btn border">
@@ -146,12 +153,6 @@ if (isset($_SESSION['username'])) {
                                 <a href="" class="dropdown-item">trajes de baño Mujeres</a>
                             </div>
                         </div>
-                        <a href="" class="nav-item nav-link">Sleepwear</a>
-                        <a href="" class="nav-item nav-link">Sportswear</a>
-                        <a href="" class="nav-item nav-link">Jumpsuits</a>
-                        <a href="" class="nav-item nav-link">Blazers</a>
-                        <a href="" class="nav-item nav-link">Jackets</a>
-                        <a href="" class="nav-item nav-link">Shoes</a>
                     </div>
                 </nav>
             </div>
@@ -177,12 +178,19 @@ if (isset($_SESSION['username'])) {
                             </div>
                             <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
                         </div>
-                        <div class="navbar-nav ml-auto py-0">
-                            <a href="../login/login.php" class="nav-item nav-link">Login</a>
-                            <a href="../register/register.php" class="nav-item nav-link">Register</a>
-                        </div>
+                           <div class="navbar-nav ml-auto py-0">
+                            <?php
+                               if (isset($logoutButton)) {
+                                 echo $logoutButton; // Mostrar el botón "Cerrar Sesión" si el usuario ha iniciado sesión
+                               } else {
+                                   // Mostrar el botón "Login" y "Register" si el usuario no ha iniciado sesión
+                                 echo $loginButton; 
+                                 echo $registerButton;
+                               }
+                            ?>
+                           </div>
                     </div>
-                </nav>
+                  </nav>
                 <div id="header-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active" style="height: 410px;">
@@ -221,7 +229,6 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
     <!-- Navbar End -->
-
 
     <!-- Featured Start -->
     <div class="container-fluid pt-5">

@@ -1,70 +1,60 @@
 <?php
-// Incluye el archivo de conexión a la base de datos
-require_once "../db_connection/db_connection.php";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
- 
-    // Captura los datos del formulario
-    $username = mysqli_real_escape_string($connection, $_POST["username"]);
-    $email = mysqli_real_escape_string($connection, $_POST["email"]);
-    $password = mysqli_real_escape_string($connection, $_POST["password"]);
-    $confirm_password = mysqli_real_escape_string($connection, $_POST["confirm_password"]);
+// Inicia sesión (si aún no se ha iniciado)
+session_start();
 
-    // Obtén el valor seleccionado del menú desplegable de provincias
-    $province_id = $_POST["province"]; 
+// Variables para botones de Login y Register
+$loginButton = '<a href="../login/login.php" class="nav-item nav-link">Login</a>';
+$registerButton = '<a href="../register/register.php" class="nav-item nav-link">Register</a>';
 
-    $city = mysqli_real_escape_string($connection, $_POST["city"]);
-    $address = mysqli_real_escape_string($connection, $_POST["address"]);
-    
-    // Captura el DNI del formulario
-    $dni = mysqli_real_escape_string($connection, $_POST["dni"]);
+// Verificar si existe la variable de sesión del nombre de usuario
+if (isset($_SESSION['username'])) {
+    // El usuario ha iniciado sesión
+    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
 
-    // Verifica si las contraseñas coinciden
-    if ($password != $confirm_password) {
-        echo "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
-    } else {
-        // Verifica si el nombre de usuario ya existe en la base de datos
-        $check_username_query = "SELECT COUNT(*) AS count FROM usuarios WHERE nombre = '$username'";
-        $result = mysqli_query($connection, $check_username_query);
-        $row = mysqli_fetch_assoc($result);
+    // Incluye el archivo de conexión a la base de datos
+    require_once('../db_connection/db_connection.php');
 
-        if ($row['count'] > 0) {
-            echo "El nombre de usuario ya está en uso. Por favor, elige otro.";
-        } else {
-            // Hash de la contraseña
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    // Realizar una consulta SQL para obtener el correo electrónico del usuario
+    $sql = "SELECT correo FROM usuarios WHERE nombre = ?";
 
-            // Prepara la consulta SQL para insertar el usuario en la base de datos
-            $insert_user_query = "INSERT INTO usuarios (nombre, correo, contrasena, dni, tipo, fecha_registro) 
-                  VALUES ('$username', '$email', '$hashed_password', '$dni', 'cliente', NOW())";
+    // Crear una nueva conexión a la base de datos
+    $conn = mysqli_connect($host, $usuario, $contrasena, $base_de_datos);
 
-            // Ejecuta la consulta
-            if (mysqli_query($connection, $insert_user_query)) {
-                // Obten el ID del usuario recién insertado
-                $user_id = mysqli_insert_id($connection);
-
-                // Prepara la consulta SQL para insertar la dirección del usuario
-                $insert_address_query = "INSERT INTO direcciones (id_usuario, id_provincia, ciudad_pueblo, direccion) 
-                  VALUES ($user_id, $province_id, '$city', '$address')";
-
-                // Ejecuta la consulta
-                if (mysqli_query($connection, $insert_address_query)) {
-                    // Registro exitoso, redirige a la página de inicio de sesión
-                    header("Location: ../login/login.php");
-                    exit();
-                } else {
-                    echo "Error al registrar la dirección del usuario: " . mysqli_error($connection);
-                }
-            } else {
-                echo "Error al registrar el usuario: " . mysqli_error($connection);
-            }
-        }
+    // Verificar si la conexión tuvo éxito
+    if (!$conn) {
+        die("Error de conexión: " . mysqli_connect_error());
     }
+
+    // Preparar la consulta
+    $stmt = mysqli_prepare($conn, $sql);
+
+    // Verificar si la preparación de la consulta tuvo éxito
+    if ($stmt) {
+        // Asociar el parámetro a la consulta
+        mysqli_stmt_bind_param($stmt, "s", $username);
+
+        // Ejecutar la consulta
+        mysqli_stmt_execute($stmt);
+
+        // Obtener el resultado de la consulta
+        mysqli_stmt_bind_result($stmt, $email);
+
+        // Obtener el correo electrónico
+        mysqli_stmt_fetch($stmt);
+
+        // Cerrar la consulta y la conexión
+        mysqli_stmt_close($stmt);
+        mysqli_close($conn);
+    } else {
+        echo "Error en la preparación de la consulta: " . mysqli_error($conn);
+    }
+
+    // Resto del código...
+} else {
+    // El usuario no ha iniciado sesión
+    $username = null;
+    $message = "Por favor, inicia sesión para acceder a todas las funciones.";
 }
-// Consulta para obtener las provincias desde la base de datos
-$get_provinces_query = "SELECT id, nombre_provincia FROM provincias";
-$provinces_result = mysqli_query($connection, $get_provinces_query);
-// Cierra la conexión a la base de datos
-mysqli_close($connection);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,36 +82,7 @@ mysqli_close($connection);
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
 </head>
-<script>
-    $(document).ready(function () {
-        // Función para verificar la disponibilidad del nombre de usuario
-        $("#username").on("input", function () {
-            var username = $(this).val();
 
-            if (username !== "") {
-                $.ajax({
-                    url: "../register/verificar_usuario.php",
-                    type: "POST",
-                    data: { username: username },
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.existe) {
-                            // El nombre de usuario ya existe, muestra sugerencias
-                            $("#usernameMessage").html("El nombre de usuario ya está en uso. Prueba con otro:");
-                            // Aquí puedes mostrar una lista de nombres de usuario sugeridos
-                        } else {
-                            // El nombre de usuario está disponible
-                            $("#usernameMessage").html("");
-                        }
-                    },
-                });
-            } else {
-                // El campo está vacío, no se realiza ninguna verificación
-                $("#usernameMessage").html("");
-            }
-        });
-    });
-</script>
 <body>
     <!-- Topbar Start -->
     <div class="container-fluid">
@@ -133,6 +94,8 @@ mysqli_close($connection);
                     <a class="text-dark" href="">ayuda</a>
                     <span class="text-muted px-2">|</span>
                     <a class="text-dark" href="">Soporte</a>
+                     <span class="text-muted px-2"></span>
+
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
@@ -175,7 +138,7 @@ mysqli_close($connection);
             </div>
             <div class="col-lg-3 col-6 text-right">
                 <a href="" class="btn border">
-                    <i class="fas fa-user text-primary"></i>
+                    <i class="fas fa-user text-primary"></i>                  
                 </a>
                 <a href="" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
@@ -185,22 +148,27 @@ mysqli_close($connection);
         </div>
     </div>
     <!-- Topbar End -->
-       <!-- Navbar Start -->
+
+
+    <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
            <div class="col-lg-3 d-none d-lg-block">
                <a class="btn shadow-none d-flex align-items-center justify-content-center bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                  <h6 class="m-0">REGISTER</h6>
+                  <h6 class="m-0">PERFIL</h6>
                </a>
            </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold">DISORDER</h1>
-                    </a>                    
+                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../pag/index.php" class="nav-item nav-link">Home</a>
+                            <a href="../pag/index.php" class="nav-item nav-link active">Home</a>
                             <a href="../pag/shop.php" class="nav-item nav-link">Shop</a>
                             <a href="../pag/detail.php" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
@@ -212,69 +180,58 @@ mysqli_close($connection);
                             </div>
                             <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
                         </div>
-                        <div class="navbar-nav ml-auto py-0">
-                            <a href="../login/login.php" class="nav-item nav-link">Login</a>
-                            <a href="../register/register.php" class="nav-item nav-link">Register</a>
-                        </div>
+                           <div class="navbar-nav ml-auto py-0">
+                             <?php
+                               if (isset($logoutButton)) {
+                                 echo $logoutButton; // Mostrar el botón "Cerrar Sesión" si el usuario ha iniciado sesión
+                               } else {
+                                   // Mostrar el botón "Login" y "Register" si el usuario no ha iniciado sesión
+                                 echo $loginButton; 
+                                 echo $registerButton;
+                               }
+                             ?>
+                          </div>
                     </div>
-                </nav>                
+                  </nav>                
             </div>
         </div>
     </div>
     <!-- Navbar End -->
-    <!-- Register Form Start -->
+
+    <!-- Contenedor principal para el perfil de usuario -->
     <div class="container mt-5">
+        <!-- Encabezado con nombre de usuario y correo centrados -->
         <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title text-center">Registro de Usuario</h2>
-                        <form action="../register/register.php" method="POST">
-                            <div class="form-group">
-                               <label for="username">Nombre de Usuario:</label>
-                               <input type="text" id="username" name="username" class="form-control " placeholder="Ingresa tu Nombre de Usuario" required>
-                            <div id="usernameMessage" class="text-danger"></div>
-                            <div class="form-group">
-                                <label for="email">Correo Electrónico:</label>
-                                <input type="email" id="email" name="email" class="form-control" placeholder="Ingresa tu Correo Electrónico" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Contraseña:</label>
-                                <input type="password" id="password" name="password" class="form-control" placeholder="Ingresa tu Contraseña" required>
-                            </div>                         
-                            <div class="form-group">
-                                <label for="confirm_password">Confirmar Contraseña:</label>
-                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Ingresa nuevamente tu Contraseña" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="dni">DNI:</label>
-                                <input type="text" id="dni" name="dni" class="form-control" placeholder="Ingresa tu DNI" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="province">Provincia:</label>
-                                <select id="province" name="province" class="form-control" required>
-                                   <?php while ($row = mysqli_fetch_assoc($provinces_result)) { ?>
-                                      <option value="<?php echo $row['id']; ?>"><?php echo $row['nombre_provincia']; ?></option>
-                                      <?php } ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="city">Ciudad/Pueblo:</label>
-                                <input type="text" id="city" name="city" class="form-control" placeholder="Ingresa tu Ciudad o Pueblo" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Dirección:</label>
-                                <textarea id="address" name="address" class="form-control" placeholder="Ingresa tu Dirección" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
-                        </form>
-                    </div>
+            <div class="col-md-6 text-center border p-4">
+                <h2><?php echo $username; ?></h2>
+                <p><?php echo $email; ?></p>
+            </div>
+        </div>
+
+        <!-- Opciones del perfil centradas verticalmente -->
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action text-center">
+                        Información personal
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action text-center">
+                        Datos de la cuenta
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action text-center">
+                        Seguridad
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action text-center">
+                        Direcciones
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action text-center">
+                        Eliminar cuenta
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Register Form End -->
-    <!-- Footer Start -->
+     <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
         <div class="row px-xl-5 pt-5">
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
@@ -330,9 +287,12 @@ mysqli_close($connection);
         </div>
     </div>
     <!-- Footer End -->
+        <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../lib/easing/easing.min.js"></script>    
-</body>
+    <script src="../lib/easing/easing.min.js"></script>
+    </body>
 </html>
