@@ -1,24 +1,23 @@
 <?php
-include_once("../../db_connection/db_connection.php");
+// Incluye el archivo de conexión a la base de datos
+include_once("../../../db_connection/db_connection.php");
 
-$endDateTime = date('Y-m-d H:i:s'); // Hora actual
-$startDateTime = date('Y-m-01 00:00:00'); // Comienza el mes actual
-
-$sql = "SELECT DATE_FORMAT(fecha_registro, '%d-%m') AS dia, COUNT(*) AS cantidad FROM usuarios WHERE tipo = 'cliente' AND fecha_registro BETWEEN '$startDateTime' AND '$endDateTime' GROUP BY dia";
-
+// Consulta SQL para obtener la cantidad de usuarios registrados por mes
+$sql = "SELECT DATE_FORMAT(fecha_registro, '%M %Y') AS mes, COUNT(*) AS cantidad FROM usuarios WHERE tipo = 'cliente' GROUP BY mes";
 $resultado = mysqli_query($connection, $sql);
 
-$dias = [];
-$cantidades = [];
+$etiquetas = [];
+$datosUsuariosRegistrados = [];
 
 while ($fila = mysqli_fetch_assoc($resultado)) {
-    $dias[] = $fila['dia'];
-    $cantidades[] = $fila['cantidad'];
+    $etiquetas[] = $fila['mes'];
+    $datosUsuariosRegistrados[] = $fila['cantidad'];
 }
 
+// Datos para devolver como JSON
 $data = [
-    'dias' => $dias,
-    'cantidades' => $cantidades,
+    'etiquetas' => $etiquetas,
+    'datos' => $datosUsuariosRegistrados,
 ];
 
 echo json_encode($data);

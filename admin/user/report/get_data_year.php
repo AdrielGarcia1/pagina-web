@@ -1,19 +1,23 @@
 <?php
-include_once("../../db_connection/db_connection.php");
+include_once("../../../db_connection/db_connection.php");
 
-$endDateTime = date('Y-m-d H:i:s'); // Hora actual
-$startDateTime = date('Y-01-01 00:00:00'); // Comienza el año actual
+$startDateTime = date('Y-01-01 00:00:00');
+$endDateTime = date('Y-m-d H:i:s');
 
-$sql = "SELECT DATE_FORMAT(fecha_registro, '%m-%Y') AS mes, COUNT(*) AS cantidad FROM usuarios WHERE tipo = 'cliente' AND fecha_registro BETWEEN '$startDateTime' AND '$endDateTime' GROUP BY mes";
+$sql = "SELECT MONTH(fecha_registro) AS mes, COUNT(*) AS cantidad FROM usuarios WHERE tipo = 'cliente'";
+$sql .= " AND fecha_registro BETWEEN '$startDateTime' AND '$endDateTime'";
+$sql .= " GROUP BY mes";
 
 $resultado = mysqli_query($connection, $sql);
 
-$meses = [];
-$cantidades = [];
+$meses = [
+    'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+];
+$cantidades = array_fill(0, 12, 0);
 
 while ($fila = mysqli_fetch_assoc($resultado)) {
-    $meses[] = $fila['mes'];
-    $cantidades[] = $fila['cantidad'];
+    $mes = intval($fila['mes']);
+    $cantidades[$mes - 1] = $fila['cantidad'];
 }
 
 $data = [

@@ -185,78 +185,81 @@ foreach ($fechasDisponibles as $fecha) {
         </div>
 
     <!-- Agrega este elemento select en tu formulario -->
-    <form action="">
-        <div class="input-group">
-            <select id="timeRange" class="form-control">
-                <option value="last_hour">Última hora</option>
-                <option value="today">Día actual</option>
-                <option value="week">Semana</option>
-                <option value="month">Mes</option>
-                <option value="year">Año</option>
-                <option value="all">Todos</option>
-            </select>
-            <div class="input-group-append">
-                <span class="input-group-text bg-transparent text-primary">
-                    <i class="fa fa-search"></i>
-                </span>
-            </div>
+<form action="">
+    <div class="input-group">
+        <select id="timeRange" class="form-control">
+            <option value="last_hour">Última hora</option>
+            <option value="today">Día actual</option>
+            <option value="week">Semana</option>
+            <option value="month">Mes</option>
+            <option value="year">Año</option>
+            <option value="all">Todos</option>
+        </select>
+        <div class="input-group-append">
+            <span class="input-group-text bg-transparent text-primary">
+                <i class="fa fa-search"></i>
+            </span>
         </div>
-    </form>
+    </div>
+</form>
 
-    <!-- JavaScript para manejar el cambio en el menú desplegable -->
+<!-- JavaScript para manejar el cambio en el menú desplegable -->
     <script>
         var timeRangeSelect = document.getElementById('timeRange');
-timeRangeSelect.addEventListener('change', function () {
-    var selectedValue = timeRangeSelect.value;
-    var url;
+        timeRangeSelect.addEventListener('change', function () {
+            var selectedValue = timeRangeSelect.value;
+            var url;
 
-    if (selectedValue === 'last_hour') {
-        url = '../user/report/get_data_last_hour.php';
-    } else if (selectedValue === 'week') {
-        url = '../user/report/get_data_week.php';
-    } else if (selectedValue === 'month') {
-        url = '../user/report/get_data_month.php';
-    } else if (selectedValue === 'year') {
-        url = '../user/report/get_data_year.php';
-    } else {
-        // Para la opción "Todos" o "all", usa el archivo original get_data.php
-        url = '../user/report/get_data.php';
-    }
+            if (selectedValue === 'last_hour') {
+                url = ' ../user/report/get_data_last_hour.php';
+            } else if (selectedValue === 'today') {
+                url = '../user/report/get_data_today.php';
+            } else if (selectedValue === 'week') {
+                url = '../user/report/get_data_week.php';
+            } else if (selectedValue === 'month') {
+                url = '../user/report/get_data_month.php';
+            } else if (selectedValue === 'year') {
+                url = '../user/report/get_data_year.php';
+            } else {
+                // Para la opción "Todos" o "all", usa el archivo original get_data.php
+                url = '../user/report/get_data.php';
+            }
 
-    // Realiza la solicitud AJAX
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // Actualiza el gráfico con los nuevos datos
-            myChart.data.labels = data.fechas;
-            myChart.data.datasets[0].data = data.cantidades;
-            myChart.update();
-        })
-        .catch(error => {
-            console.error('Error en la solicitud AJAX:', error);
+            // Realiza la solicitud AJAX
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Actualiza el gráfico con los nuevos datos
+                    myChart.data.labels = data.fechas;
+                    myChart.data.datasets[0].data = data.cantidades;
+                    myChart.update();
+                })
+                .catch(error => {
+                    console.error('Error en la solicitud AJAX:', error);
+                });
         });
-});
+
         var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [], // Aquí deberían estar tus etiquetas de fecha
-            datasets: [{
-                label: 'Cantidad de Usuarios',
-                data: [], // Aquí deberían estar tus datos de cantidad de usuarios
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // Aquí deberían estar tus etiquetas de fecha
+                datasets: [{
+                    label: 'Cantidad de Usuarios',
+                    data: [], // Aquí deberían estar tus datos de cantidad de usuarios
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
+        });
     </script>
      <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
