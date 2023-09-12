@@ -2,10 +2,6 @@
 // Inicia sesión (si aún no se ha iniciado)
 session_start();
 
-// Variables para botones de Login y Register
-$loginButton = '<a href="../login/login.php" class="nav-item nav-link">Login</a>';
-$registerButton = '<a href="../register/register.php" class="nav-item nav-link">Register</a>';
-
 // Verificar si existe la variable de sesión del nombre de usuario
 if (isset($_SESSION['username'])) {
     // El usuario ha iniciado sesión
@@ -48,12 +44,28 @@ if (isset($_SESSION['username'])) {
     } else {
         echo "Error en la preparación de la consulta: " . mysqli_error($conn);
     }
+} 
+if (isset($_SESSION['username'])) {
+    // El usuario ha iniciado sesión
+    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
 
-    // Resto del código...
+    // Verificar si existe la variable de sesión del ID del usuario
+    $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null; // Obtener el ID del usuario de la sesión
+    $message = "¡Bienvenido, $username!";
+    if ($userId !== null) {
+        $message .= " Tu ID de usuario es: $userId";
+    }
+
+    // Botón de "Cerrar Sesión"
+    $logoutButton = '<a href="../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
 } else {
     // El usuario no ha iniciado sesión
     $username = null;
     $message = "Por favor, inicia sesión para acceder a todas las funciones.";
+
+    // Botones de "Login" y "Register"
+    $loginButton = '<a href="../login/login.php" class="nav-item nav-link">Login</a>';
+    $registerButton = '<a href="../register/register.php" class="nav-item nav-link">Register</a>';
 }
 ?>
 <!DOCTYPE html>

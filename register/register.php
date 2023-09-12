@@ -174,10 +174,10 @@ mysqli_close($connection);
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
+                <a href="../user/user.php" class="btn border">
                     <i class="fas fa-user text-primary"></i>
                 </a>
-                <a href="" class="btn border">
+                <a href="../pag/cart.php" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
                     <span class="badge">0</span>
                 </a>
