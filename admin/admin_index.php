@@ -166,8 +166,20 @@ if (isset($_SESSION['username'])) {
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="../admin/admin_index.php" class="nav-item nav-link active">Home</a>
-                            <a href="../admin/reports.php" class="nav-item nav-link">Informes</a>
-                            <a href="../admin/users.php" class="nav-item nav-link">Usuarios</a>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    <a href="../admin/products.php" class="nav-item nav-link">Productos</a>
+                                    <a href="../admin/Users.php" class="nav-item nav-link">Usuarios</a>
+                                </div>
+                            </div>                            
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    <a href="../admin/user_list.php" class="nav-item nav-link">Lista</a>
+                                    <a href="../admin/modify_user.php" class="nav-item nav-link">Modificar</a>
+                                </div>
+                            </div>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
