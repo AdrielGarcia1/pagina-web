@@ -1,23 +1,26 @@
 <?php
-// Incluye el archivo de conexión a la base de datos
 include_once("../../../db_connection/db_connection.php");
 
-// Consulta SQL para obtener la cantidad de usuarios registrados por mes
-$sql = "SELECT DATE_FORMAT(fecha_registro, '%M %Y') AS mes, COUNT(*) AS cantidad FROM usuarios WHERE tipo = 'cliente' GROUP BY mes";
+$endDateTime = date('Y-m-d H:i:s'); // Hora actual
+$startDateTime = date('Y-m-d H:i:s', strtotime('-1 month')); // Hace un mes desde la hora actual
+
+$sql = "SELECT DATE(fecha_registro) AS fecha, COUNT(*) AS cantidad FROM usuarios WHERE tipo = 'cliente'";
+$sql .= " AND fecha_registro BETWEEN '$startDateTime' AND '$endDateTime'";
+$sql .= " GROUP BY fecha";
+
 $resultado = mysqli_query($connection, $sql);
 
-$etiquetas = [];
-$datosUsuariosRegistrados = [];
+$fechas = [];
+$cantidades = [];
 
 while ($fila = mysqli_fetch_assoc($resultado)) {
-    $etiquetas[] = $fila['mes'];
-    $datosUsuariosRegistrados[] = $fila['cantidad'];
+    $fechas[] = date('d-m-Y', strtotime($fila['fecha']));
+    $cantidades[] = $fila['cantidad'];
 }
 
-// Datos para devolver como JSON
 $data = [
-    'etiquetas' => $etiquetas,
-    'datos' => $datosUsuariosRegistrados,
+    'fechas' => $fechas,
+    'cantidades' => $cantidades,
 ];
 
 echo json_encode($data);
