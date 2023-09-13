@@ -1,5 +1,7 @@
 <?php
-// Inicia sesión (si aún no se ha iniciado)
+// Incluye el archivo de conexión a la base de datos
+    require_once('../../db_connection/db_connection.php');
+    // Inicia sesión (si aún no se ha iniciado)
 session_start();
 
 // Verificar si existe la variable de sesión del nombre de usuario
@@ -7,13 +9,9 @@ if (isset($_SESSION['username'])) {
     // El usuario ha iniciado sesión
     $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
 
-    // Incluye el archivo de conexión a la base de datos
-    require_once('../db_connection/db_connection.php');
+    
 
-    // Realizar una consulta SQL para obtener el correo electrónico del usuario
-    $sql = "SELECT correo FROM usuarios WHERE nombre = ?";
-
-    // Crear una nueva conexión a la base de datos
+    // Crea una nueva conexión a la base de datos (similar a user.php)
     $conn = mysqli_connect($host, $usuario, $contrasena, $base_de_datos);
 
     // Verificar si la conexión tuvo éxito
@@ -21,10 +19,12 @@ if (isset($_SESSION['username'])) {
         die("Error de conexión: " . mysqli_connect_error());
     }
 
+    // Realiza la consulta SQL para obtener la información del usuario
+    $sql = "SELECT nombre, correo, dni FROM usuarios WHERE nombre = ?";
+
     // Preparar la consulta
     $stmt = mysqli_prepare($conn, $sql);
 
-    // Verificar si la preparación de la consulta tuvo éxito
     if ($stmt) {
         // Asociar el parámetro a la consulta
         mysqli_stmt_bind_param($stmt, "s", $username);
@@ -32,19 +32,18 @@ if (isset($_SESSION['username'])) {
         // Ejecutar la consulta
         mysqli_stmt_execute($stmt);
 
-        // Obtener el resultado de la consulta
-        mysqli_stmt_bind_result($stmt, $email);
+        // Obtener los resultados de la consulta
+        mysqli_stmt_bind_result($stmt, $nombre, $correo, $dni);
 
-        // Obtener el correo electrónico
+        // Obtener los datos del usuario
         mysqli_stmt_fetch($stmt);
 
-        // Cerrar la consulta y la conexión
+        // Cerrar la consulta
         mysqli_stmt_close($stmt);
-        mysqli_close($conn);
     } else {
         echo "Error en la preparación de la consulta: " . mysqli_error($conn);
     }
-} 
+}
 if (isset($_SESSION['username'])) {
     // El usuario ha iniciado sesión
     $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
@@ -57,20 +56,19 @@ if (isset($_SESSION['username'])) {
     }
 
     // Botón de "Cerrar Sesión"
-    $logoutButton = '<a href="../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
+    $logoutButton = '<a href="../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
 } else {
     // El usuario no ha iniciado sesión
     $username = null;
     $message = "Por favor, inicia sesión para acceder a todas las funciones.";
 
     // Botones de "Login" y "Register"
-    $loginButton = '<a href="../login/login.php" class="nav-item nav-link">Login</a>';
-    $registerButton = '<a href="../register/register.php" class="nav-item nav-link">Register</a>';
+    $loginButton = '<a href="../../login/login.php" class="nav-item nav-link">Login</a>';
+    $registerButton = '<a href="../../register/register.php" class="nav-item nav-link">Register</a>';
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>Disorder</title>
@@ -79,7 +77,7 @@ if (isset($_SESSION['username'])) {
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../img/d.jpg" rel="icon">
+    <link href="../../img/d.jpg" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -89,10 +87,10 @@ if (isset($_SESSION['username'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -149,7 +147,7 @@ if (isset($_SESSION['username'])) {
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
+                <a href="../user.php" class="btn border">
                     <i class="fas fa-user text-primary"></i>                  
                 </a>
                 <a href="" class="btn border">
@@ -180,17 +178,17 @@ if (isset($_SESSION['username'])) {
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../pag/index.php" class="nav-item nav-link active">Home</a>
-                            <a href="../pag/shop.php" class="nav-item nav-link">Shop</a>
-                            <a href="../pag/detail.php" class="nav-item nav-link">Shop Detail</a>
+                            <a href="../../pag/index.php" class="nav-item nav-link active">Home</a>
+                            <a href="../../pag/shop.php" class="nav-item nav-link">Shop</a>
+                            <a href="../../pag/detail.php" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../pag/cart.php" class="dropdown-item">Shopping Cart</a>
-                                    <a href="../pag/checkout.php" class="dropdown-item">Checkout</a>
+                                    <a href="../../pag/cart.php" class="dropdown-item">Shopping Cart</a>
+                                    <a href="../../pag/checkout.php" class="dropdown-item">Checkout</a>
                                 </div>
                             </div>
-                            <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
+                            <a href="../../pag/contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                            <div class="navbar-nav ml-auto py-0">
                              <?php
@@ -210,37 +208,33 @@ if (isset($_SESSION['username'])) {
     </div>
     <!-- Navbar End -->
 
-    <!-- Contenedor principal para el perfil de usuario -->
+        <!-- Contenido principal -->
     <div class="container mt-5">
-        <!-- Encabezado con nombre de usuario y correo centrados -->
-        <div class="row justify-content-center">
-            <div class="col-md-6 text-center border p-4">
-                <h2><?php echo $username; ?></h2>
-                <p><?php echo $email; ?></p>
-            </div>
-        </div>
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <h2>Mi Información Personal</h2>
 
-        <!-- Opciones del perfil centradas verticalmente -->
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-6">
-                <div class="list-group">
-                    <a href="../user/personal_information/info_personal.php" class="list-group-item list-group-item-action text-center">
-                        Información personal
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action text-center">
-                        Seguridad
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action text-center">
-                        Direcciones
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action text-center">
-                        Eliminar cuenta
-                    </a>
-                </div>
+                <!-- Formulario para mostrar y editar datos del usuario -->
+                <form action="actualizar_informacion.php" method="POST">
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo">Correo Electrónico:</label>
+                        <input type="email" class="form-control" id="correo" name="correo" value="<?php echo $correo; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dni">DNI:</label>
+                        <input type="text" class="form-control" id="dni" name="dni" value="<?php echo $dni; ?>" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Actualizar Información</button>
+                </form>
             </div>
         </div>
     </div>
-     <!-- Footer Start -->
+
+      <!-- Footer Start -->
     <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
         <div class="row px-xl-5 pt-5">
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
@@ -256,12 +250,12 @@ if (isset($_SESSION['username'])) {
                     <div class="col-md-4 mb-5">
                         <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="../pag/index.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-dark mb-2" href="../pag/shop.php"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <a class="text-dark mb-2" href="../pag/detail.php"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                            <a class="text-dark mb-2" href="../pag/cart.php"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
+                            <a class="text-dark mb-2" href="../../pag/index.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                            <a class="text-dark mb-2" href="../../pag/shop.php"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
+                            <a class="text-dark mb-2" href="../../pag/detail.php"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
+                            <a class="text-dark mb-2" href="../../pag/cart.php"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
                             <a class="text-dark mb-2" href="../pag/checkout.php"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-dark" href="../pag/contact.php"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                            <a class="text-dark" href="../../pag/contact.php"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                         </div>
                     </div>
                     <div class="col-md-4 mb-5">
@@ -302,6 +296,6 @@ if (isset($_SESSION['username'])) {
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../lib/easing/easing.min.js"></script>
+    <script src="../../lib/easing/easing.min.js"></script>
     </body>
 </html>
