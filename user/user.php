@@ -131,25 +131,53 @@ if (isset($_SESSION['username'])) {
         </div>
 
         <!-- Opciones del perfil centradas verticalmente -->
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-6">
-                <div class="list-group">
-                    <a href="../user/personal_information/info_personal.php" class="list-group-item list-group-item-action text-center">
-                        Información personal
-                    </a>
-                    <a href="../user/security/change_password.php" class="list-group-item list-group-item-action text-center">
-                        Seguridad
-                    </a>
-                    <a href="../user/address/edit_address.php" class="list-group-item list-group-item-action text-center">
-                        Direcciones
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action text-center">
-                        Eliminar cuenta
-                    </a>
-                </div>
-            </div>
+<div class="row justify-content-center mt-3">
+    <div class="col-md-6">
+        <div class="list-group">
+            <a href="../user/personal_information/info_personal.php" class="list-group-item list-group-item-action text-center">
+                Información personal
+            </a>
+            <a href="../user/security/change_password.php" class="list-group-item list-group-item-action text-center">
+                Seguridad
+            </a>
+            <a href="../user/address/edit_address.php" class="list-group-item list-group-item-action text-center">
+                Direcciones
+            </a>
+            <a href="#" id="eliminarCuentaBtn" class="list-group-item list-group-item-action text-center">
+                Eliminar cuenta
+            </a>
         </div>
     </div>
+</div>
+
+<!-- Formulario de eliminación de cuenta (oculto) -->
+<form id="eliminarCuentaForm" action="eliminar_cuenta.php" method="POST" style="display: none;">
+    <!-- Campo oculto para confirmar la eliminación -->
+    <input type="hidden" name="confirmar_eliminar" value="1">
+    <!-- Botón "Eliminar cuenta" real -->
+    <button type="submit" class="list-group-item list-group-item-action text-center">Confirmar Eliminar Cuenta</button>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var eliminarCuentaBtn = document.getElementById("eliminarCuentaBtn");
+    var eliminarCuentaForm = document.getElementById("eliminarCuentaForm");
+
+    eliminarCuentaBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        
+        // Muestra un cuadro de diálogo de confirmación
+        var confirmar = confirm("¿Está seguro de que desea eliminar su cuenta? Esta acción no se puede deshacer.");
+
+        // Si el usuario confirma, muestra el formulario de eliminación de cuenta
+        if (confirmar) {
+            eliminarCuentaForm.style.display = "block";
+        } else {
+            // Si el usuario cancela, no hace nada
+        }
+    });
+});
+</script>
 <?php include('../components/footer.php'); ?>
         <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
