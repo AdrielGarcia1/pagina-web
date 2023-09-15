@@ -1,64 +1,20 @@
-<?php include('../../components/buttons.php'); ?>
-<?php
-// Incluye el archivo de conexión a la base de datos
-    require_once('../../db_connection/db_connection.php');
-    // Inicia sesión (si aún no se ha iniciado)
-// Verificar si existe la variable de sesión del nombre de usuario
-if (isset($_SESSION['username'])) {
-    // El usuario ha iniciado sesión
-    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
-
-    
-
-    // Crea una nueva conexión a la base de datos (similar a user.php)
-    $conn = mysqli_connect($host, $usuario, $contrasena, $base_de_datos);
-
-    // Verificar si la conexión tuvo éxito
-    if (!$conn) {
-        die("Error de conexión: " . mysqli_connect_error());
-    }
-
-    // Realiza la consulta SQL para obtener la información del usuario
-    $sql = "SELECT nombre, correo, dni FROM usuarios WHERE nombre = ?";
-
-    // Preparar la consulta
-    $stmt = mysqli_prepare($conn, $sql);
-
-    if ($stmt) {
-        // Asociar el parámetro a la consulta
-        mysqli_stmt_bind_param($stmt, "s", $username);
-
-        // Ejecutar la consulta
-        mysqli_stmt_execute($stmt);
-
-        // Obtener los resultados de la consulta
-        mysqli_stmt_bind_result($stmt, $nombre, $correo, $dni);
-
-        // Obtener los datos del usuario
-        mysqli_stmt_fetch($stmt);
-
-        // Cerrar la consulta
-        mysqli_stmt_close($stmt);
-    } else {
-        echo "Error en la preparación de la consulta: " . mysqli_error($conn);
-    }
-}
-?>
+<?php include('update_address.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <title>Disorder</title>
+    <title>Editar Perfil</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../../img/d.jpg" rel="icon">
+    <link href="../img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -71,7 +27,7 @@ if (isset($_SESSION['username'])) {
 </head>
 
 <body>
-       <!-- Topbar Start -->
+<!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-2 px-xl-5">
             <div class="col-lg-6 d-none d-lg-block">
@@ -188,40 +144,46 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
     <!-- Navbar End -->
-
-        <!--Main content -->
+    <!-- Content Start -->
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <h2>Mi Información Personal</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Editar Perfil</h2>
+<!-- Formulario de edición -->
+<form action="../user/edit_profile.php" method="POST">
+    <div class="form-group">
+        <label for="province">Provincia:</label>
+        <select id="province" name="province" class="form-control" required>
+            <?php while ($row = mysqli_fetch_assoc($provinces_result)) { ?>
+                <option value="<?php echo $row['id']; ?>" <?php if ($row['id'] == $currentProvinceId) echo 'selected="selected"'; ?>><?php echo $row['nombre_provincia']; ?></option>
+            <?php } ?>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="city">Ciudad/Pueblo:</label>
+        <input type="text" id="city" name="city" class="form-control" placeholder="Ingresa tu Ciudad o Pueblo" value="<?php echo $currentCity; ?>" required>
+    </div>
+    <div class="form-group">
+        <label for="address">Dirección:</label>
+        <textarea id="address" name="address" class="form-control" placeholder="Ingresa tu Dirección" required><?php echo $currentAddress; ?></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+</form>
 
-                <!-- Formulario para mostrar y editar datos del usuario -->
-                <form action="actualizar_informacion.php" method="POST">
-                    <div class="form-group">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre; ?>" required>
+
                     </div>
-                    <div class="form-group">
-                        <label for="correo">Correo Electrónico:</label>
-                        <input type="email" class="form-control" id="correo" name="correo" value="<?php echo $correo; ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="dni">DNI:</label>
-                        <input type="text" class="form-control" id="dni" name="dni" value="<?php echo $dni; ?>" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Actualizar Información</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-<!-- Main content end -->
+    <!-- Content End -->
 <?php include('../../components/footer.php'); ?>
-        <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="../../lib/easing/easing.min.js"></script>
-    </body>
+</body>
+
 </html>

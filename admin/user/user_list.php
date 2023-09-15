@@ -116,67 +116,7 @@ mysqli_close($connection);
 </head>
 
 <body>
-    <!-- Topbar Start -->
-    <div class="container-fluid">
-        <div class="row bg-secondary py-2 px-xl-5">
-            <div class="col-lg-6 d-none d-lg-block">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-dark" href="">Preguntas Frecuentes</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">ayuda</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Soporte</a>
-                     <span class="text-muted px-2"></span>
-                    <p><?php echo $message; ?></p>
-
-                </div>
-            </div>
-            <div class="col-lg-6 text-center text-lg-right">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="text-dark pl-2" href="">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row align-items-center py-3 px-xl-5">
-            <div class="col-lg-3 d-none d-lg-block">
-                <a href="" class="text-decoration-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold">DISORDER</h1>
-                </a>
-            </div>
-            <div class="col-lg-6 col-6 text-left">
-                <form action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar productos">
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
-                                <i class="fa fa-search"></i>
-                            </span>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-3 col-6 text-right">
-                <a href="../user/user.php" class="btn border">
-                    <i class="fas fa-user text-primary"></i>                  
-                </a>
-            </div>
-        </div>
-    </div>
-    <!-- Topbar End -->
+ <?php include('../../components/topbar.php'); ?>
  <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
@@ -254,25 +194,21 @@ mysqli_close($connection);
             <th>Fecha de Registro</th>
         </tr>
     </thead>
-    <tbody>
+     <tbody>
         <?php
 
-
-        // Definir la cantidad de clientes por página
-        $clientesPorPagina = 7;
-
-        // Obtener el número de página actual
-        if (isset($_GET['pagina'])) {
+         // Definir la cantidad de clientes por página
+         $clientesPorPagina = 7;
+         // Obtener el número de página actual
+         if (isset($_GET['pagina'])) {
             $paginaActual = $_GET['pagina'];
-        } else {
-            $paginaActual = 1;
-        }
-
-        // Calcular el offset
-        $offset = ($paginaActual - 1) * $clientesPorPagina;
-
-        // Itera sobre los resultados de la consulta y muestra cada cliente en una fila de la tabla
-        while ($row = mysqli_fetch_assoc($result)) {
+         } else {
+             $paginaActual = 1;
+         }
+         // Calcular el offset
+         $offset = ($paginaActual - 1) * $clientesPorPagina; 
+         // Itera sobre los resultados de la consulta y muestra cada cliente en una fila de la tabla
+         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";
             echo "<td>" . $row['id'] . "</td>";
             echo "<td>" . $row['nombre'] . "</td>";
@@ -281,99 +217,35 @@ mysqli_close($connection);
             echo "<td>" . $row['tipo'] . "</td>";
             echo "<td>" . $row['fecha_registro'] . "</td>";
             echo "</tr>";
-        }
+         }
         ?>
-    </tbody>
-</table>
+     </tbody>
+  </table>
 
         <!-- Paginación -->
         <div class="pagination justify-content-center">
             <ul class="pagination">
                 <?php
-               // Calcula el número total de páginas
-$totalPaginas = ceil($totalUsuarios / $clientesPorPagina);
+                   // Calcula el número total de páginas
+                   $totalPaginas = ceil($totalUsuarios / $clientesPorPagina);
 
-// Muestra enlaces a páginas anteriores y siguientes
-if ($paginaActual > 1) {
-    echo '<li class="page-item"><a class="page-link" href="user_list.php?pagina=' . ($paginaActual - 1) . '">Anterior</a></li>';
-}
+                   // Muestra enlaces a páginas anteriores y siguientes
+                   if ($paginaActual > 1) {
+                       echo '<li class="page-item"><a class="page-link" href="user_list.php?pagina=' . ($paginaActual - 1) . '">Anterior</a></li>';
+                   }
+                   for ($i = 1; $i <= $totalPaginas; $i++) {
+                     echo '<li class="page-item ' . ($i == $paginaActual ? 'active' : '') . '"><a class="page-link" href="user_list.php?pagina=' . $i . '">' . $i . '</a></li>';
+                   }
 
-for ($i = 1; $i <= $totalPaginas; $i++) {
-    echo '<li class="page-item ' . ($i == $paginaActual ? 'active' : '') . '"><a class="page-link" href="user_list.php?pagina=' . $i . '">' . $i . '</a></li>';
-}
-
-if ($paginaActual < $totalPaginas) {
-    echo '<li class="page-item"><a class="page-link" href="user_list.php?pagina=' . ($paginaActual + 1) . '">Siguiente</a></li>';
-}
+                   if ($paginaActual < $totalPaginas) {
+                     echo '<li class="page-item"><a class="page-link" href="user_list.php?pagina=' . ($paginaActual + 1) . '">Siguiente</a></li>';
+                   }
 
                 ?>
             </ul>
         </div>
     </div>
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
-        <!-- ... (código del footer) ... -->
-    </div>
-    <!-- Footer End -->
-</html>
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
-        <div class="row px-xl-5 pt-5">
-            <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
-                <a href="" class="text-decoration-none">
-                    <h1 class="mb-4 display-5 font-weight-semi-bold">DISORDER</h1>
-                </a>                
-                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
-                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
-                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
-            </div>
-            <div class="col-lg-8 col-md-12">
-                <div class="row">
-                    <div class="col-md-4 mb-5">
-                        <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
-                        <div class="d-flex flex-column justify-content-start">
-                            <a class="text-dark mb-2" href="../admin_user.php"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                            <a class="text-dark mb-2" href="../pag/shop.php"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                            <a class="text-dark mb-2" href="../pag/detail.php"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>
-                            <a class="text-dark mb-2" href="../pag/cart.php"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                            <a class="text-dark mb-2" href="../pag/checkout.php"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
-                            <a class="text-dark" href="../pag/contact.php"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-5">
-                        <h5 class="font-weight-bold text-dark mb-4">Newsletter</h5>
-                        <form action="">
-                            <div class="form-group">
-                                <input type="text" class="form-control border-0 py-4" placeholder="Your Name" required="required" />
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control border-0 py-4" placeholder="Your Email"
-                                    required="required" />
-                            </div>
-                            <div>
-                                <button class="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe Now</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row border-top border-light mx-xl-5 py-4">
-            <div class="col-md-6 px-xl-0">
-                <p class="mb-md-0 text-center text-md-left text-dark">
-                    &copy; <a class="text-dark font-weight-semi-bold" href="#">Your Site Name</a>. All Rights Reserved. Designed
-                    by
-                    <a class="text-dark font-weight-semi-bold" href="https://htmlcodex.com">HTML Codex</a>
-                </p>
-            </div>
-            <div class="col-md-6 px-xl-0 text-center text-md-right">
-                <img class="img-fluid" src="img/payments.png" alt="">
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
+    <?php include('../../components/footer.php'); ?>
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
