@@ -1,4 +1,6 @@
 <?php
+include_once("../../db_connection/db_connection.php");
+
 // Inicia sesión (si aún no se ha iniciado)
 session_start();
 
@@ -18,7 +20,7 @@ if (isset($_SESSION['username'])) {
     $username = null; 
     $message = "Por favor, inicia sesión para acceder a todas las funciones.";
 }
-include_once("../../db_connection/db_connection.php");
+
 
 // Consulta SQL para obtener las fechas disponibles
 $sql = "SELECT DISTINCT DATE(fecha_registro) AS fecha FROM usuarios WHERE tipo = 'cliente'";
@@ -63,7 +65,8 @@ foreach ($fechasDisponibles as $fecha) {
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../../css/style.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
