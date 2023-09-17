@@ -108,13 +108,13 @@ if (isset($_SESSION['username'])) {
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../pag/cart.php" class="dropdown-item">Shopping Cart</a>
-                                    <a href="../pag/checkout.php" class="dropdown-item">Checkout</a>
+                                    <a href="../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
+                                     <a href="../admin/products/category/add_category.php" class="dropdown-item">Agregar categoria</a>
+                                     <a href="../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a> 
                                 </div>
                             </div>
-                            <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <a href="../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesion</a>                            

@@ -135,28 +135,28 @@ mysqli_close($connection);
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../admin_index.php" class="nav-item nav-link active">Home</a>
+                            <a href="../../admin/admin_index.php" class="nav-item nav-link active">Home</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../admin/products.php" class="dropdown-item">Productos</a>
-                                    <a href="../user/user_report.php" class="dropdown-item">Usuarios</a>
+                                    <a href="../../admin/products.php" class="dropdown-item">Productos</a>
+                                    <a href="../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>                            
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../admin/user/user_list.php" class="dropdown-item">Lista</a>                                   
+                                    <a href="../../admin/user/user_list.php" class="dropdown-item">Lista</a>                                   
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../pag/cart.php" class="dropdown-item">Shopping Cart</a>
-                                    <a href="../pag/checkout.php" class="dropdown-item">Checkout</a>
+                                    <a href="../../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
+                                     <a href="../../admin/products/category/add_category.php" class="dropdown-item">Agregar categoria</a>
+                                     <a href="../../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a> 
                                 </div>
                             </div>
-                            <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <a href="../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>                            
@@ -167,8 +167,6 @@ mysqli_close($connection);
         </div>
     </div>
     <!-- Navbar End -->
-    <!-- Navbar End -->
-
     <!-- Contenido principal -->
      <div class="container">
         <h1>Lista de Clientes</h1>
