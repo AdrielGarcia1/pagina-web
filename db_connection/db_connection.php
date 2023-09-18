@@ -2,7 +2,7 @@
 $host = "127.0.0.1";
 $usuario = "root";
 $contrasena = "";
-$base_de_datos = "proyecto1";
+$base_de_datos = "proyecto2";
 
 $connection = mysqli_connect($host, $usuario, $contrasena, $base_de_datos);
 

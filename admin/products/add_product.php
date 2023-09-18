@@ -131,7 +131,7 @@ $mensajeExito = $mensajeError = '';
 <!-- Formulario para dar de alta un producto -->
 <div class="container mt-5">
     <h2 class="text-center">Alta de Producto</h2>
-    <form action="procesar_alta_producto.php" method="POST" enctype="multipart/form-data" class="text-center">
+    <form action="product_registration_process.php" method="POST" enctype="multipart/form-data" class="text-center">
         <div class="form-group">
             <label for="nombre"><b>Nombre del Producto:</b></label>
             <input type="text" class="form-control" id="nombre" name="nombre" required>
@@ -179,7 +179,7 @@ $mensajeExito = $mensajeError = '';
         <div class="form-group">
     <label for="imagenes"><b>Imágenes del Producto:</b></label>
     <div class="custom-file">
-        <input type="file" class="custom-file-input" id="imagenes" name="imagenes[]" accept=".jpg, .jpeg, .png, .gif" multiple required>
+        <input type="file" class="custom-file-input" id="imagenes" name="imagen" accept=".jpg, .jpeg, .png, .gif" required>
         <label class="custom-file-label" for="imagenes">Elegir Archivo</label>
     </div>
     <span id="nombreImagenes"></span>
@@ -196,22 +196,12 @@ $mensajeExito = $mensajeError = '';
     imagenesInput.addEventListener("change", function() {
         const archivos = imagenesInput.files;
         if (archivos.length > 0) {
-            // Verificar si los archivos son imágenes JPG, JPEG, PNG o GIF
-            const nombres = [];
-            for (let i = 0; i < archivos.length; i++) {
-                const archivo = archivos[i];
-                if (/\.(jpg|jpeg|png|gif)$/i.test(archivo.name)) {
-                    nombres.push(archivo.name);
-                }
-            }
-            if (nombres.length > 0) {
-                // Mostrar los nombres de los archivos seleccionados
-                nombreImagenes.textContent = nombres.join(", ");
-            } else {
-                // Restablecer el valor del campo de entrada si no hay imágenes válidas
-                imagenesInput.value = "";
-                alert("Por favor, selecciona archivos de imagen válidos (JPG, JPEG, PNG o GIF).");
-            }
+            // Mostrar los nombres de los archivos seleccionados
+            const nombres = Array.from(archivos).map(file => file.name);
+            nombreImagenes.textContent = nombres.join(", ");
+        } else {
+            // Restablecer el valor del campo de entrada si no hay imágenes seleccionadas
+            nombreImagenes.textContent = "Elegir Archivo";
         }
     });
 </script>

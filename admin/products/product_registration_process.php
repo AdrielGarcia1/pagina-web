@@ -14,10 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion_larga = $_POST["descripcion_larga"];
 
     // Archivo de imagen
-    $nombreArchivo = $_FILES["imagen"]["name"];
-    $rutaTempArchivo = $_FILES["imagen"]["tmp_name"];
-    $rutaDestino = 'C:/xampp/htdocs/Proyecto/img/' . $nombreArchivo; // Ruta absoluta
-
+   $nombreArchivo = $_FILES["imagen"]["name"];
+   $rutaDestino = 'C:/xampp/htdocs/Proyecto/img/' . $nombreArchivo; // Ruta absoluta
+   
     // Insertar datos del producto en la tabla de productos
     $sql = "INSERT INTO productos (nombre, precio, stock, categoria_id, talle_id, color_id) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $connection->prepare($sql);
@@ -39,19 +38,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("is", $producto_id, $descripcion_larga);
         $stmt->execute();
 
-        // Mover el archivo de imagen a la ruta de destino
-        if (move_uploaded_file($rutaTempArchivo, $rutaDestino)) {
-            // Archivo cargado correctamente, guarda la ruta en la base de datos
-            $sql = "INSERT INTO imagenes_productos (producto_id, url_imagen) VALUES (?, ?)";
-            $stmt = $connection->prepare($sql);
-            $stmt->bind_param("is", $producto_id, $rutaDestino);
-            $stmt->execute();
+        $sql = "INSERT INTO imagenes_productos (producto_id, url_imagen) VALUES (?, ?)";
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("is", $producto_id, $rutaDestino);        
 
-            // Éxito al cargar la imagen y guardar los datos
+        if ($stmt->execute()) {
+            // Éxito al guardar la dirección de la imagen
             $mensaje = "Producto agregado exitosamente.";
         } else {
-            // Error al mover el archivo
-            $mensaje = "Error al cargar la imagen del producto.";
+            // Error al insertar la dirección de la imagen
+            $mensaje = "Error al guardar la dirección de la imagen.";
         }
     } else {
         // Error al insertar el producto
@@ -62,7 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: add_product.php");
     exit();
 }
-
+header("Location: add_product.php");
 // Close the database connection
 $connection->close();
 ?>
+
