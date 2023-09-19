@@ -1,4 +1,28 @@
 <?php include('../components/buttons.php'); ?>
+<?php
+// En detail.php
+$id = isset($_GET['id']) ? $_GET['id'] : 'ID no definido';
+?>
+<?php
+// Incluye el archivo de consulta de detalles del producto
+include('query/product_detail_query.php');
+
+// Verifica si se obtuvieron los datos del producto
+if (isset($product_data)) {
+    // Ahora puedes acceder a los datos del producto como $product_data['precio'], $product_data['nombre_talle'], etc.
+    $precio = $product_data['precio'];
+    $talle = $product_data['nombre_talle'];
+    $color = $product_data['nombre_color'];
+    $descripcionCorta = $product_data['descripcion_corta'];
+    $descripcionLarga = $product_data['descripcion_larga'];
+
+    // Luego, puedes mostrar estos datos en tu página de detalles
+    // ...
+} else {
+    // Manejar el caso en que no se encuentra el producto
+    echo "Producto no encontrado.";
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,18 +106,10 @@
             <div class="col-lg-5 pb-5">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner border">
-                        <div class="carousel-item active">
-                            <img class="w-100 h-100" src="../img/product-1.jpg" alt="Image">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="w-100 h-100" src="../img/product-2.jpg" alt="Image">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="w-100 h-100" src="../img/product-3.jpg" alt="Image">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="w-100 h-100" src="../img/product-4.jpg" alt="Image">
-                        </div>
+                        <?php
+                           $imagenURL = $product_data['url_imagen'];
+                        ?>
+                        <img class="w-100 h-100" src="<?php echo $imagenURL; ?>" alt="Image">
                     </div>
                     <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
                         <i class="fa fa-2x fa-angle-left text-dark"></i>
@@ -106,18 +122,10 @@
 
             <div class="col-lg-7 pb-5">
                 <h3 class="font-weight-semi-bold">Colorful Stylish Shirt</h3>
-                <div class="d-flex mb-3">
-                    <div class="text-primary mr-2">
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star-half-alt"></small>
-                        <small class="far fa-star"></small>
-                    </div>
-                    <small class="pt-1">(50 Reviews)</small>
+               <div class="d-flex mb-3">
                 </div>
-                <h3 class="font-weight-semi-bold mb-4">$150.00</h3>
-                <p class="mb-4">AGREGAR CADA UNA DE LAS DESCRIPCIONES DE LOS PRODUCTOS</p>
+                <h3 class="font-weight-semi-bold mb-4">$<?php echo $precio; ?></h3>
+                <p class="mb-4"><?php echo $descripcionCorta; ?></p>
                 <div class="d-flex mb-3">
                     <p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
                     <form>
@@ -189,8 +197,7 @@
         <div class="row px-xl-5">
             <div class="col">
                 <div class="nav nav-tabs justify-content-center border-secondary mb-4">
-                    <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                    <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Information</a>
+                    <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>                    
                     <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
                 </div>
                 <div class="tab-content">
@@ -198,45 +205,7 @@
                         <h4 class="mb-3">Product Description</h4>
                         <p>aca tengo que poner cada una de las descriciones jajaj</p>
                         <p>aca tambien</p>
-                    </div>
-                    <div class="tab-pane fade" id="tab-pane-2">
-                        <h4 class="mb-3">Additional Information</h4>
-                        <p>aca poner las caracteristicas de las prendas</p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item px-0">
-                                        elastico
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        tela
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        color
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        materiales
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item px-0">
-                                        ancho
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        medidas
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        esaasdasd
-                                    </li>
-                                    <li class="list-group-item px-0">
-                                        asdasdas
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    </div>                  
                     <div class="tab-pane fade" id="tab-pane-3">
                         <div class="row">
                             <div class="col-md-6">

@@ -147,7 +147,7 @@ mysqli_close($connection);
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
                             </div>
-                            <p class="text-center"><a href="#">¿Olvidaste tu contraseña?</a></p>
+                            <p class="text-center"><a href="forgot_password.php">¿Olvidaste tu contraseña?</a></p>
                             <p class="text-center">¿No tienes una cuenta? <a href="../register/register.php">Regístrate</a></p>
                         </form>
                     </div>

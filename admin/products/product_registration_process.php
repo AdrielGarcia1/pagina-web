@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Archivo de imagen
    $nombreArchivo = $_FILES["imagen"]["name"];
-   $rutaDestino = 'C:/xampp/htdocs/Proyecto/img/' . $nombreArchivo; // Ruta absoluta
+   $rutaDestino = '../img/' . $nombreArchivo; // Ruta absoluta
    
     // Insertar datos del producto en la tabla de productos
     $sql = "INSERT INTO productos (nombre, precio, stock, categoria_id, talle_id, color_id) VALUES (?, ?, ?, ?, ?, ?)";

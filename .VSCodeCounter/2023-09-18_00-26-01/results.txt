@@ -1,0 +1,202 @@
+Date : 2023-09-18 00:26:01
+Directory : c:\xampp\htdocs\Proyecto
+Total : 141 files,  20620 codes, 2425 comments, 3561 blanks, all 26606 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| CSS        |          8 |      8,591 |         67 |      1,225 |      9,883 |
+| SCSS       |         91 |      5,673 |      1,162 |      1,465 |      8,300 |
+| PHP        |         37 |      4,211 |        269 |        384 |      4,864 |
+| JavaScript |          5 |      2,145 |        927 |        487 |      3,559 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                          | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                             |        141 |     20,620 |      2,425 |      3,561 |     26,606 |
+| admin                                                                         |         15 |      1,234 |        108 |        160 |      1,502 |
+| admin (Files)                                                                 |          1 |        177 |          5 |         10 |        192 |
+| admin\products                                                                |          6 |        501 |         53 |         55 |        609 |
+| admin\products (Files)                                                        |          2 |        235 |         27 |         25 |        287 |
+| admin\products\category                                                       |          2 |        133 |         13 |         16 |        162 |
+| admin\products\talle                                                          |          2 |        133 |         13 |         14 |        160 |
+| admin\user                                                                    |          8 |        556 |         50 |         95 |        701 |
+| admin\user (Files)                                                            |          2 |        379 |         36 |         54 |        469 |
+| admin\user\report                                                             |          6 |        177 |         14 |         41 |        232 |
+| components                                                                    |          3 |        132 |          7 |          2 |        141 |
+| css                                                                           |          2 |      8,376 |         13 |      1,203 |      9,592 |
+| db_connection                                                                 |          1 |         10 |          0 |          2 |         12 |
+| js                                                                            |          1 |         88 |          5 |         12 |        105 |
+| lib                                                                           |         10 |      2,272 |        976 |        497 |      3,745 |
+| lib\easing                                                                    |          2 |        154 |          9 |          8 |        171 |
+| lib\owlcarousel                                                               |          8 |      2,118 |        967 |        489 |      3,574 |
+| lib\owlcarousel (Files)                                                       |          2 |      1,903 |        913 |        467 |      3,283 |
+| lib\owlcarousel\assets                                                        |          6 |        215 |         54 |         22 |        291 |
+| login                                                                         |          2 |        145 |         15 |         19 |        179 |
+| pag                                                                           |          6 |      1,568 |          6 |         75 |      1,649 |
+| register                                                                      |          2 |        262 |         25 |         24 |        311 |
+| scss                                                                          |         91 |      5,673 |      1,162 |      1,465 |      8,300 |
+| scss (Files)                                                                  |          1 |        141 |          2 |         40 |        183 |
+| scss\bootstrap                                                                |         90 |      5,532 |      1,160 |      1,425 |      8,117 |
+| scss\bootstrap\scss                                                           |         90 |      5,532 |      1,160 |      1,425 |      8,117 |
+| scss\bootstrap\scss (Files)                                                   |         40 |      4,215 |        885 |      1,121 |      6,221 |
+| scss\bootstrap\scss\mixins                                                    |         31 |        850 |        174 |        161 |      1,185 |
+| scss\bootstrap\scss\utilities                                                 |         18 |        341 |         58 |        107 |        506 |
+| scss\bootstrap\scss\vendor                                                    |          1 |        126 |         43 |         36 |        205 |
+| user                                                                          |          8 |        860 |        108 |        102 |      1,070 |
+| user (Files)                                                                  |          2 |        164 |         23 |         28 |        215 |
+| user\address                                                                  |          2 |        233 |         24 |         21 |        278 |
+| user\personal_information                                                     |          2 |        227 |         38 |         34 |        299 |
+| user\security                                                                 |          2 |        236 |         23 |         19 |        278 |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                      | language   | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\xampp\htdocs\Proyecto\admin\admin_index.php                                | PHP        |        177 |          5 |         10 |        192 |
+| c:\xampp\htdocs\Proyecto\admin\products\add_product.php                       | PHP        |        191 |         15 |         15 |        221 |
+| c:\xampp\htdocs\Proyecto\admin\products\category\add_category.php             | PHP        |        116 |          5 |         11 |        132 |
+| c:\xampp\htdocs\Proyecto\admin\products\category\process_add_category.php     | PHP        |         17 |          8 |          5 |         30 |
+| c:\xampp\htdocs\Proyecto\admin\products\product_registration_process.php      | PHP        |         44 |         12 |         10 |         66 |
+| c:\xampp\htdocs\Proyecto\admin\products\talle\add_talle.php                   | PHP        |        116 |          5 |          9 |        130 |
+| c:\xampp\htdocs\Proyecto\admin\products\talle\process_add_talle.php           | PHP        |         17 |          8 |          5 |         30 |
+| c:\xampp\htdocs\Proyecto\admin\user\report\get_data.php                       | PHP        |         34 |         12 |         11 |         57 |
+| c:\xampp\htdocs\Proyecto\admin\user\report\get_data_last_hour.php             | PHP        |         20 |          0 |          7 |         27 |
+| c:\xampp\htdocs\Proyecto\admin\user\report\get_data_month.php                 | PHP        |         20 |          0 |          7 |         27 |
+| c:\xampp\htdocs\Proyecto\admin\user\report\get_data_today.php                 | PHP        |         67 |          2 |          3 |         72 |
+| c:\xampp\htdocs\Proyecto\admin\user\report\get_data_week.php                  | PHP        |         18 |          0 |          7 |         25 |
+| c:\xampp\htdocs\Proyecto\admin\user\report\get_data_year.php                  | PHP        |         18 |          0 |          6 |         24 |
+| c:\xampp\htdocs\Proyecto\admin\user\user_list.php                             | PHP        |        203 |         25 |         29 |        257 |
+| c:\xampp\htdocs\Proyecto\admin\user\user_report.php                           | PHP        |        176 |         11 |         25 |        212 |
+| c:\xampp\htdocs\Proyecto\components\buttons.php                               | PHP        |          9 |          4 |          1 |         14 |
+| c:\xampp\htdocs\Proyecto\components\footer.php                                | PHP        |         56 |          0 |          1 |         57 |
+| c:\xampp\htdocs\Proyecto\components\topbar.php                                | PHP        |         67 |          3 |          0 |         70 |
+| c:\xampp\htdocs\Proyecto\css\style.css                                        | CSS        |      8,375 |          8 |      1,202 |      9,585 |
+| c:\xampp\htdocs\Proyecto\css\style.min.css                                    | CSS        |          1 |          5 |          1 |          7 |
+| c:\xampp\htdocs\Proyecto\db_connection\db_connection.php                      | PHP        |         10 |          0 |          2 |         12 |
+| c:\xampp\htdocs\Proyecto\js\main.js                                           | JavaScript |         88 |          5 |         12 |        105 |
+| c:\xampp\htdocs\Proyecto\lib\easing\easing.js                                 | JavaScript |        153 |          9 |          7 |        169 |
+| c:\xampp\htdocs\Proyecto\lib\easing\easing.min.js                             | JavaScript |          1 |          0 |          1 |          2 |
+| c:\xampp\htdocs\Proyecto\lib\owlcarousel\assets\owl.carousel.css              | CSS        |        132 |         23 |         16 |        171 |
+| c:\xampp\htdocs\Proyecto\lib\owlcarousel\assets\owl.carousel.min.css          | CSS        |          1 |          5 |          0 |          6 |
+| c:\xampp\htdocs\Proyecto\lib\owlcarousel\assets\owl.theme.default.css         | CSS        |         40 |          8 |          3 |         51 |
+| c:\xampp\htdocs\Proyecto\lib\owlcarousel\assets\owl.theme.default.min.css     | CSS        |          1 |          5 |          0 |          6 |
+| c:\xampp\htdocs\Proyecto\lib\owlcarousel\assets\owl.theme.green.css           | CSS        |         40 |          8 |          3 |         51 |
+| c:\xampp\htdocs\Proyecto\lib\owlcarousel\assets\owl.theme.green.min.css       | CSS        |          1 |          5 |          0 |          6 |
+| c:\xampp\htdocs\Proyecto\lib\owlcarousel\owl.carousel.js                      | JavaScript |      1,901 |        908 |        467 |      3,276 |
+| c:\xampp\htdocs\Proyecto\lib\owlcarousel\owl.carousel.min.js                  | JavaScript |          2 |          5 |          0 |          7 |
+| c:\xampp\htdocs\Proyecto\login\cerrar_sesion.php                              | PHP        |          6 |          3 |          3 |         12 |
+| c:\xampp\htdocs\Proyecto\login\login.php                                      | PHP        |        139 |         12 |         16 |        167 |
+| c:\xampp\htdocs\Proyecto\pag\cart.php                                         | PHP        |        239 |          1 |         12 |        252 |
+| c:\xampp\htdocs\Proyecto\pag\checkout.php                                     | PHP        |        205 |          1 |         13 |        219 |
+| c:\xampp\htdocs\Proyecto\pag\contact.php                                      | PHP        |        125 |          1 |         13 |        139 |
+| c:\xampp\htdocs\Proyecto\pag\detail.php                                       | PHP        |        386 |          1 |         13 |        400 |
+| c:\xampp\htdocs\Proyecto\pag\index.php                                        | PHP        |        224 |          1 |         11 |        236 |
+| c:\xampp\htdocs\Proyecto\pag\shop.php                                         | PHP        |        389 |          1 |         13 |        403 |
+| c:\xampp\htdocs\Proyecto\register\register.php                                | PHP        |        246 |         20 |         17 |        283 |
+| c:\xampp\htdocs\Proyecto\register\verificar_usuario.php                       | PHP        |         16 |          5 |          7 |         28 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_alert.scss                      | SCSS       |         29 |         13 |         11 |         53 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_badge.scss                      | SCSS       |         34 |         12 |          9 |         55 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_breadcrumb.scss                 | SCSS       |         31 |          8 |          6 |         45 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_button-group.scss               | SCSS       |        101 |         31 |         32 |        164 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_buttons.scss                    | SCSS       |         91 |         22 |         30 |        143 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_card.scss                       | SCSS       |        198 |         37 |         52 |        287 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_carousel.scss                   | SCSS       |        142 |         30 |         26 |        198 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_close.scss                      | SCSS       |         26 |          8 |          7 |         41 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_code.scss                       | SCSS       |         36 |          6 |          7 |         49 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_custom-forms.scss               | SCSS       |        400 |         49 |         76 |        525 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_dropdown.scss                   | SCSS       |        153 |         16 |         24 |        193 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_forms.scss                      | SCSS       |        219 |         73 |         56 |        348 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_functions.scss                  | SCSS       |         95 |         24 |         26 |        145 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_grid.scss                       | SCSS       |         44 |         16 |         14 |         74 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_images.scss                     | SCSS       |         22 |         13 |          8 |         43 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_input-group.scss                | SCSS       |        130 |         30 |         33 |        193 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_jumbotron.scss                  | SCSS       |         15 |          0 |          3 |         18 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_list-group.scss                 | SCSS       |         97 |         24 |         34 |        155 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_media.scss                      | SCSS       |          7 |          0 |          2 |          9 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_mixins.scss                     | SCSS       |         32 |          9 |          7 |         48 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_modal.scss                      | SCSS       |        168 |         37 |         36 |        241 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_nav.scss                        | SCSS       |         81 |         19 |         24 |        124 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_navbar.scss                     | SCSS       |        218 |         46 |         61 |        325 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_pagination.scss                 | SCSS       |         60 |          4 |         11 |         75 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_popover.scss                    | SCSS       |        141 |          5 |         25 |        171 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_print.scss                      | SCSS       |         84 |         33 |         25 |        142 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_progress.scss                   | SCSS       |         41 |          1 |          6 |         48 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_reboot.scss                     | SCSS       |        262 |        138 |         85 |        485 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_root.scss                       | SCSS       |         13 |          4 |          4 |         21 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_spinners.scss                   | SCSS       |         41 |          8 |          8 |         57 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_tables.scss                     | SCSS       |        121 |         28 |         37 |        186 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_toasts.scss                     | SCSS       |         38 |          2 |          7 |         47 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_tooltip.scss                    | SCSS       |         93 |          5 |         18 |        116 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_transitions.scss                | SCSS       |         17 |          0 |          4 |         21 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_type.scss                       | SCSS       |         82 |         20 |         24 |        126 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_utilities.scss                  | SCSS       |         18 |          0 |          1 |         19 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\_variables.scss                  | SCSS       |        776 |         95 |        272 |      1,143 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\bootstrap-grid.scss              | SCSS       |         18 |          6 |          6 |         30 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\bootstrap-reboot.scss            | SCSS       |          4 |          7 |          2 |         13 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\bootstrap.scss                   | SCSS       |         37 |          6 |          2 |         45 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_alert.scss               | SCSS       |         11 |          0 |          3 |         14 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_background-variant.scss  | SCSS       |         18 |          2 |          4 |         24 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_badge.scss               | SCSS       |         15 |          0 |          3 |         18 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_border-radius.scss       | SCSS       |         63 |          3 |         11 |         77 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_box-shadow.scss          | SCSS       |         17 |          2 |          2 |         21 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_breakpoints.scss         | SCSS       |         69 |         44 |         11 |        124 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_buttons.scss             | SCSS       |         86 |         11 |         14 |        111 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_caret.scss               | SCSS       |         55 |          0 |          8 |         63 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_clearfix.scss            | SCSS       |          7 |          0 |          1 |          8 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_deprecate.scss           | SCSS       |          5 |          5 |          1 |         11 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_float.scss               | SCSS       |         12 |          1 |          2 |         15 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_forms.scss               | SCSS       |        141 |         17 |         21 |        179 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_gradients.scss           | SCSS       |         34 |          7 |          5 |         46 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_grid-framework.scss      | SCSS       |         60 |          8 |         13 |         81 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_grid.scss                | SCSS       |         46 |         15 |          9 |         70 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_hover.scss               | SCSS       |         23 |         10 |          5 |         38 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_image.scss               | SCSS       |         13 |         16 |          8 |         37 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_list-group.scss          | SCSS       |         17 |          1 |          4 |         22 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_lists.scss               | SCSS       |          4 |          2 |          2 |          8 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_nav-divider.scss         | SCSS       |          7 |          3 |          2 |         12 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_pagination.scss          | SCSS       |         19 |          1 |          3 |         23 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_reset-text.scss          | SCSS       |         16 |          1 |          1 |         18 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_resize.scss              | SCSS       |          4 |          1 |          2 |          7 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_screen-reader.scss       | SCSS       |         22 |          9 |          4 |         35 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_size.scss                | SCSS       |          5 |          1 |          2 |          8 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_table-row.scss           | SCSS       |         29 |          5 |          6 |         40 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_text-emphasis.scss       | SCSS       |         13 |          2 |          3 |         18 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_text-hide.scss           | SCSS       |          8 |          2 |          2 |         12 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_text-truncate.scss       | SCSS       |          5 |          2 |          2 |          9 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_transition.scss          | SCSS       |         22 |          1 |          4 |         27 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\mixins\_visibility.scss          | SCSS       |          4 |          2 |          3 |          9 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_align.scss            | SCSS       |          6 |          1 |          2 |          9 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_background.scss       | SCSS       |         14 |          1 |          5 |         20 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_borders.scss          | SCSS       |         52 |          7 |         17 |         76 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_clearfix.scss         | SCSS       |          3 |          0 |          1 |          4 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_display.scss          | SCSS       |         13 |          7 |          7 |         27 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_embed.scss            | SCSS       |         33 |          1 |          6 |         40 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_flex.scss             | SCSS       |         39 |          4 |          9 |         52 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_float.scss            | SCSS       |          8 |          1 |          3 |         12 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_interactions.scss     | SCSS       |          3 |          1 |          2 |          6 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_overflow.scss         | SCSS       |          3 |          1 |          2 |          6 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_position.scss         | SCSS       |         24 |          3 |          6 |         33 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_screenreaders.scss    | SCSS       |          6 |          3 |          3 |         12 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_shadows.scss          | SCSS       |          4 |          1 |          2 |          7 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_sizing.scss           | SCSS       |         11 |          3 |          7 |         21 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_spacing.scss          | SCSS       |         64 |          4 |          6 |         74 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_stretched-link.scss   | SCSS       |         13 |          5 |          2 |         20 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_text.scss             | SCSS       |         39 |         11 |         23 |         73 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\utilities\_visibility.scss       | SCSS       |          6 |          4 |          4 |         14 |
+| c:\xampp\htdocs\Proyecto\scss\bootstrap\scss\vendor\_rfs.scss                 | SCSS       |        126 |         43 |         36 |        205 |
+| c:\xampp\htdocs\Proyecto\scss\style.scss                                      | SCSS       |        141 |          2 |         40 |        183 |
+| c:\xampp\htdocs\Proyecto\user\Delete_account.php                              | PHP        |         15 |          6 |          4 |         25 |
+| c:\xampp\htdocs\Proyecto\user\address\edit_address.php                        | PHP        |        175 |          4 |         10 |        189 |
+| c:\xampp\htdocs\Proyecto\user\address\update_address.php                      | PHP        |         58 |         20 |         11 |         89 |
+| c:\xampp\htdocs\Proyecto\user\personal_information\actualizar_informacion.php | PHP        |         37 |         21 |         14 |         72 |
+| c:\xampp\htdocs\Proyecto\user\personal_information\info_personal.php          | PHP        |        190 |         17 |         20 |        227 |
+| c:\xampp\htdocs\Proyecto\user\security\change_password.php                    | PHP        |        178 |          6 |          8 |        192 |
+| c:\xampp\htdocs\Proyecto\user\security\change_password_handler.php            | PHP        |         58 |         17 |         11 |         86 |
+| c:\xampp\htdocs\Proyecto\user\user.php                                        | PHP        |        149 |         17 |         24 |        190 |
+| Total                                                                         |            |     20,620 |      2,425 |      3,561 |     26,606 |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
