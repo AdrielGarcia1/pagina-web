@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->SMTPAuth = true;
             $mail->Username = 'garciaadriel65@gmail.com';
-            $mail->Password = '13579Mayo_1999';
+            $mail->Password = '';
 
             // Quién envía el mensaje
             $mail->setFrom('garciaadriel65@gmail.com', 'Adriel');
