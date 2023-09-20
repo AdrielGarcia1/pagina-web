@@ -82,7 +82,7 @@ $mensajeExito = $mensajeError = '';
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../../admin/admin_index.php" class="nav-item nav-link active">Home</a>
+                            <a href="../../admin/admin_index.php" class="nav-item nav-link active">Inicio</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">

@@ -73,17 +73,11 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../pag/index.php" class="nav-item nav-link active">Home</a>
-                            <a href="../pag/shop.php" class="nav-item nav-link">Shop</a>
-                            <a href="../pag/detail.php" class="nav-item nav-link">Shop Detail</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../pag/cart.php" class="dropdown-item">Shopping Cart</a>
-                                    <a href="../pag/checkout.php" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
-                            <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
+                            <a href="../pag/index.php" class="nav-item nav-link active">Inicio</a>
+                            <a href="../pag/shop.php" class="nav-item nav-link">Productos</a>                            
+                            <a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>
+                            <a href="../pag/checkout.php" class="nav-item nav-link">Compra</a> 
+                            <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>
                         </div>
                            <div class="navbar-nav ml-auto py-0">
                             <?php
@@ -106,7 +100,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
                                     <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                                    <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                                    <a href="" class="btn btn-light py-2 px-3">Productos Now</a>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +110,7 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
                                     <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                                    <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                                    <a href="" class="btn btn-light py-2 px-3">Productos Now</a>
                                 </div>
                             </div>
                         </div>

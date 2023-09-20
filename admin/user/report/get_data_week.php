@@ -1,8 +1,8 @@
 <?php
 include_once("../../../db_connection/db_connection.php");
 
-$sql = "SELECT DATE(fecha_registro) AS fecha, COUNT(*) AS cantidad FROM usuarios WHERE tipo = 'cliente'";
-$sql .= " AND fecha_registro >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND fecha_registro <= CURDATE() + INTERVAL 1 DAY";
+$sql = "SELECT DATE(fecha_registro) AS fecha, COUNT(*) AS cantidad FROM usuarios ";
+$sql .= " WHERE fecha_registro >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND fecha_registro <= CURDATE() + INTERVAL 1 DAY";
 $sql .= " GROUP BY fecha";
 
 $resultado = mysqli_query($connection, $sql);

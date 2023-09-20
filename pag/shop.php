@@ -44,24 +44,18 @@ $products = include('query/product_query.php');
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold">DISORDER</h1>
+                        <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../pag/index.php" class="nav-item nav-link">Home</a>
-                            <a href="../pag/shop.php" class="nav-item nav-link active">Shop</a>
-                            <a href="../pag/detail.php" class="nav-item nav-link">Shop Detail</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../pag/cart.php" class="dropdown-item">Shopping Cart</a>
-                                    <a href="../pag/checkout.php" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
-                            <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
+                            <a href="../pag/index.php" class="nav-item nav-link">Inicio</a>
+                            <a href="../pag/shop.php" class="nav-item nav-link active">Productos</a>
+                            <a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>
+                            <a href="../pag/checkout.php" class="nav-item nav-link">Compra</a> 
+                            <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <?php
@@ -80,10 +74,10 @@ $products = include('query/product_query.php');
         </div>
     </div>
     <!-- Navbar End -->
-    <!-- Shop Start -->
+    <!-- Productos Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
-            <!-- Shop Sidebar Start -->
+            <!-- Productos Sidebar Start -->
             <div class="col-lg-3 col-md-12">
                 <!-- Price Start -->
                 <div class="border-bottom mb-4 pb-4">
@@ -165,9 +159,9 @@ function filterProductsByPrice(minPrice, maxPrice) {
                 <!-- Price End -->
 
             </div>
-            <!-- Shop Sidebar End -->
+            <!-- Productos Sidebar End -->
 
- <!-- Shop Product Start -->
+ <!-- Productos Product Start -->
 <div class="col-lg-9 col-md-12">
     <div class="row pb-3">
         <?php
@@ -202,10 +196,10 @@ function filterProductsByPrice(minPrice, maxPrice) {
         ?>
     </div>
 </div>
-<!-- Shop Product End -->
+<!-- Productos Product End -->
         </div>
     </div>
-    <!-- Shop End -->
+    <!-- Productos End -->
    <?php include('../components/footer.php'); ?>
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>

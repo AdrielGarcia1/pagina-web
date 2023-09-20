@@ -35,17 +35,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Resto de la configuración de PHPMailer...
             $mail->SMTPDebug = SMTP::DEBUG_SERVER;
             $mail->Host = 'smtp.gmail.com';
-            $mail->Port = 587;
+            $mail->Port = 34;
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->SMTPAuth = true;
-            $mail->Username = 'garciaadriel65@gmail.com';
-            $mail->Password = '13579Mayo_1999';
+            $mail->Username = '@gmail.com';
+            $mail->Password = '';
 
             // Quién envía el mensaje
-            $mail->setFrom('garciaadriel65@gmail.com', 'Adriel');
+            $mail->setFrom('@gmail.com', 'ds');
 
             // Dirección de respuesta
-            $mail->addReplyTo('garciaadriel65@gmail.com', 'Adriel');
+            $mail->addReplyTo('@gmail.com', 'fd');
 
             // Agrega el destinatario del formulario
             $mail->addAddress($email, 'Nombre del Destinatario');

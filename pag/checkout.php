@@ -46,17 +46,11 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../pag/index.php" class="nav-item nav-link">Home</a>
-                            <a href="../pag/shop.php" class="nav-item nav-link">Shop</a>
-                            <a href="../pag/detail.php" class="nav-item nav-link">Shop Detail</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../pag/cart.php" class="dropdown-item">Shopping Cart</a>
-                                    <a href="../pag/checkout.php" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
-                            <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
+                            <a href="../pag/index.php" class="nav-item nav-link">Inicio</a>
+                            <a href="../pag/shop.php" class="nav-item nav-link">Productos</a>                            
+                            <a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>
+                            <a href="../pag/checkout.php" class="nav-item nav-link">Compra</a> 
+                            <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <?php
@@ -76,7 +70,7 @@
     </div>
     <!-- Navbar End -->
 
-    <!-- Checkout Start -->
+    <!-- Compra Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
             <div class="col-lg-8">
@@ -196,7 +190,7 @@
             </div>
         </div>
     </div>
-    <!-- Checkout End -->
+    <!-- Compra End -->
 <?php include('../components/footer.php'); ?>
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
@@ -208,7 +202,7 @@
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Contact Javascript File -->
+    <!-- Contacto Javascript File -->
     <script src="mail/jqBootstrapValidation.min.js"></script>
     <script src="mail/contact.js"></script>
 
