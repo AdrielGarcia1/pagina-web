@@ -38,7 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->Port = 34;
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->SMTPAuth = true;
+<<<<<<< HEAD
             $mail->Username = '@gmail.com';
+=======
+            $mail->Username = 'garciaadriel65@gmail.com';
+>>>>>>> origin/master
             $mail->Password = '';
 
             // Quién envía el mensaje
