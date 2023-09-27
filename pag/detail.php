@@ -61,9 +61,6 @@ if (isset($_SESSION['username'])) {
             // Si se encontró un resultado, obtén el usuario_id
             $row = $result->fetch_assoc();
             $usuarioId = $row['id'];
-
-            // Muestra el usuario_id obtenido
-            echo "El usuario_id es: " . $usuarioId;
         } else {
             // Maneja el caso en que no se encontró el usuario
             echo "No se encontró el usuario en la base de datos.";
@@ -110,35 +107,29 @@ if (isset($_SESSION['username'])) {
 
 <body>
 <?php include('../components/topbar.php'); ?>
-    <!-- Navbar Start -->
+ <!-- Navbar Start -->
     <div class="container-fluid">
         <div class="row border-top px-xl-5">
            <div class="col-lg-3 d-none d-lg-block">
                <a class="btn shadow-none d-flex align-items-center justify-content-center bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                  <h6 class="m-0">SHOP DETAIL</h6>
+                  <h6 class="m-0">Detalle del producto</h6>
                </a>
            </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span></h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../pag/index.php" class="nav-item nav-link">Home</a>
-                            <a href="../pag/shop.php" class="nav-item nav-link">Shop</a>
-                            <a href="../pag/detail.php" class="nav-item nav-link active">Shop Detail</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../pag/cart.php" class="dropdown-item">Shopping Cart</a>
-                                    <a href="../pag/checkout.php" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
-                            <a href="../pag/contact.php" class="nav-item nav-link">Contact</a>
+                            <a href="../pag/index.php" class="nav-item nav-link">Inicio</a>
+                            <a href="../pag/shop.php" class="nav-item nav-link">Productos</a>                            
+                            <a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>
+                            <a href="../pag/checkout.php" class="nav-item nav-link">Compra</a> 
+                            <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <?php
