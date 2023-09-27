@@ -1,7 +1,72 @@
-<?php include('../components/buttons.php'); ?>
 <?php
-$products = include('query/cart_query.php');
-$productosEnCarrito = obtenerProductosDelCarrito(); 
+// Incluye el archivo de conexión a la base de datos
+include('../db_connection/db_connection.php');
+session_start();
+
+// Inicializa un arreglo para almacenar los datos del carrito
+$cartData = array();
+
+// Verifica si el usuario ha iniciado sesión
+if (!isset($_SESSION['username'])) {
+    // Si el usuario no ha iniciado sesión, muestra un mensaje de error
+    echo "Debes iniciar sesión para ver tu carrito de compras.";
+} else {
+    // El usuario ha iniciado sesión, obtenemos su ID de usuario
+    $username = $_SESSION['username'];
+
+    // Consulta SQL para obtener los productos en el carrito de compras del usuario
+   $sql = "SELECT productos.id, productos.nombre, productos.precio, carrito_compras.cantidad
+        FROM productos
+        INNER JOIN carrito_compras ON productos.id = carrito_compras.producto_id
+        WHERE carrito_compras.usuario_id = (SELECT id FROM usuarios WHERE nombre = ?)";
+
+// Prepara la sentencia SQL
+$stmt = $connection->prepare($sql);
+
+if ($stmt === false) {
+    die("Error al preparar la consulta: " . $connection->error);
+}
+
+// Enlaza el parámetro
+$stmt->bind_param("s", $username);
+
+// Ejecuta la consulta
+if ($stmt->execute()) {
+    $result = $stmt->get_result();
+
+    // Verifica si hay productos en el carrito
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $productId = $row['id']; // Define $productId con el ID del producto
+            $nombreProducto = $row['nombre'];
+            $precioProducto = $row['precio'];
+            $cantidadProducto = $row['cantidad'];
+            $totalProducto = $precioProducto * $cantidadProducto;
+
+            // Agrega los datos del producto al arreglo $cartData
+            $cartData[] = array(
+                'id' => $productId, // Incluye el ID del producto
+                'nombre' => $nombreProducto,
+                'precio' => $precioProducto,
+                'cantidad' => $cantidadProducto,
+                'total' => $totalProducto
+            );
+        }
+    }
+}
+// Cierra la sentencia
+$stmt->close();
+}
+
+// Verificar si existe la variable de sesión del nombre de usuario
+if (isset($_SESSION['username'])) {
+    // Botón de "Cerrar Sesión"
+    $logoutButton = '<a href="../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
+} else {
+    // Botones de "Login" y "Register"
+    $loginButton = '<a href="../login/login.php" class="nav-item nav-link">Login</a>';
+    $registerButton = '<a href="../register/register.php" class="nav-item nav-link">Registrar</a>';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,10 +93,19 @@ $productosEnCarrito = obtenerProductosDelCarrito();
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 
 <body>
     <?php include('../components/topbar.php'); ?>
+    <?php
+// En detail.php, verifica y muestra el mensaje
+
+if (isset($_SESSION['cart_message'])) {
+    echo '<div class="alert alert-success">' . $_SESSION['cart_message'] . '</div>';
+    unset($_SESSION['cart_message']); // Limpia la variable de sesión después de mostrar el mensaje
+}
+?>
     <!-- Navbar Start -->
     <div class="container-fluid">
         <div class="row border-top px-xl-5">
@@ -43,7 +117,7 @@ $productosEnCarrito = obtenerProductosDelCarrito();
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span></h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
@@ -73,84 +147,80 @@ $productosEnCarrito = obtenerProductosDelCarrito();
         </div>
     </div>
     <!-- Navbar End -->
-
     <!-- Cart Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
             <div class="col-lg-8 table-responsive mb-5">
-    <table class="table table-bordered text-center mb-0">
-        <thead class="bg-secondary text-dark">
-            <tr>
-                <th>Products</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-                <th>Remove</th>
+      <table class="table table-bordered text-center mb-0">
+    <thead class="bg-secondary text-dark">
+        <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody class="align-middle">
+      <?php
+        // Recorre los datos del carrito y muestra los productos
+        foreach ($cartData as $item) {
+            ?>
+            <tr data-id="<?php echo $item['id']; ?>">
+                <td class="align-middle"><?php echo $item['nombre']; ?></td>
+                <td class="align-middle">$<?php echo $item['precio']; ?></td>
+                <td class="align-middle">
+                    <div class="input-group quantity mx-auto" style="width: 100px;">
+                        <input type="text" class="form-control form-control-sm text-center cantidad" value="<?php echo $item['cantidad']; ?>">
+                    </div>
+                </td>
+                <td class="align-middle">$<?php echo $item['total']; ?></td>
+                <td class="align-middle">
+                <button class="btn btn-sm btn-primary delete-product" data-id="<?php echo $item['id']; ?>"><i class="fa fa-times"></i></button>
+
+                  <script>
+$(document).ready(function() {
+    // Agrega un evento de clic a los botones "X" con la clase "delete-product"
+    $('.delete-product').click(function() {
+        // Obtiene el ID del producto desde el atributo data-id
+        var productoId = $(this).data('id');
+        
+        // Almacena una referencia al botón "X" actual
+        var botonEliminar = $(this);
+
+        // Realiza una solicitud AJAX para eliminar el producto
+        $.ajax({
+            type: 'POST',
+            url: 'cart/eliminar_producto.php', // Ruta al script de eliminación
+            data: { productoId: productoId },
+            success: function(response) {
+                // Comprueba si la eliminación fue exitosa
+                if (response != 'success') {
+                    // Elimina la fila de la tabla del carrito
+                    botonEliminar.closest('tr').remove();
+                    alert('Producto eliminado con éxito.');
+                } else {
+                    alert('Error al eliminar el producto: ' + response); // Muestra el mensaje de error del servidor
+                }
+            },
+            error: function() {
+                alert('Error al eliminar el producto.');
+            }
+        });
+    });
+});
+</script>
+              </td>
             </tr>
-        </thead>
-        <tbody class="align-middle">
-            <?php foreach ($productosEnCarrito as $producto) { ?>
-                <tr>
-                    <td class="align-middle">
-                        <img src="<?php echo $producto['imagen']; ?>" alt="" style="width: 50px;">
-                        <?php echo $producto['nombre']; ?>
-                    </td>
-                    <td class="align-middle">$<?php echo $producto['precio']; ?></td>
-                    <td class="align-middle">
-                        <div class="input-group quantity mx-auto" style="width: 100px;">
-                            <div class="input-group-btn">
-                                <button class="btn btn-sm btn-primary btn-minus">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                            <input type="text" class="form-control form-control-sm bg-secondary text-center" value="<?php echo $producto['cantidad']; ?>">
-                            <div class="input-group-btn">
-                                <button class="btn btn-sm btn-primary btn-plus">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="align-middle">$<?php echo $producto['total']; ?></td>
-                    <td class="align-middle">
-                        <button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button>
-                    </td>
-                </tr>
-            <?php } ?>
-        </tbody>
-    </table>
-</div>
-            <div class="col-lg-4">
-                <form class="mb-5" action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control p-4" placeholder="Coupon Code">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary">Apply Coupon</button>
-                        </div>
-                    </div>
-                </form>
-                <div class="card border-secondary mb-5">
-                    <div class="card-header bg-secondary border-0">
-                        <h4 class="font-weight-semi-bold m-0">Resumen de la compra</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">$150</h6>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-medium">Envío</h6>
-                            <h6 class="font-weight-medium">$10</h6>
-                        </div>
-                    </div>
-                    <div class="card-footer border-secondary bg-transparent">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">$160</h5>
-                        </div>
-                        <button class="btn btn-block btn-primary my-3 py-3">Pasar a la caja</button>
-                    </div>
-                </div>
+            <?php
+        }
+      ?>
+    </tbody>
+</table>
+
+    </td>    
+</tr>
+
             </div>
         </div>
     </div>

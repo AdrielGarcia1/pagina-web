@@ -1,13 +1,13 @@
 <?php include('../components/buttons.php'); ?>
 <?php
-$products = include('query/product_query.php');
+$products = include('shop/product_query.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Disorder</title>
+    <title>TIENDA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">

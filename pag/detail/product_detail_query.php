@@ -5,9 +5,9 @@ require_once "../db_connection/db_connection.php"; // Asegúrate de incluir tu a
 $id = isset($_GET['id']) ? $_GET['id'] : 'ID no definido';
 
 // Consulta SQL para obtener los detalles del producto específico
-$query = "SELECT p.nombre, p.precio, t.nombre_talle, c.nombre_color, d.texto AS descripcion_corta,
+ $query = "SELECT p.id, p.precio, t.nombre_talle, c.nombre_color, d.texto AS descripcion_corta,
                  (SELECT texto FROM descripciones WHERE producto_id = $id AND tipo = 'descripcion_larga') AS descripcion_larga,
-                 i.url_imagen
+                 i.url_imagen, p.nombre
           FROM productos p
           LEFT JOIN talles t ON p.talle_id = t.id
           LEFT JOIN colores c ON p.color_id = c.id
