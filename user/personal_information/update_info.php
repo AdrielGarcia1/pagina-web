@@ -11,15 +11,17 @@ if (isset($_SESSION['username'])) {
     $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
 
     // Verificar si se recibieron datos del formulario de actualización
-    if (isset($_POST['nombre']) && isset($_POST['correo']) && isset($_POST['dni'])) {
+    if (isset($_POST['nombre']) && isset($_POST['nombre_real']) && isset($_POST['apellido']) && isset($_POST['numero_telefono']) && isset($_POST['correo']) && isset($_POST['DNI'])) {
         // Obtener los datos del formulario
         $nombre = $_POST['nombre'];
+        $nombre_real = $_POST['nombre_real'];
+        $apellido = $_POST['apellido'];
+        $numero_telefono = $_POST['numero_telefono'];
         $correo = $_POST['correo'];
-        $dni = $_POST['dni'];
+        $DNI = $_POST['DNI'];
 
         // Preparar la consulta SQL para actualizar la información del usuario
-        $sql = "UPDATE usuarios SET nombre = ?, correo = ?, dni = ? WHERE nombre = ?";
-
+        $sql = "UPDATE usuarios SET nombre = ?, nombre_real = ?, apellido = ?, numero_telefono = ?, correo = ?, DNI = ? WHERE nombre = ?";
         // Crear una nueva conexión a la base de datos
         $conn = mysqli_connect($host, $usuario, $contrasena, $base_de_datos);
 
@@ -34,9 +36,9 @@ if (isset($_SESSION['username'])) {
         // Verificar si la preparación de la consulta tuvo éxito
         if ($stmt) {
             // Asociar los parámetros a la consulta
-            mysqli_stmt_bind_param($stmt, "ssss", $nombre, $correo, $dni, $username);
+            mysqli_stmt_bind_param($stmt, "sssssss", $nombre, $nombre_real, $apellido, $numero_telefono, $correo, $DNI, $username);
 
-            // Ejecutar la consulta
+             // Ejecutar la consulta
             if (mysqli_stmt_execute($stmt)) {
                 // La actualización fue exitosa
 
@@ -50,7 +52,7 @@ if (isset($_SESSION['username'])) {
                 mysqli_close($conn);
 
                 // Redirigir a info_personal.php
-                header("Location: info_personal.php");
+                header("Location: personal_info.php");
                 exit(); // Asegura que el script se detenga después de la redirección
             } else {
                 // Error en la ejecución de la consulta

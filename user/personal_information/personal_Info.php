@@ -1,14 +1,23 @@
-<?php include('../../components/buttons.php'); ?>
 <?php
-// Incluye el archivo de conexión a la base de datos
-    require_once('../../db_connection/db_connection.php');
-    // Inicia sesión (si aún no se ha iniciado)
+session_start();
+
 // Verificar si existe la variable de sesión del nombre de usuario
+if (isset($_SESSION['username'])) {
+    // Botón de "Cerrar Sesión"
+    $logoutButton = '<a href="../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
+} else {
+    // Botones de "Login" y "Register"
+    $loginButton = '<a href="../../login/login.php" class="nav-item nav-link">Login</a>';
+    $registerButton = '<a href=".././register/register.php" class="nav-item nav-link">Registrar</a>';
+}
+
+// Incluye el archivo de conexión a la base de datos
+require_once('../../db_connection/db_connection.php');
+
+// Inicia sesión (si aún no se ha iniciado)
 if (isset($_SESSION['username'])) {
     // El usuario ha iniciado sesión
     $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
-
-    
 
     // Crea una nueva conexión a la base de datos (similar a user.php)
     $conn = mysqli_connect($host, $usuario, $contrasena, $base_de_datos);
@@ -19,7 +28,7 @@ if (isset($_SESSION['username'])) {
     }
 
     // Realiza la consulta SQL para obtener la información del usuario
-    $sql = "SELECT nombre, correo, dni FROM usuarios WHERE nombre = ?";
+    $sql = "SELECT nombre, nombre_real, apellido, numero_telefono, correo, DNI FROM usuarios WHERE nombre = ?";
 
     // Preparar la consulta
     $stmt = mysqli_prepare($conn, $sql);
@@ -32,7 +41,7 @@ if (isset($_SESSION['username'])) {
         mysqli_stmt_execute($stmt);
 
         // Obtener los resultados de la consulta
-        mysqli_stmt_bind_result($stmt, $nombre, $correo, $dni);
+        mysqli_stmt_bind_result($stmt, $nombre, $nombre_real, $apellido, $numero_telefono, $correo, $DNI);
 
         // Obtener los datos del usuario
         mysqli_stmt_fetch($stmt);
@@ -184,30 +193,42 @@ if (isset($_SESSION['username'])) {
     <!-- Navbar End -->
 
         <!--Main content -->
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <h2>Mi Información Personal</h2>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <h2>Mi Información Personal</h2>
 
-                <!-- Formulario para mostrar y editar datos del usuario -->
-                <form action="actualizar_informacion.php" method="POST">
-                    <div class="form-group">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre; ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="correo">Correo Electrónico:</label>
-                        <input type="email" class="form-control" id="correo" name="correo" value="<?php echo $correo; ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="dni">DNI:</label>
-                        <input type="text" class="form-control" id="dni" name="dni" value="<?php echo $dni; ?>" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Actualizar Información</button>
-                </form>
-            </div>
+            <!-- Formulario para mostrar y editar datos del usuario -->
+            <form action="update_info.php" method="POST">
+                <div class="form-group">
+                    <label for="nombre">Nombre de Usuario:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombre_real">Nombre Real:</label>
+                    <input type="text" class="form-control" id="nombre_real" name="nombre_real" value="<?php echo $nombre_real; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo $apellido; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico:</label>
+                    <input type="email" class="form-control" id="correo" name="correo" value="<?php echo $correo; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="numero_telefono">Número de Teléfono:</label>
+                    <input type="text" class="form-control" id="numero_telefono" name="numero_telefono" value="<?php echo $numero_telefono; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="DNI">DNI:</label>
+                    <input type="text" class="form-control" id="DNI" name="DNI" value="<?php echo $DNI; ?>" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Actualizar Información</button>
+            </form>
         </div>
     </div>
+</div>
 <!-- Main content end -->
 <?php include('../../components/footer.php'); ?>
         <!-- Back to Top -->
