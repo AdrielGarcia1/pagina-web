@@ -13,8 +13,6 @@ if (isset($product_data)) {
     $descripcionLarga = $product_data['descripcion_larga'];
     $nombre = $product_data['nombre'];
     $cantidadActual = 1;
-    // Luego, puedes mostrar estos datos en tu página de detalles
-    // ...
 } else {
     // Manejar el caso en que no se encuentra el producto
     echo "Producto no encontrado.";

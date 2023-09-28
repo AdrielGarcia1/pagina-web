@@ -2,32 +2,128 @@
 // Incluye el archivo de conexión a la base de datos
 include('../db_connection/db_connection.php');
 session_start();
+// Inicializa un arreglo para almacenar los datos del carrito
+$cartData = array();
+// Verifica si el usuario ha iniciado sesión
+if (!isset($_SESSION['username'])) {
+    // Si el usuario no ha iniciado sesión, muestra un mensaje de error
+    echo "Debes iniciar sesión para ver tu carrito de compras.";
+} else {
+    // El usuario ha iniciado sesión, obtenemos su ID de usuario
+    $username = $_SESSION['username'];
 
-// Verifica si el usuario está autenticado
-if (isset($_SESSION['username'])) {
-    $nombreUsuario = $_SESSION['username'];
+    // Consulta SQL para obtener los productos en el carrito de compras del usuario
+$sql = "SELECT productos.id, productos.nombre, productos.precio, carrito_compras.cantidad
+        FROM productos
+        INNER JOIN carrito_compras ON productos.id = carrito_compras.producto_id
+        WHERE carrito_compras.usuario_id = (SELECT id FROM usuarios WHERE nombre = ?)";
 
-    // Consulta SQL para obtener los productos del carrito del usuario
-    $sql = "SELECT p.nombre AS nombre_producto, p.precio, c.cantidad
-        FROM carrito_compras c
-        JOIN productos p ON c.producto_id = p.id
-        WHERE c.usuario_id = ?";
+// Prepara la sentencia SQL
+$stmt = $connection->prepare($sql);
 
-    $stmt = $connection->prepare($sql);
+if ($stmt === false) {
+    die("Error al preparar la consulta: " . $connection->error);
+}
 
-    if ($stmt) {
-        $stmt->bind_param("i", $nombreUsuario);
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            $productosCarrito = array();
+// Enlaza el parámetro
+$stmt->bind_param("s", $username);
 
-            while ($row = $result->fetch_assoc()) {
-                $productosCarrito[] = $row;
-            }
-        } else {
-            echo "Error al ejecutar la consulta: " . $stmt->error;
+// Ejecuta la consulta
+if ($stmt->execute()) {
+    $result = $stmt->get_result();
+
+    // Verifica si hay productos en el carrito
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $productId = $row['id']; // Define $productId con el ID del producto
+            $nombreProducto = $row['nombre'];
+            $precioProducto = $row['precio'];
+            $cantidadProducto = $row['cantidad'];
+            $totalProducto = $precioProducto * $cantidadProducto;
+
+            // Agrega los datos del producto al arreglo $cartData
+            $cartData[] = array(
+                'id' => $productId, // Incluye el ID del producto
+                'nombre' => $nombreProducto,
+                'precio' => $precioProducto,
+                'cantidad' => $cantidadProducto,
+                'total' => $totalProducto
+            );
         }
-        $stmt->close();
+    }
+}
+// Cierra la sentencia
+$stmt->close();
+}
+// Verifica si se ha enviado el formulario
+if (isset($_POST['realizar_pedido'])) {
+    // Obtiene el nombre de usuario desde la sesión
+    if (isset($_SESSION['username'])) {
+        $username = $_SESSION['username'];
+
+        // Realiza una consulta para obtener el ID del usuario basado en el nombre de usuario
+        $getIdSQL = "SELECT id FROM usuarios WHERE nombre = ?";
+        $stmtGetId = $connection->prepare($getIdSQL);
+
+        if ($stmtGetId === false) {
+            die("Error en la preparación de la consulta para obtener el ID del usuario: " . $connection->error);
+        }
+
+        $stmtGetId->bind_param("s", $username);
+
+        if ($stmtGetId->execute()) {
+            $stmtGetId->bind_result($userId);
+            $stmtGetId->fetch();
+            $stmtGetId->close();
+
+            // Inserta una fila en la tabla de ventas
+            $insertVentaSQL = "INSERT INTO ventas (usuario_id, fecha_venta) VALUES (?, NOW())";
+            $stmtVenta = $connection->prepare($insertVentaSQL);
+
+            if ($stmtVenta === false) {
+                die("Error en la preparación de la consulta de venta: " . $connection->error);
+            }
+
+            $stmtVenta->bind_param("i", $userId);
+
+            if ($stmtVenta->execute()) {
+                // Obtiene el ID de la venta recién creada
+                $ventaId = $stmtVenta->insert_id;
+
+                // Inserta los productos del carrito en la tabla de detalle_venta
+                foreach ($cartData as $product) {
+                    $productoId = $product['id'];
+                    $cantidad = $product['cantidad'];
+                    $precioUnitario = $product['precio'];
+
+                    $insertDetalleSQL = "INSERT INTO detalle_venta (venta_id, producto_id, cantidad, precio_unitario) VALUES (?, ?, ?, ?)";
+                    $stmtDetalle = $connection->prepare($insertDetalleSQL);
+
+                    if ($stmtDetalle === false) {
+                        die("Error en la preparación de la consulta de detalle de venta: " . $connection->error);
+                    }
+
+                    $stmtDetalle->bind_param("iiid", $ventaId, $productoId, $cantidad, $precioUnitario);
+
+                    if (!$stmtDetalle->execute()) {
+                        echo "Error al insertar detalle de venta: " . $stmtDetalle->error;
+                        $stmtDetalle->close();
+                        break;
+                    }
+
+                    $stmtDetalle->close();
+                }
+
+                // Cierre de la transacción
+                $connection->commit();
+            } else {
+                echo "Error al insertar venta: " . $stmtVenta->error;
+            }
+
+            $stmtVenta->close();
+        } else {
+            echo "Error al obtener el ID del usuario: " . $stmtGetId->error;
+        }
     }
 }
 if (isset($_SESSION['username'])) {
@@ -204,66 +300,79 @@ if (isset($_SESSION['username'])) {
                 </div>
             </div>
             <div class="col-lg-4">
-    <div class="card border-secondary mb-5">
-        <div class="card-header bg-secondary border-0">
-            <h4 class="font-weight-semi-bold m-0">Total del pedido</h4>
-        </div>
-        <div class="card-body">
-            <h5 class="font-weight-medium mb-3">Productos</h5>
-            <?php
-            // Verifica si se han recuperado productos del carrito
-            if (isset($productosCarrito) && !empty($productosCarrito)) {
-                foreach ($productosCarrito as $producto) {
-                    $nombreProducto = $producto['nombre_producto'];
-                    $precioProducto = $producto['precio'];
-                    $cantidadProducto = $producto['cantidad'];
-            ?>
-                    <div class="d-flex justify-content-between">
-                        <p><?php echo $nombreProducto; ?></p>
-                        <p>$<?php echo $precioProducto; ?></p>
-                    </div>
-            <?php
-                }
+            <div class="card border-secondary mb-5">
+                <div class="card-header bg-secondary border-0">
+                    <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                </div>
+                    <div class="card-body">
+    <h5 class="font-weight-medium mb-3">Products</h5>
+    <!-- Comprobar si $cartData no es nulo y es un array antes de usar foreach -->
+    <?php
+    $subtotal = 0;
+    if (!empty($cartData) && is_array($cartData)) {
+        foreach ($cartData as $product) {
+            $nombreProducto = htmlspecialchars($product['nombre']);
+            $precioProducto = $product['precio'];
+            $cantidadProducto = $product['cantidad'];
+            $totalProducto = $product['total'];
+            $subtotal += $totalProducto;
+
+            echo '<div class="d-flex justify-content-between">';
+            echo '<p>' . $nombreProducto . '</p>';
+            echo '<p>$' . number_format($precioProducto, 2) . '</p>';
+            echo '</div>';
+        }
+    } else {
+        echo '<p>No hay productos en el carrito.</p>';
+    }
+    ?>
+                 <hr class="mt-0">
+                 <!-- Mostrar el subtotal y los costos de envío -->
+                <div class="d-flex justify-content-between mb-3 pt-1">
+                  <h6 class="font-weight-medium">Subtotal</h6>
+                  <h6 class="font-weight-medium">$<?php echo number_format($subtotal, 2); ?></h6>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <h6 class="font-weight-medium">Shipping</h6>
+                  <h6 class="font-weight-medium">$2,000.00</h6>
+                </div>
+                </div>
+                <div class="card-footer border-secondary bg-transparent">
+                  <!-- Mostrar el total -->
+                  <div class="d-flex justify-content-between mt-2">
+                    <h5 class="font-weight-bold">Total</h5>
+                    <h5 class="font-weight-bold">$<?php echo number_format($subtotal + 2000, 2); ?></h5>
+                  </div>
+                </div>
+            </div>
+          <form method="post" action="checkout.php">
+              <!-- Agrega campos para la venta -->
+              <input type="hidden" name="usuario_id" value="<?php echo $userId; ?>">
+              <!-- Agrega campos para los detalles de venta (por cada producto en el carrito) -->
+              <?php foreach ($cartData as $product): ?>
+                <input type="hidden" name="producto_id[]" value="<?php echo $product['id']; ?>">
+                <input type="hidden" name="cantidad[]" value="<?php echo $product['cantidad']; ?>">
+                <input type="hidden" name="precio_unitario[]" value="<?php echo $product['precio']; ?>">
+              <?php endforeach; ?>
+              <!-- Botón de "Realizar Pedido" -->
+              <div class="card-footer border-secondary bg-transparent">
+                <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" name="realizar_pedido">Realizar pedido</button>
+              </div>
+          </form>
+          <div id="mensaje-confirmacion" style="display: none;">
+             <p>¡La compra se ha realizado con éxito!</p>
+          </div>
+          <script>
+            // Agrega esta función después de realizar la compra con éxito
+            function mostrarMensajeConfirmacion() {
+              var mensajeConfirmacion = document.getElementById("mensaje-confirmacion");
+              mensajeConfirmacion.style.display = "block"; // Muestra el mensaje
             }
-            ?>
-            <hr class="mt-0">
-            <div class="d-flex justify-content-between mb-3 pt-1">
-                <h6 class="font-weight-medium">Subtotal</h6>
-                <h6 class="font-weight-medium">
-                    <?php
-                    if (isset($productosCarrito) && !empty($productosCarrito)) {
-                        $subtotal = array_sum(array_column($productosCarrito, 'precio'));
-                        echo '$' . number_format($subtotal, 2);
-                    } else {
-                        echo '$0.00';
-                    }
-                    ?>
-                </h6>
-            </div>
-            <div class="d-flex justify-content-between">
-                <h6 class="font-weight-medium">Envío</h6>
-                <h6 class="font-weight-medium">$10</h6>
-            </div>
+          </script>
+
         </div>
-        <div class="card-footer border-secondary bg-transparent">
-            <div class="d-flex justify-content-between mt-2">
-                <h5 class="font-weight-bold">Total</h5>
-                <h5 class="font-weight-bold">
-                    <?php
-                    if (isset($productosCarrito) && !empty($productosCarrito)) {
-                        $total = $subtotal + 10; // Subtotal + costo de envío
-                        echo '$' . number_format($total, 2);
-                    } else {
-                        echo '$0.00';
-                    }
-                    ?>
-                </h5>
-            </div>
-        </div>
-    </div>
-    <div class="card-footer border-secondary bg-transparent">
-        <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Realizar pedido</button>
-    </div>
+    </div>  
+</div>  
 </div>
 
         </div>
