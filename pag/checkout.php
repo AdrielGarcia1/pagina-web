@@ -108,7 +108,7 @@ if (isset($_POST['realizar_pedido'])) {
                     if (!$stmtDetalle->execute()) {
                         echo "Error al insertar detalle de venta: " . $stmtDetalle->error;
                         $stmtDetalle->close();
-                        break;
+                        break; 
                     }
 
                     $stmtDetalle->close();

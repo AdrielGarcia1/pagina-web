@@ -1,9 +1,6 @@
 <?php
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "proyecto2";
-$conn = new mysqli($servername, $username, $password, $dbname);
+include_once("../db_connection/db_connection.php");
+$conn = new mysqli($host, $usuario, $contrasena, $base_de_datos);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }

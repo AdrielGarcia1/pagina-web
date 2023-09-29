@@ -1,22 +1,16 @@
 <?php
-// Inicia sesión (si aún no se ha iniciado)
 session_start();
 
-// Verificar si existe la variable de sesión del nombre de usuario
-if (isset($_SESSION['username'])) {
-    // El usuario ha iniciado sesión
-    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
+// Incluir el archivo de conexión a la base de datos
+include('../../../db_connection/db_connection.php');
 
-    // Verificar si existe la variable de sesión del ID del usuario
-    $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null; // Obtener el ID del usuario de la sesión
-    $message = "¡Bienvenido, $username!";
-    if ($userId !== null) {
-        $message .= " Tu ID de usuario es: $userId";
-    }
-} else {
-    // El usuario no ha iniciado sesión
-    $username = null; 
-    $message = "Por favor, inicia sesión para acceder a todas las funciones.";
+// Realizar una consulta para obtener todas las categorías
+$query = "SELECT * FROM categorias";
+$result = mysqli_query($connection, $query);
+
+// Verificar si se obtuvieron resultados
+if (!$result) {
+    die("Error al obtener las categorías: " . mysqli_error($connection));
 }
 ?>
 <!DOCTYPE html>
@@ -47,7 +41,29 @@ if (isset($_SESSION['username'])) {
 </head>
 
 <body>
- <?php include('../../../components/topbar.php'); ?>
+     <!-- Topbar Start -->
+    <div class="container-fluid">
+        <div class="row bg-secondary py-3 px-xl-5">
+        </div>
+        <div class="row align-items-center py-3 px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
+                </a>
+            </div>
+            <div class="col-lg-6 col-6 text-left">
+                <form action="">
+                    
+                </form>
+            </div>
+            <div class="col-lg-3 col-6 text-right">
+                <a href="../../../user/user.php" class="btn border">
+                <i class="fas fa-user text-primary"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
  <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
@@ -99,16 +115,49 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
     <!-- Navbar End -->
+          <!-- Mostrar la lista de Categoria -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title row justify-content-center">Lista de categorias</h2>
+                        <ul>
+                         <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre de la Categoría</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['id'] . "</td>";
+                                    echo "<td>" . $row['nombre_categoria'] . "</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Contenido principal -->
 <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title text-center-custom">Agregar nueva categoria</h2>
+                        <div class="row justify-content-center">
+                        <h5 class="card-title text-center-custom">Agregar nueva categoría</h5>
+                        </div>
                         <!-- Formulario para agregar categorías -->
-                        <form action="process_add_category.php" method="post">
-                            <label for="category_name">Categoria:</label>
+                        <form class="row justify-content-center" action="process_add_category.php" method="post">                           
                             <input type="text" id="category_name" name="category_name" required>
                             <br>
                             <button type="submit" name="submit" class="btn btn-primary btn-block btn-primary-custom">Cargar Categoría</button>
@@ -118,6 +167,7 @@ if (isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
+</body>
     <?php include('../../../components/footer.php'); ?>
 
     <!-- Back to Top -->

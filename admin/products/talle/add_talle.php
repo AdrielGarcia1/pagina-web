@@ -1,22 +1,15 @@
 <?php
 // Inicia sesión (si aún no se ha iniciado)
 session_start();
+include('../../../db_connection/db_connection.php');
 
-// Verificar si existe la variable de sesión del nombre de usuario
-if (isset($_SESSION['username'])) {
-    // El usuario ha iniciado sesión
-    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
+// Realizar una consulta para obtener todos los talles
+$queryTalles = "SELECT * FROM talles";
+$resultTalles = mysqli_query($connection, $queryTalles);
 
-    // Verificar si existe la variable de sesión del ID del usuario
-    $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null; // Obtener el ID del usuario de la sesión
-    $message = "¡Bienvenido, $username!";
-    if ($userId !== null) {
-        $message .= " Tu ID de usuario es: $userId";
-    }
-} else {
-    // El usuario no ha iniciado sesión
-    $username = null; 
-    $message = "Por favor, inicia sesión para acceder a todas las funciones.";
+// Verificar si se obtuvieron resultados
+if (!$resultTalles) {
+    die("Error al obtener los talles: " . mysqli_error($connection));
 }
 ?>
 <!DOCTYPE html>
@@ -99,18 +92,52 @@ if (isset($_SESSION['username'])) {
         </div>
     </div>
     <!-- Navbar End -->
-    <!-- Contenido principal -->
-    <div class="container mt-5">
+      <!-- Mostrar la lista de talles -->
+   <div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                      <h2 class="card-title text-center-custom">Lista de Talles</h2>
+                    </div>
+                    <!-- Tabla de talles -->
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>                                
+                                <th>ID</th>                                
+                                <th>Talle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            while ($rowTalles = mysqli_fetch_assoc($resultTalles)) {
+                                echo "<tr>";
+                                echo "<td>" . $rowTalles['id'] . "</td>";
+                                echo "<td>" . $rowTalles['nombre_talle'] . "</td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Formulario para agregar talles -->
+    <div class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title text-center-custom">Agregar nuevo talle</h2>
-                        <!-- Formulario para agregar talles -->
-                        <form action="process_add_talle.php" method="post">
-                            <label for="talle_name">Talle:</label>
+                      <div class="row justify-content-center">
+                        <h5 class="card-title text-center-custom">Agregar nuevo talle</h5>
+                      </div>                      
+                        <form action="process_add_talle.php" method="post">  
+                           <div class="row justify-content-center">
                             <input type="text" id="talle_name" name="talle_name" required>
-                            <br>
+                           </div>
                             <button type="submit" name="submit" class="btn btn-primary btn-block btn-primary-custom">Cargar Talle</button>
                         </form>
                     </div>
