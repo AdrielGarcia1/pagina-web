@@ -4,24 +4,6 @@ include_once("../../db_connection/db_connection.php");
 // Inicia sesión (si aún no se ha iniciado)
 session_start();
 
-// Verificar si existe la variable de sesión del nombre de usuario
-if (isset($_SESSION['username'])) {
-    // El usuario ha iniciado sesión
-    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
-
-    // Verificar si existe la variable de sesión del ID del usuario
-    $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null; // Obtener el ID del usuario de la sesión
-    $message = "¡Bienvenido, $username!";
-    if ($userId !== null) {
-        $message .= " Tu ID de usuario es: $userId";
-    }
-} else {
-    // El usuario no ha iniciado sesión
-    $username = null; 
-    $message = "Por favor, inicia sesión para acceder a todas las funciones.";
-}
-
-
 // Consulta SQL para obtener las fechas disponibles
 $sql = "SELECT DISTINCT DATE(fecha_registro) AS fecha FROM usuarios WHERE tipo = 'cliente'";
 $resultadoFechas = mysqli_query($connection, $sql);
@@ -70,7 +52,27 @@ foreach ($fechasDisponibles as $fecha) {
 </head>
 
 <body>
-<?php include('../../components/topbar.php'); ?>
+    <!-- Topbar Start -->
+    <div class="container-fluid">
+        <div class="row bg-secondary py-3 px-xl-5">
+        </div>
+        <div class="row align-items-center py-2 px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
+                </a>
+            </div>
+            <div class="col-lg-6 col-6 text-left">
+                <form action="">
+                    
+                </form>
+            </div>
+            <div class="col-lg-3 col-6 text-right">
+            <a href="../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            </div>
+        </div>
+    </div>
+<!-- Topbar End -->
      <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">

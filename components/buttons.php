@@ -8,7 +8,7 @@ if (isset($_SESSION['username'])) {
     $logoutButton = '<a href="../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
 } else {
     // Botones de "Login" y "Register"
-    $loginButton = '<a href="../login/login.php" class="nav-item nav-link">Login</a>';
+    $loginButton = '<a href="../login/login.php" class="nav-item nav-link">Iniciar Sesión</a>';
     $registerButton = '<a href="../register/register.php" class="nav-item nav-link">Registrar</a>';
 }
 ?>

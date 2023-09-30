@@ -98,6 +98,21 @@ if (!$resultTalles) {
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
+                <style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 5px;
+         color: black;
+    }
+
+    th {
+        background-color: #f0f0f0;
+    }
+</style>
                     <div class="row justify-content-center">
                       <h2 class="card-title text-center-custom">Lista de Talles</h2>
                     </div>

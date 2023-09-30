@@ -1,6 +1,6 @@
+<?php include('../components/buttons.php'); ?>
 <?php
-// Inicia la sesión en la parte superior del archivo
-session_start();
+// Inicia la sesión en la parte superior del archivo    
 
 // Incluye el archivo de conexión a la base de datos
 require_once "../db_connection/db_connection.php";
@@ -28,22 +28,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (mysqli_num_rows($result) == 1) {
             $user = mysqli_fetch_assoc($result);
-            if (password_verify($password, $user['contrasena'])) {
-                // Inicio de sesión exitoso, establece una variable de sesión
-                $_SESSION['username'] = $username;
-
-                // Verifica el tipo del usuario
-                if ($user['tipo'] == 'administrador') {
-                    // Si el usuario es un administrador, redirige a admin_index.php
-                    header('location: ../admin/admin_index.php');
-                } else {
-                    // Si el usuario es un usuario regular, redirige a index.php
-                    header('location: ../pag/index.php');
-                }
-                exit(); // Asegúrate de detener la ejecución del script después de redirigir
+            
+            // Verificar el estado del usuario antes de autenticar
+            if ($user['estado'] == 0) {
+                array_push($errors, "Tu cuenta está desactivada. Por favor, contacta al soporte.");
+                $errorMessage = "Tu cuenta está desactivada. Por favor, contacta al soporte.";
             } else {
-                array_push($errors, "Contraseña incorrecta");
-                $errorMessage = "Nombre de usuario o contraseña incorrectos.";
+                if (password_verify($password, $user['contrasena'])) {
+                    // Inicio de sesión exitoso, establece una variable de sesión
+                    $_SESSION['username'] = $username;
+
+                    // Verifica el tipo del usuario
+                    if ($user['tipo'] == 'administrador') {
+                        // Si el usuario es un administrador, redirige a admin_index.php
+                        header('location: ../admin/admin_index.php');
+                    } else {
+                        // Si el usuario es un usuario regular, redirige a index.php
+                        header('location: ../pag/index.php');
+                    }
+                    exit(); // Asegúrate de detener la ejecución del script después de redirigir
+                } else {
+                    array_push($errors, "Contraseña incorrecta");
+                    $errorMessage = "Nombre de usuario o contraseña incorrectos.";
+                }
             }
         } else {
             array_push($errors, "Nombre de usuario no encontrado");
@@ -109,9 +116,16 @@ mysqli_close($connection);
                             <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="../login/login.php" class="nav-item nav-link">Login</a>
-                            <a href="../register/register.php" class="nav-item nav-link">Register</a>
-                        </div>
+                            <?php
+                               if (isset($logoutButton)) {
+                                 echo $logoutButton; // Mostrar el botón "Cerrar Sesión" si el usuario ha iniciado sesión
+                               } else {
+                                   // Mostrar el botón "Login" y "Register" si el usuario no ha iniciado sesión
+                                 echo $loginButton; 
+                                 echo $registerButton;
+                               }
+                            ?>
+                           </div>
                     </div>
                 </nav>
 
@@ -131,18 +145,18 @@ mysqli_close($connection);
                          <?php endif; ?>
                         <form method="POST" action="../login/login.php">                         
                             <div class="form-group">
-                                <label for="username">Nombre de Usuario</label>
+                                <label class="text-dark" for="username">Nombre de Usuario</label>
                                 <input type="text" class="form-control" id="username" name="username" value="<?php echo $username; ?>" placeholder="Ingresa tu nombre de usuario" required>
                             </div>
                             <div class="form-group">
-                                <label for="password">Contraseña</label>
+                                <label class="text-dark" for="password">Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
                             </div>
-                            <p class="text-center"><a href="forgot_password.php">¿Olvidaste tu contraseña?</a></p>
-                            <p class="text-center">¿No tienes una cuenta? <a href="../register/register.php">Regístrate</a></p>
+                            <p class="text-center text-dark"><a href="forgot_password.php">¿Olvidaste tu contraseña?</a></p>
+                            <p  class="text-center text-dark">¿No tienes una cuenta? <a href="../register/register.php">Regístrate</a></p>
                         </form>
                     </div>
                 </div>

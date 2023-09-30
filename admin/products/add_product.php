@@ -1,22 +1,6 @@
 <?php
 // Inicia sesión (si aún no se ha iniciado)
 session_start();
-// Verificar si existe la variable de sesión del nombre de usuario
-if (isset($_SESSION['username'])) {
-    // El usuario ha iniciado sesión
-    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
-
-    // Verificar si existe la variable de sesión del ID del usuario
-    $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null; // Obtener el ID del usuario de la sesión
-    $message = "¡Bienvenido, $username!";
-    if ($userId !== null) {
-        $message .= " Tu ID de usuario es: $userId";
-    }
-} else {
-    // El usuario no ha iniciado sesión
-    $username = null;
-    $message = "Por favor, inicia sesión para acceder a todas las funciones.";
-}
 // Include the database connection
 include_once('../../db_connection/db_connection.php');
 
@@ -56,7 +40,27 @@ $mensajeExito = $mensajeError = '';
     <link href="../../css/style.css" rel="stylesheet">
 </head>
 <body>
-<?php include('../../components/topbar.php'); ?>
+    <!-- Topbar Start -->
+    <div class="container-fluid">
+        <div class="row bg-secondary py-3 px-xl-5">
+        </div>
+        <div class="row align-items-center py-2 px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
+                </a>
+            </div>
+            <div class="col-lg-6 col-6 text-left">
+                <form action="">
+                    
+                </form>
+            </div>
+            <div class="col-lg-3 col-6 text-right">
+            <a href="../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            </div>
+        </div>
+    </div>
+<!-- Topbar End -->
 <!-- Navbar Start -->
 <div class="container-fluid mb-5">
     <div class="row border-top px-xl-5">
@@ -131,19 +135,19 @@ $mensajeExito = $mensajeError = '';
 
     <form action="product_registration_process.php" method="POST" enctype="multipart/form-data" class="text-center">
         <div class="form-group">
-            <label for="nombre"><b>Nombre del Producto:</b></label>
+            <label class="text-dark" for="nombre"><b>Nombre del Producto:</b></label>
             <input type="text" class="form-control" id="nombre" name="nombre" required>
         </div>
         <div class="form-group">
-            <label for="precio"><b>Precio:</b></label>
+            <label class="text-dark" for="precio"><b>Precio:</b></label>
             <input type="number" class="form-control" id="precio" name="precio" required>
         </div>
         <div class="form-group">
-            <label for="stock"><b>Stock:</b></label>
+            <label class="text-dark" for="stock"><b>Stock:</b></label>
             <input type="number" class="form-control" id="stock" name="stock" required>
         </div>
         <div class="form-group">
-            <label for="categoria"><b>Categoría:</b></label>
+            <label class="text-dark" for="categoria"><b>Categoría:</b></label>
             <select class="form-control" id="categoria" name="categoria" required>
                 <?php while ($rowCategoria = mysqli_fetch_assoc($resultCategorias)) : ?>
                     <option value="<?php echo $rowCategoria['id']; ?>"><?php echo $rowCategoria['nombre_categoria']; ?></option>
@@ -151,7 +155,7 @@ $mensajeExito = $mensajeError = '';
             </select>
         </div>
         <div class="form-group">
-            <label for="talle"><b>Talle:</b></label>
+            <label class="text-dark" for="talle"><b>Talle:</b></label>
             <select class="form-control" id="talle" name="talle">
                 <?php while ($rowTalle = mysqli_fetch_assoc($resultTalles)) : ?>
                     <option value="<?php echo $rowTalle['id']; ?>"><?php echo $rowTalle['nombre_talle']; ?></option>
@@ -159,7 +163,7 @@ $mensajeExito = $mensajeError = '';
             </select>
         </div>
         <div class="form-group">
-            <label for="color"><b>Color:</b></label>
+            <label class="text-dark" for="color"><b>Color:</b></label>
             <select class="form-control" id="color" name="color">
                 <?php while ($rowColor = mysqli_fetch_assoc($resultColores)) : ?>
                     <option value="<?php echo $rowColor['id']; ?>"><?php echo $rowColor['nombre_color']; ?></option>
@@ -167,18 +171,18 @@ $mensajeExito = $mensajeError = '';
             </select>
         </div>
         <div class="form-group">
-            <label for="descripcion_corta"><b>Descripción Corta:</b></label>
+            <label class="text-dark" for="descripcion_corta"><b>Descripción Corta:</b></label>
             <textarea class="form-control" id="descripcion_corta" name="descripcion_corta" rows="4"></textarea>
         </div>
         <div class="form-group">
-            <label for="descripcion_larga"><b>Descripción Larga:</b></label>
+            <label class="text-dark"for="descripcion_larga"><b>Descripción Larga:</b></label>
             <textarea class="form-control" id="descripcion_larga" name="descripcion_larga" rows="4"></textarea>
         </div>
         <div class="form-group">
-    <label for="imagenes"><b>Imágenes del Producto:</b></label>
+    <label class="text-dark" for="imagenes"><b>Imágenes del Producto:</b></label>
     <div class="custom-file">
         <input type="file" class="custom-file-input" id="imagenes" name="imagen" accept=".jpg, .jpeg, .png, .gif" required>
-        <label class="custom-file-label" for="imagenes">Elegir Archivo</label>
+        <label class="text-dark" class="custom-file-label" for="imagenes">Elegir Archivo</label>
     </div>
     <span id="nombreImagenes"></span>
 </div>

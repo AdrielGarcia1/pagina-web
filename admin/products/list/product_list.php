@@ -1,24 +1,60 @@
 <?php
+// Incluye el archivo de conexión a la base de datos
+include("../../../db_connection/db_connection.php");
 session_start();
+// Verifica si la conexión a la base de datos se estableció correctamente
+if (!$connection) {
+    die("Error de conexión: " . mysqli_connect_error());
+}
 
-// Incluir el archivo de conexión a la base de datos
-include('../../../db_connection/db_connection.php');
+// Definir la cantidad de productos por página
+$productosPorPagina = 7;
 
-// Realizar una consulta para obtener todas las categorías
-$query = "SELECT * FROM categorias";
+// Obtener el número de página actual
+if (isset($_GET['pagina'])) {
+    $paginaActual = $_GET['pagina'];
+} else {
+    $paginaActual = 1;
+}
+
+// Calcular el offset
+$offset = ($paginaActual - 1) * $productosPorPagina;
+
+// Consulta SQL para obtener la lista de productos con detalles de categorías, talles, colores y descripciones
+$query = "SELECT p.id, p.nombre, p.precio, p.stock, c.nombre_categoria AS categoria, t.nombre_talle AS talle, co.nombre_color AS color
+          FROM productos p
+          LEFT JOIN categorias c ON p.categoria_id = c.id
+          LEFT JOIN talles t ON p.talle_id = t.id
+          LEFT JOIN colores co ON p.color_id = co.id
+          LIMIT $offset, $productosPorPagina";
+
+// Ejecutar la consulta SQL
 $result = mysqli_query($connection, $query);
 
-// Verificar si se obtuvieron resultados
+// Verificar si la consulta se ejecutó correctamente
 if (!$result) {
-    die("Error al obtener las categorías: " . mysqli_error($connection));
+    echo "Error en la consulta: " . mysqli_error($connection);
+    exit();
 }
+
+// Obtener el número total de productos
+$queryTotal = "SELECT COUNT(*) AS total FROM productos";
+$resultTotal = mysqli_query($connection, $queryTotal);
+$rowTotal = mysqli_fetch_assoc($resultTotal);
+$totalProductos = $rowTotal['total'];
+
+// Calcular el número total de páginas
+$totalPaginas = ceil($totalProductos / $productosPorPagina);
+
+// Cerrar la conexión a la base de datos
+mysqli_close($connection);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Disorder</title>
+    <title>TIENDA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -41,7 +77,7 @@ if (!$result) {
 </head>
 
 <body>
- <!-- Topbar Start -->
+   <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-3 px-xl-5">
         </div>
@@ -57,7 +93,7 @@ if (!$result) {
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-            <a href="../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            <a href="../../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
             </div>
         </div>
     </div>
@@ -67,7 +103,7 @@ if (!$result) {
     <div class="row border-top px-xl-5">
         <div class="col-lg-3 d-none d-lg-block">
                <a class="btn shadow-none d-flex align-items-center justify-content-center bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                  <h6 class="m-0">LISTA PRODUCTOS</h6>
+                  <h6 class="m-0">CATEGORIAS</h6>
                </a>
             </div>
         <div class="col-lg-9">
@@ -85,7 +121,7 @@ if (!$result) {
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../../admin/products/add_product.php" class="dropdown-item">Productos</a>
+                                    <a href="../../admin/products/add_product.php" class="dropdown-item">Productos</a>
                                     <a href="../../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>
@@ -114,13 +150,12 @@ if (!$result) {
     </div>
 </div>
 <!-- Navbar End -->
-          <!-- Mostrar la lista de Categoria -->
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                    <style>
+    <!-- Contenido principal -->
+    <div class="container">
+        <h1>Lista de Productos</h1>
+        <!-- Tabla de productos con detalles -->
+<!-- Tabla de productos con botones -->
+<style>
     table {
         width: 100%;
         border-collapse: collapse;
@@ -135,62 +170,77 @@ if (!$result) {
         background-color: #f0f0f0;
     }
 </style>
-                        <h2 class="card-title row justify-content-center">Lista de categorias</h2>
-                        <ul>
-                         <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre de la Categoría</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td>" . $row['id'] . "</td>";
-                                    echo "<td>" . $row['nombre_categoria'] . "</td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Contenido principal -->
-<div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content-center">
-                        <h5 class="card-title text-center-custom">Agregar nueva categoría</h5>
-                        </div>
-                        <!-- Formulario para agregar categorías -->
-                        <form class="row justify-content-center" action="process_add_category.php" method="post">                           
-                            <input type="text" id="category_name" name="category_name" required>
-                            <br>
-                            <button type="submit" name="submit" class="btn btn-primary btn-block btn-primary-custom">Cargar Categoría</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-    <?php include('../../../components/footer.php'); ?>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Categoría</th>
+            <th>Talle</th>
+            <th>Color</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        // Itera sobre los resultados de la consulta y muestra cada producto en una fila de la tabla
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . $row['id'] . "</td>";
+            echo "<td>" . $row['nombre'] . "</td>";
+            echo "<td>" . $row['precio'] . "</td>";
+            echo "<td>" . $row['stock'] . "</td>";
+            echo "<td>" . $row['categoria'] . "</td>";
+            echo "<td>" . $row['talle'] . "</td>";
+            echo "<td>" . $row['color'] . "</td>";
+            echo "<td>";
+            
+            // Botón Eliminar con confirmación
+            echo '<button class="btn btn-danger btn-block" onclick="confirmarEliminacion(' . $row['id'] . ')">Eliminar</button>';
+           
+            // Botón Editar (enlaza a la página de edición)
+            echo '<a href="product_edit.php?id=' . $row['id'] . '" class="btn btn-primary btn-block">Editar</a>';
+            
+            echo "</td>";
+            echo "</tr>";
+        }
+        ?>
+    </tbody>
+</table>
+<script>
+function confirmarEliminacion(id) {
+    if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+        // Si el usuario acepta la confirmación, redirige a la página de eliminación
+        window.location.href = "product_deleted.php?id=" + id;
+    }
+}
+</script>
 
+        <!-- Paginación -->
+        <div class="pagination justify-content-center">
+            <ul class="pagination">
+                <?php
+                // Muestra enlaces a páginas anteriores y siguientes
+                if ($paginaActual > 1) {
+                    echo '<li class="page-item"><a class="page-link" href="product_list.php?pagina=' . ($paginaActual - 1) . '">Anterior</a></li>';
+                }
+                for ($i = 1; $i <= $totalPaginas; $i++) {
+                    echo '<li class="page-item ' . ($i == $paginaActual ? 'active' : '') . '"><a class="page-link" href="product_list.php?pagina=' . $i . '">' . $i . '</a></li>';
+                }
+                if ($paginaActual < $totalPaginas) {
+                    echo '<li class="page-item"><a class="page-link" href="product_list.php?pagina=' . ($paginaActual + 1) . '">Siguiente</a></li>';
+                }
+                ?>
+            </ul>
+        </div>
+    </div>
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../lib/easing/easing.min.js"></script>
-    <script src="../../../lib/owlcarousel/owl.carousel.min.js"></script>
+
 </body>
 </html>

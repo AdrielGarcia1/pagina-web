@@ -1,24 +1,12 @@
 <?php
-session_start();
-
-// Incluir el archivo de conexión a la base de datos
-include('../../../db_connection/db_connection.php');
-
-// Realizar una consulta para obtener todas las categorías
-$query = "SELECT * FROM categorias";
-$result = mysqli_query($connection, $query);
-
-// Verificar si se obtuvieron resultados
-if (!$result) {
-    die("Error al obtener las categorías: " . mysqli_error($connection));
-}
+include("update_product.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Disorder</title>
+    <title>TIENDA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -41,7 +29,7 @@ if (!$result) {
 </head>
 
 <body>
- <!-- Topbar Start -->
+   <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-3 px-xl-5">
         </div>
@@ -57,7 +45,7 @@ if (!$result) {
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-            <a href="../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            <a href="../../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
             </div>
         </div>
     </div>
@@ -67,7 +55,7 @@ if (!$result) {
     <div class="row border-top px-xl-5">
         <div class="col-lg-3 d-none d-lg-block">
                <a class="btn shadow-none d-flex align-items-center justify-content-center bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                  <h6 class="m-0">LISTA PRODUCTOS</h6>
+                  <h6 class="m-0">CATEGORIAS</h6>
                </a>
             </div>
         <div class="col-lg-9">
@@ -85,7 +73,7 @@ if (!$result) {
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../../admin/products/add_product.php" class="dropdown-item">Productos</a>
+                                    <a href="../../admin/products/add_product.php" class="dropdown-item">Productos</a>
                                     <a href="../../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>
@@ -114,83 +102,71 @@ if (!$result) {
     </div>
 </div>
 <!-- Navbar End -->
-          <!-- Mostrar la lista de Categoria -->
-    <div class="container mt-5">
+    <!-- Centra el formulario -->
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                    <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+                <h1 class="text-center">Editar Producto</h1>
+                <form action="update_product.php?id=<?php echo $producto_id; ?>" method="post">
+                    <label for="nombre">Nombre del Producto:</label>
+                    <input type="text" id="nombre" name="nombre" value="<?php echo $producto['nombre']; ?>" required>
+                    <br>
 
-    th, td {
-        padding: 5px;
-         color: black;
-    }
+                    <label for="precio">Precio:</label>
+                    <input type="number" id="precio" name="precio" value="<?php echo $producto['precio']; ?>" required>
+                    <br>
 
-    th {
-        background-color: #f0f0f0;
-    }
-</style>
-                        <h2 class="card-title row justify-content-center">Lista de categorias</h2>
-                        <ul>
-                         <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre de la Categoría</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td>" . $row['id'] . "</td>";
-                                    echo "<td>" . $row['nombre_categoria'] . "</td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                        </ul>
-                    </div>
-                </div>
+                    <label for="stock">Stock:</label>
+                    <input type="number" id="stock" name="stock" value="<?php echo $producto['stock']; ?>" required>
+                    <br>
+
+                    <!-- Menú desplegable para Categoría -->
+                    <label for="categoria">Categoría:</label>
+                    <select id="categoria" name="categoria">
+                        <?php
+                        foreach ($categorias as $categoria) {
+                            $selected = ($categoria['id'] == $producto['categoria_id']) ? 'selected' : '';
+                            echo '<option value="' . $categoria['id'] . '" ' . $selected . '>' . $categoria['nombre_categoria'] . '</option>';
+                        }
+                        ?>
+                    </select>
+                    <br>
+
+                    <!-- Menú desplegable para Talle -->
+                    <label for="talle">Talle:</label>
+                    <select id="talle" name="talle">
+                        <?php
+                        foreach ($talles as $talle) {
+                            $selected = ($talle['id'] == $producto['talle_id']) ? 'selected' : '';
+                            echo '<option value="' . $talle['id'] . '" ' . $selected . '>' . $talle['nombre_talle'] . '</option>';
+                        }
+                        ?>
+                    </select>
+                    <br>
+
+                    <!-- Menú desplegable para Color -->
+                    <label for="color">Color:</label>
+                    <select id="color" name="color">
+                        <?php
+                        foreach ($colores as $color) {
+                            $selected = ($color['id'] == $producto['color_id']) ? 'selected' : '';
+                            echo '<option value="' . $color['id'] . '" ' . $selected . '>' . $color['nombre_color'] . '</option>';
+                        }
+                        ?>
+                    </select>
+                    <br>
+
+                    <!-- Agrega más campos para los detalles del producto si es necesario -->
+
+                    <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+                </form>
             </div>
         </div>
     </div>
-    <!-- Contenido principal -->
-<div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content-center">
-                        <h5 class="card-title text-center-custom">Agregar nueva categoría</h5>
-                        </div>
-                        <!-- Formulario para agregar categorías -->
-                        <form class="row justify-content-center" action="process_add_category.php" method="post">                           
-                            <input type="text" id="category_name" name="category_name" required>
-                            <br>
-                            <button type="submit" name="submit" class="btn btn-primary btn-block btn-primary-custom">Cargar Categoría</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-    <?php include('../../../components/footer.php'); ?>
-
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../lib/easing/easing.min.js"></script>
-    <script src="../../../lib/owlcarousel/owl.carousel.min.js"></script>
 </body>
 </html>

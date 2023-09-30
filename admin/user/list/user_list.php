@@ -1,28 +1,7 @@
 <?php
-// Inicia sesión (si aún no se ha iniciado)
-session_start();
-
-// Verificar si existe la variable de sesión del nombre de usuario
-if (isset($_SESSION['username'])) {
-    // El usuario ha iniciado sesión
-    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
-
-    // Verificar si existe la variable de sesión del ID del usuario
-    $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null; // Obtener el ID del usuario de la sesión
-    $message = "¡Bienvenido, $username!";
-    if ($userId !== null) {
-        $message .= " Tu ID de usuario es: $userId";
-    }
-} else {
-    // El usuario no ha iniciado sesión
-    $username = null; 
-    $message = "Por favor, inicia sesión para acceder a todas las funciones.";
-}
-?>
-<?php
 // Incluye el archivo de conexión a la base de datos
-include("../../db_connection/db_connection.php");
-
+include("../../../db_connection/db_connection.php");
+session_start();
 // Verifica si la conexión a la base de datos se estableció correctamente
 if (!$connection) {
     die("Error de conexión: " . mysqli_connect_error());
@@ -51,14 +30,19 @@ if (isset($_GET['busqueda'])) {
 $offset = ($paginaActual - 1) * $usuariosPorPagina;
 
 // Consultar los usuarios desde la base de datos con la condición de búsqueda y paginación
-$query = "SELECT usuarios.id, usuarios.nombre, usuarios.correo, usuarios.dni, usuarios.tipo, usuarios.fecha_registro 
-          FROM usuarios 
-          WHERE usuarios.nombre LIKE '%$busqueda%' 
+$query = "SELECT usuarios.id, usuarios.nombre, usuarios.nombre_real, usuarios.apellido, usuarios.correo, usuarios.dni, usuarios.tipo, usuarios.fecha_registro, direcciones.ciudad_pueblo, direcciones.direccion, provincias.nombre_provincia
+          FROM usuarios
+          LEFT JOIN direcciones ON usuarios.id = direcciones.id_usuario
+          LEFT JOIN provincias ON direcciones.id_provincia = provincias.id
+          WHERE usuarios.nombre LIKE '%$busqueda%'
           OR usuarios.id LIKE '%$busqueda%'
           OR usuarios.correo LIKE '%$busqueda%'
           OR usuarios.dni LIKE '%$busqueda%'
           OR usuarios.tipo LIKE '%$busqueda%'
           OR usuarios.fecha_registro LIKE '%$busqueda%'
+          OR direcciones.ciudad_pueblo LIKE '%$busqueda%'
+          OR direcciones.direccion LIKE '%$busqueda%'
+          OR provincias.nombre_provincia LIKE '%$busqueda%'
           LIMIT $offset, $usuariosPorPagina";
 
 // Ejecutar la consulta SQL
@@ -71,19 +55,28 @@ if (!$result) {
 }
 
 // Obtener el número total de usuarios (sin la condición de búsqueda)
-$queryTotal = "SELECT COUNT(*) AS total FROM usuarios 
-               WHERE usuarios.nombre LIKE '%$busqueda%' 
+$queryTotal = "SELECT COUNT(*) AS total FROM usuarios
+               LEFT JOIN direcciones ON usuarios.id = direcciones.id_usuario
+               LEFT JOIN provincias ON direcciones.id_provincia = provincias.id
+               WHERE usuarios.nombre LIKE '%$busqueda%'
                OR usuarios.id LIKE '%$busqueda%'
                OR usuarios.correo LIKE '%$busqueda%'
                OR usuarios.dni LIKE '%$busqueda%'
                OR usuarios.tipo LIKE '%$busqueda%'
-               OR usuarios.fecha_registro LIKE '%$busqueda%'";
+               OR usuarios.fecha_registro LIKE '%$busqueda%'
+               OR direcciones.ciudad_pueblo LIKE '%$busqueda%'
+               OR direcciones.direccion LIKE '%$busqueda%'
+               OR provincias.nombre_provincia LIKE '%$busqueda%'";
 $resultTotal = mysqli_query($connection, $queryTotal);
 $rowTotal = mysqli_fetch_assoc($resultTotal);
 $totalUsuarios = $rowTotal['total'];
 
 // Calcular el número total de páginas
-$totalPaginas = ceil($totalUsuarios / $usuariosPorPagina);
+if ($totalUsuarios > 0) {
+    $totalPaginas = ceil($totalUsuarios / $usuariosPorPagina);
+} else {
+    $totalPaginas = 1; // Establece al menos una página si no hay usuarios
+}
 
 // Cerrar la conexión a la base de datos
 mysqli_close($connection);
@@ -99,7 +92,7 @@ mysqli_close($connection);
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../../img/d.jpg" rel="icon">
+    <link href="../../../img/d.jpg" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -109,14 +102,34 @@ mysqli_close($connection);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../../css/style.css" rel="stylesheet">
 </head>
 
 <body>
- <?php include('../../components/topbar.php'); ?>
+    <!-- Topbar Start -->
+    <div class="container-fluid">
+        <div class="row bg-secondary py-3 px-xl-5">
+        </div>
+        <div class="row align-items-center py-2 px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
+                </a>
+            </div>
+            <div class="col-lg-6 col-6 text-left">
+                <form action="">
+                    
+                </form>
+            </div>
+            <div class="col-lg-3 col-6 text-right">
+            <a href="../../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            </div>
+        </div>
+    </div>
+<!-- Topbar End -->
  <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
@@ -135,31 +148,31 @@ mysqli_close($connection);
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../../admin/admin_index.php" class="nav-item nav-link active">Inicio</a>
+                            <a href="../../../admin/admin_index.php" class="nav-item nav-link active">Inicio</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../admin/products.php" class="dropdown-item">Productos</a>
-                                    <a href="../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
+                                    <a href="../../../admin/products.php" class="dropdown-item">Productos</a>
+                                    <a href="../../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>                            
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../admin/user/user_list.php" class="dropdown-item">Lista</a>                                   
+                                    <a href="../../../admin/user/user_list.php" class="dropdown-item">Lista</a>                                   
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
-                                     <a href="../../admin/products/category/add_category.php" class="dropdown-item">Agregar categoria</a>
-                                     <a href="../../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a> 
+                                    <a href="../../../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
+                                     <a href="../../../admin/products/category/add_category.php" class="dropdown-item">Agregar categoria</a>
+                                     <a href="../../../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a> 
                                 </div>
                             </div>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>                            
+                            <a href="../../../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>                            
                         </div>
                     </div>
                 </nav>                
@@ -180,52 +193,63 @@ mysqli_close($connection);
             </div>
         </div>
     </form>
-        <!-- Tabla de clientes estilo Excel -->
-        <table class="table table-bordered table-striped">
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 5px;
+         color: black;
+    }
+
+    th {
+        background-color: #f0f0f0;
+    }
+</style>
+<!-- Tabla de clientes estilo Excel -->
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>ID</th>
+            <th>Usuario</th>
             <th>Nombre</th>
-            <th>Correo Electrónico</th>
+            <th>Apellido</th>
+            <th>Correo</th>
             <th>DNI</th>
             <th>Tipo</th>
-            <th>Fecha de Registro</th>
+            <th>Dirección</th>
+            <th>Acciones</th>
         </tr>
     </thead>
-     <tbody>
-        <?php
-
-         // Definir la cantidad de clientes por página
-         $clientesPorPagina = 7;
-         // Obtener el número de página actual
-         if (isset($_GET['pagina'])) {
-            $paginaActual = $_GET['pagina'];
-         } else {
-             $paginaActual = 1;
-         }
-         // Calcular el offset
-         $offset = ($paginaActual - 1) * $clientesPorPagina; 
-         // Itera sobre los resultados de la consulta y muestra cada cliente en una fila de la tabla
-         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr>";
-            echo "<td>" . $row['id'] . "</td>";
-            echo "<td>" . $row['nombre'] . "</td>";
-            echo "<td>" . $row['correo'] . "</td>";
-            echo "<td>" . $row['dni'] . "</td>"; // Agregamos la columna DNI
-            echo "<td>" . $row['tipo'] . "</td>";
-            echo "<td>" . $row['fecha_registro'] . "</td>";
-            echo "</tr>";
-         }
-        ?>
-     </tbody>
-  </table>
-
+    <tbody>
+        <?php while ($row = mysqli_fetch_assoc($result)): ?>
+            <tr>
+                <td><?php echo $row['id']; ?></td>
+                <td><?php echo $row['nombre']; ?></td>
+                <td><?php echo $row['nombre_real']; ?></td>
+                <td><?php echo $row['apellido']; ?></td>
+                <td><?php echo $row['correo']; ?></td>
+                <td><?php echo $row['dni']; ?></td>
+                <td><?php echo $row['tipo']; ?></td>
+                <td><?php echo $row['direccion'] ?? ''; ?></td>
+                <td>
+                  <div class="btn-group">
+                    <!-- Botón Editar -->
+                    <a href="editar_usuario.php?id=<?php echo $row['id']; ?>" class="btn btn-primary">Editar</a>
+                    <!-- Botón Eliminar con confirmación -->
+                    <button class="btn btn-danger" onclick="confirmarEliminacion(<?php echo $row['id']; ?>)">Eliminar</button>  
+                  </div>
+                </td>
+            </tr>
+        <?php endwhile; ?>
+    </tbody>
+</table>
         <!-- Paginación -->
         <div class="pagination justify-content-center">
             <ul class="pagination">
-                <?php
-                   // Calcula el número total de páginas
-                   $totalPaginas = ceil($totalUsuarios / $clientesPorPagina);
+                <?php                  
 
                    // Muestra enlaces a páginas anteriores y siguientes
                    if ($paginaActual > 1) {
@@ -240,10 +264,17 @@ mysqli_close($connection);
                    }
 
                 ?>
-            </ul>
+            </ul>   
         </div>
     </div>
-    <?php include('../../components/footer.php'); ?>
+    <script>
+function confirmarEliminacion(id) {
+    if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+        // Si el usuario acepta la confirmación, redirige a la página de eliminación
+        window.location.href = "user_deleted.php?id=" + id;
+    }
+}
+</script>
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
@@ -251,7 +282,6 @@ mysqli_close($connection);
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../../lib/easing/easing.min.js"></script>
-    <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../../../lib/easing/easing.min.js"></script>¿
 </body>
 </html>

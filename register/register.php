@@ -1,27 +1,22 @@
 <?php require_once "register_process.php";?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>Disorder</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
-
     <!-- Favicon -->
     <link href="../img/d.jpg" rel="icon">
-
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
-
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
     <!-- Libraries Stylesheet -->
     <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -54,6 +49,50 @@
             }
         });
     });
+
+    function validarRegistro() {
+        var numero_telefono = document.getElementById("numero_telefono").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var confirm_password = document.getElementById("confirm_password").value;
+        var dni = document.getElementById("dni").value;
+
+        // Validación de número de teléfono
+        if (numero_telefono.length < 9 || isNaN(numero_telefono)) {
+            alert("El número de teléfono debe tener al menos 9 dígitos y contener solo números.");
+            return false;
+        }
+
+        // Validación de correo electrónico
+        var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+        if (!emailRegex.test(email)) {
+            alert("El correo electrónico no es válido.");
+            return false;
+        }
+
+        // Validación de contraseña
+        if (password.length < 6) {
+            alert("La contraseña debe tener al menos 6 caracteres.");
+            return false;
+        }
+
+        // Validación de confirmación de contraseña
+        if (password !== confirm_password) {
+            alert("Las contraseñas no coinciden.");
+            return false;
+        }
+
+        // Validación de DNI
+        if (dni.length !== 8 || isNaN(dni)) {
+            alert("El DNI debe contener exactamente 8 dígitos y contener solo números.");
+            return false;
+        }
+
+        // Otras validaciones para código postal, ciudad/pueblo, dirección, etc.
+
+        // Si todas las validaciones son exitosas, permite el envío del formulario
+        return true;
+    }
 </script>
 <body>
 <?php include('../components/topbar.php'); ?>
@@ -95,7 +134,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h2 class="card-title text-center">Registro de Usuario</h2>
-                        <form action="../register/register.php" method="POST">
+                        <form action="../register/register.php" method="POST" onsubmit="return validarRegistro();">
                                 <div class="form-group">
         <label for="username">Nombre de Usuario:</label>
         <input type="text" id="username" name="username" class="form-control" placeholder="Ingresa tu Nombre de Usuario" required>

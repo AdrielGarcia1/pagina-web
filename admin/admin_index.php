@@ -47,7 +47,27 @@ if (isset($_SESSION['username'])) {
 </head>
 
 <body>
-   <?php include('../components/topbar.php'); ?>
+    <!-- Topbar Start -->
+    <div class="container-fluid">
+        <div class="row bg-secondary py-3 px-xl-5">
+        </div>
+        <div class="row align-items-center py-2 px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
+                </a>
+            </div>
+            <div class="col-lg-6 col-6 text-left">
+                <form action="">
+                    
+                </form>
+            </div>
+            <div class="col-lg-3 col-6 text-right">
+            <a href="../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            </div>
+        </div>
+    </div>
+<!-- Topbar End -->
     <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
@@ -83,7 +103,8 @@ if (isset($_SESSION['username'])) {
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
+                                     <a href="../admin/products/product_list.php" class="dropdown-item">Lista productos</a>
+                                     <a href="../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
                                      <a href="../admin/products/category/add_category.php" class="dropdown-item">Agregar categoria</a>
                                      <a href="../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a> 
                                 </div>
