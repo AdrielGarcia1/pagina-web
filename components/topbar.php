@@ -14,19 +14,26 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                   <?php
-    // Verificar si el usuario ha iniciado sesión
-    if (isset($_SESSION['username'])) {
-        // El usuario ha iniciado sesión, por lo que muestra el enlace al perfil
-        echo '<a href="../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>';
-    } else {
-        // El usuario no ha iniciado sesión, muestra el enlace a la página de inicio de sesión
-        echo '<a href="../login/login.php" class="btn border"><i class="fas fa-sign-in-alt text-primary"></i></a>';
-    }
-    ?>
-                <a href="../pag/cart.php" class="btn border">
-                    <i class="fas fa-shopping-cart text-primary"></i>                    
-                </a>
+              <?php
+                 // Verificar si el usuario ha iniciado sesión
+                 if (isset($_SESSION['username'])) {
+                   // El usuario ha iniciado sesión, por lo que muestra el enlace al perfil
+                   echo '<a href="../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>';
+                 } else {
+                   // El usuario no ha iniciado sesión, muestra el enlace a la página de inicio de sesión
+                   echo '<a href="../login/login.php" class="btn border"><i class="fas fa-sign-in-alt text-primary"></i></a>';
+                 }
+              ?>
+              <?php
+                 // Verificar si el usuario ha iniciado sesión
+                 if (isset($_SESSION['username'])) {
+                   // El usuario ha iniciado sesión, por lo que muestra el enlace al perfil
+                   echo '<a href="../pag/cart.php" class="btn border"><i class="fas fa-shopping-cart text-primary"></i></a>';
+                 } else {
+                   // El usuario no ha iniciado sesión, muestra el enlace a la página de inicio de sesión
+                   echo '<a href="../login/login.php" class="btn border"><i class="fas fa-shopping-cart text-primary"></i></a>';
+                 }
+              ?>                
             </div>
         </div>
     </div>

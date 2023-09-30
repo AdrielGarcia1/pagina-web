@@ -1,7 +1,5 @@
-<?php include('../components/buttons.php'); ?>
-<?php
-$products = include('shop/product_query.php');
-?>
+<?php include('../components/buttons.php');?>
+<?php $products = include('shop/product_query.php');?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,16 +51,21 @@ $products = include('shop/product_query.php');
                         <div class="navbar-nav mr-auto py-0">
                             <a href="../pag/index.php" class="nav-item nav-link">Inicio</a>
                             <a href="../pag/shop.php" class="nav-item nav-link active">Productos</a>
-                            <a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>
+                            <?php                 
+                              if (isset($_SESSION['username'])) {                 
+                                echo '<a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>';
+                              } else {                   
+                                echo '<a href="../login/login.php" class="nav-item nav-link">Carrito </a>';
+                              }
+                            ?>                            
                             <a href="../pag/checkout.php" class="nav-item nav-link">Compra</a> 
                             <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>
                         </div>
-                        <div class="navbar-nav ml-auto py-0">
+                        <div class="navbar-nav ml-auto py-0">                            
                             <?php
                                if (isset($logoutButton)) {
-                                 echo $logoutButton; // Mostrar el botón "Cerrar Sesión" si el usuario ha iniciado sesión
+                                 echo $logoutButton;
                                } else {
-                                   // Mostrar el botón "Login" y "Register" si el usuario no ha iniciado sesión
                                  echo $loginButton; 
                                  echo $registerButton;
                                }
@@ -177,7 +180,7 @@ function filterProductsByPrice(minPrice, maxPrice) {
             <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                 <div class="card product-item border-0 mb-4">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <img class="img-fluid w-100" src="<?php echo $imagenURL; ?>">
+                        <img class="img-fluid w-100" src="<?php echo $imagenURL; ?>" style="width: 150px; height: 350px;">
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                         <h6 class="text-truncate mb-3"><?php echo $nombre; ?></h6>
@@ -186,8 +189,21 @@ function filterProductsByPrice(minPrice, maxPrice) {
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href="detail.php?id=<?php echo $product['id']; ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                        <a href="cart.php?id=<?php echo $product['id']; ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
+                        <a href="detail.php?id=<?php echo $product['id']; ?>" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-0"></i>Ver detalle</a>
+                      <?php
+                               if (isset($_SESSION['username'])) {
+                                  $addtocart = '<a href="cart.php?id=' . $product['id'] . '" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary"></i>Sumar al carrito</a>';
+                               } else {    
+                                  $loginButton = '<a href="../login/login.php" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary"></i>Sumar al carrito</a>';
+                               }
+                            ?>
+                        <?php
+                         if (isset($addtocart)) {
+                            echo $addtocart;
+                         } else {                                 
+                           echo $loginButton;
+                         }
+                      ?>
                     </div>
                 </div>
             </div>
