@@ -21,11 +21,13 @@ if (isset($_GET['pagina'])) {
 $offset = ($paginaActual - 1) * $productosPorPagina;
 
 // Consulta SQL para obtener la lista de productos con detalles de categorías, talles, colores y descripciones
+// Consulta SQL para obtener la lista de productos con detalles de categorías, talles, colores y descripciones
 $query = "SELECT p.id, p.nombre, p.precio, p.stock, c.nombre_categoria AS categoria, t.nombre_talle AS talle, co.nombre_color AS color
           FROM productos p
           LEFT JOIN categorias c ON p.categoria_id = c.id
           LEFT JOIN talles t ON p.talle_id = t.id
           LEFT JOIN colores co ON p.color_id = co.id
+          WHERE p.estado = 1  -- Agrega esta condición para excluir productos con estado 0
           LIMIT $offset, $productosPorPagina";
 
 // Ejecutar la consulta SQL
