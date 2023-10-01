@@ -1,10 +1,11 @@
 <?php
 require_once "../db_connection/db_connection.php";
 
-// Consulta SQL para obtener los productos con sus imágenes, incluyendo el ID del producto
-$query = "SELECT p.id, p.nombre, p.precio, i.url_imagen 
+// Consulta SQL para obtener los productos con sus imágenes y categorías
+$query = "SELECT p.id, p.nombre, p.precio, i.url_imagen, c.nombre_categoria 
           FROM productos p
-          INNER JOIN imagenes_productos i ON p.id = i.producto_id";
+          INNER JOIN imagenes_productos i ON p.id = i.producto_id
+          INNER JOIN categorias c ON p.categoria_id = c.id";
 
 $result = $connection->query($query);
 
@@ -17,9 +18,6 @@ if ($result->num_rows > 0) {
         $products[] = $row;
     }
 }
-
-// Cierra la conexión a la base de datos
-$connection->close();
 
 // Devolver el array de productos
 return $products;

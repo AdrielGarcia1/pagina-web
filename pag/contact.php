@@ -48,8 +48,15 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="../pag/index.php" class="nav-item nav-link">Inicio</a>
                             <a href="../pag/shop.php" class="nav-item nav-link">Productos</a>                            
-                            <a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>
-                            <a href="../pag/checkout.php" class="nav-item nav-link">Compra</a> 
+                            <?php                 
+                              if (isset($_SESSION['username'])) {                                     
+                                echo '<a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>';
+                                echo ' <a href="../pag/checkout.php" class="nav-item nav-link">Pagar</a>';
+                              } else {                                  
+                                echo '<a href="../login/login.php" class="nav-item nav-link">Carrito </a>';
+                                echo '<a href="../login/login.php" class="nav-item nav-link">Pagar</a>';
+                              }
+                            ?>  
                             <a href="../pag/contact.php" class="nav-item nav-link active">Contacto</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
@@ -69,51 +76,31 @@
         </div>
     </div>
     <!-- Navbar End -->
-
-<!-- Contacto Start -->
+<!-- Datos de Contacto Start -->
 <div class="container pt-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-             <div class="row justify-content-center">
-            <h2 class="section-title px-5"><span class="px-2">Contacto Para Cualquier Consulta</span></h2>
-        </div>
-            <form name="contactForm" id="contactForm" novalidate="novalidate">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="name" placeholder="Tu Nombre"
-                                   required="required" data-validation-required-message="Por favor, ingresa tu nombre" />
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="email" class="form-control" id="email" placeholder="Tu Correo Electrónico"
-                                   required="required" data-validation-required-message="Por favor, ingresa tu correo electrónico" />
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
+            <div class="row justify-content-center">
+                <h2 class="section-title px-5"><span class="px-2">Datos de Contacto</span></h2>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-5 mb-4 text-center">
+                    <h5 class="mb-4 display-5 font-weight-semi-bold">Contacto 1</h5>
+                    <p class="text-dark"><i class="fa fa-map-marker-alt text-primary mr-3"></i>San Martin y Neuquen</p>
+                    <p><i class="fa fa-envelope text-primary mr-3"></i><a href="mailto:garciaadriel65@gmail.com" class="text-dark">garciaadriel65@gmail.com</a></p>
+                    <p><i class="fa fa-phone-alt text-primary mr-3"></i><a class="text-dark" href="tel:+5492625459367">+54 9 2625459367</a></p>
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="subject" placeholder="Asunto"
-                           required="required" data-validation-required-message="Por favor, ingresa un asunto" />
-                    <p class="help-block text-danger"></p>
+                <div class="col-md-5 mb-4 text-center">
+                    <h5 class="mb-3 display-5 font-weight-semi-bold">Contacto 2</h5>
+                    <p><i class="fa fa-envelope text-primary mr-1"></i><a class="text-dark" href="mailto:garciaadriel199@gmail.com">garciaadriel199@gmail.com</a></p>
+                    <p><i class="fa fa-phone-alt text-primary mr-1"></i><a class="text-dark" href="tel:+5492625403666">+54 9 2625403666</a></p>
+                    <p><i class="fab fa-instagram text-primary mr-1"></i><a class="text-dark" href="https://instagram.com/adriel_9234?utm_source=qr&igshid=MThlNWY1MzQwNA==">adriel_9234</a></p>
                 </div>
-                <div class="form-group">
-                    <textarea class="form-control" rows="6" id="message" placeholder="Mensaje"
-                              required="required" data-validation-required-message="Por favor, ingresa tu mensaje"></textarea>
-                    <p class="help-block text-danger"></p>
-                </div>
-                <div class="text-center">
-                    <button class="btn btn-primary btn-lg" type="submit" id="sendMessageButton">
-                        Enviar Mensaje
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
-<!-- Contacto End -->
+<!-- Datos de Contacto End -->
 
     <?php include('../components/footer.php'); ?>
     <!-- Back to Top -->

@@ -10,9 +10,16 @@
                         <h5 class="font-weight-bold text-dark mb-4">Links</h5>
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-dark mb-2" href="../pag/index.php"><i class="fa fa-angle-right mr-2"></i>Inicio</a>
-                            <a class="text-dark mb-2" href="../pag/shop.php"><i class="fa fa-angle-right mr-2"></i>Productos</a>                            
-                            <a class="text-dark mb-2" href="../pag/cart.php"><i class="fa fa-angle-right mr-2"></i>Carrito</a>
-                            <a class="text-dark mb-2" href="../pag/checkout.php"><i class="fa fa-angle-right mr-2"></i>Pagar</a>
+                            <a class="text-dark mb-2" href="../pag/shop.php"><i class="fa fa-angle-right mr-2"></i>Productos</a> 
+                            <?php                 
+                              if (isset($_SESSION['username'])) {                                     
+                                echo '<a class="text-dark mb-2" href="../pag/cart.php"><i class="fa fa-angle-right mr-2"></i>Carrito</a>';
+                                echo '<a class="text-dark mb-2" href="../pag/checkout.php"><i class="fa fa-angle-right mr-2"></i>Pagar</a>';
+                              } else {                                  
+                                echo '<a class="text-dark mb-2" href="../login/login.php"><i class="fa fa-angle-right mr-2"></i>Carrito</a>';
+                                echo '<a class="text-dark mb-2" href="../login/login.php"><i class="fa fa-angle-right mr-2"></i>Pagar</a>';
+                              }
+                            ?>                             
                             <a class="text-dark" href="../pag/contact.php"><i class="fa fa-angle-right mr-2"></i>Contacto</a>
                         </div>
                     </div>

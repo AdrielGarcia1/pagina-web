@@ -119,8 +119,15 @@ include('change_password_handler.php');
                         <div class="navbar-nav mr-auto py-0">
                             <a href="../../pag/index.php" class="nav-item nav-link active">Inicio</a>
                             <a href="../../pag/shop.php" class="nav-item nav-link">Productos</a>                            
-                            <a href="../../pag/cart.php" class="nav-item nav-link">Carrito</a>
-                            <a href="../../pag/checkout.php" class="nav-item nav-link">Compra</a> 
+                            <?php                 
+                              if (isset($_SESSION['username'])) {                                     
+                                echo '<a href="../../pag/cart.php" class="nav-item nav-link">Carrito</a>';
+                                echo ' <a href="../../pag/checkout.php" class="nav-item nav-link">Pagar</a>';
+                              } else {                                  
+                                echo '<a href="../../login/login.php" class="nav-item nav-link">Carrito </a>';
+                                echo '<a href="../../login/login.php" class="nav-item nav-link">Pagar</a>';
+                              }
+                            ?>  
                             <a href="../../pag/contact.php" class="nav-item nav-link">Contacto</a>
                         </div>
                            <div class="navbar-nav ml-auto py-0">
