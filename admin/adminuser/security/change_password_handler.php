@@ -1,5 +1,5 @@
 <?php
-require_once('../../db_connection/db_connection.php');
+require_once('../../../db_connection/db_connection.php');
 // Obtener el nombre de usuario actual de la sesión (asegúrate de haber iniciado la sesión previamente)
 // Inicia sesión (si aún no se ha iniciado)
 session_start();

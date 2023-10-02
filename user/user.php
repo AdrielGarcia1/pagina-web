@@ -86,31 +86,12 @@ if (isset($_SESSION['username'])) {
         <div class="row bg-secondary py-2 px-xl-5">
             <div class="col-lg-6 d-none d-lg-block">
                 <div class="d-inline-flex align-items-center">
-                    <a class="text-dark" href="">Preguntas Frecuentes</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">ayuda</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Soporte</a>
-                     <span class="text-muted px-2">|</span>
+                   
                 </div>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="text-dark pl-2" href="">
-                        <i class="fab fa-youtube"></i>
-                    </a>
+                    
                 </div>
             </div>
         </div>
@@ -123,12 +104,7 @@ if (isset($_SESSION['username'])) {
             <div class="col-lg-6 col-6 text-left">
                 <form action="">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar productos">
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
-                                <i class="fa fa-search"></i>
-                            </span>
-                        </div>
+                        
                     </div>
                 </form>
             </div>
@@ -144,8 +120,7 @@ if (isset($_SESSION['username'])) {
     }
     ?>
                 <a href="../pag/cart.php" class="btn border">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
+                    <i class="fas fa-shopping-cart text-primary"></i>                    
                 </a>
             </div>
         </div>
@@ -226,17 +201,18 @@ if (isset($_SESSION['username'])) {
             <a href="#" id="eliminarCuentaBtn" class="list-group-item list-group-item-action text-center">
                 Eliminar cuenta
             </a>
-        </div>
-    </div>
-</div>
-
-<!-- Formulario de eliminación de cuenta (oculto) -->
-<form id="eliminarCuentaForm" action="eliminar_cuenta.php" method="POST" style="display: none;">
+            <form id="eliminarCuentaForm" action="Delete_account.php" method="POST" style="display: none;">
     <!-- Campo oculto para confirmar la eliminación -->
     <input type="hidden" name="confirmar_eliminar" value="1">
     <!-- Botón "Eliminar cuenta" real -->
     <button type="submit" class="list-group-item list-group-item-action text-center">Confirmar Eliminar Cuenta</button>
 </form>
+        </div>
+    </div>
+</div>
+
+<!-- Formulario de eliminación de cuenta (oculto) -->
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {

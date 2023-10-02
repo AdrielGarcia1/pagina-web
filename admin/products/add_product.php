@@ -56,7 +56,7 @@ $mensajeExito = $mensajeError = '';
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-            <a href="../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            <a href="../adminuser/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
             </div>
         </div>
     </div>
@@ -85,7 +85,7 @@ $mensajeExito = $mensajeError = '';
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../admin/products/add_product.php" class="dropdown-item">Productos</a>
+                                    <a href="report/product_report.php" class="dropdown-item">Productos</a>
                                     <a href="../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@ $mensajeExito = $mensajeError = '';
                             </div>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="../../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>
+                            <a href="../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesion</a>
                         </div>
                     </div>
                 </div>
@@ -136,19 +136,19 @@ $mensajeExito = $mensajeError = '';
 
     <form action="product_registration_process.php" method="POST" enctype="multipart/form-data" class="text-center">
         <div class="form-group">
-            <label class="text-dark" for="nombre"><b>Nombre del Producto:</b></label>
+            <h5 class="text-dark" for="nombre"><b>Nombre del Producto:</b></h5>
             <input type="text" class="form-control" id="nombre" name="nombre" required>
         </div>
         <div class="form-group">
-            <label class="text-dark" for="precio"><b>Precio:</b></label>
+            <h5 class="text-dark" for="precio"><b>Precio:</b></h5>
             <input type="number" class="form-control" id="precio" name="precio" required>
         </div>
         <div class="form-group">
-            <label class="text-dark" for="stock"><b>Stock:</b></label>
+            <h5 class="text-dark" for="stock"><b>Stock:</b></h5>
             <input type="number" class="form-control" id="stock" name="stock" required>
         </div>
         <div class="form-group">
-            <label class="text-dark" for="categoria"><b>Categoría:</b></label>
+            <h5 class="text-dark" for="categoria"><b>Categoría:</b></h5>
             <select class="form-control" id="categoria" name="categoria" required>
                 <?php while ($rowCategoria = mysqli_fetch_assoc($resultCategorias)) : ?>
                     <option value="<?php echo $rowCategoria['id']; ?>"><?php echo $rowCategoria['nombre_categoria']; ?></option>
@@ -156,7 +156,7 @@ $mensajeExito = $mensajeError = '';
             </select>
         </div>
         <div class="form-group">
-            <label class="text-dark" for="talle"><b>Talle:</b></label>
+            <h5 class="text-dark" for="talle"><b>Talle:</b></h5>
             <select class="form-control" id="talle" name="talle">
                 <?php while ($rowTalle = mysqli_fetch_assoc($resultTalles)) : ?>
                     <option value="<?php echo $rowTalle['id']; ?>"><?php echo $rowTalle['nombre_talle']; ?></option>
@@ -164,7 +164,7 @@ $mensajeExito = $mensajeError = '';
             </select>
         </div>
         <div class="form-group">
-            <label class="text-dark" for="color"><b>Color:</b></label>
+            <h5 class="text-dark" for="color"><b>Color:</b></h5>
             <select class="form-control" id="color" name="color">
                 <?php while ($rowColor = mysqli_fetch_assoc($resultColores)) : ?>
                     <option value="<?php echo $rowColor['id']; ?>"><?php echo $rowColor['nombre_color']; ?></option>
@@ -172,18 +172,18 @@ $mensajeExito = $mensajeError = '';
             </select>
         </div>
         <div class="form-group">
-            <label class="text-dark" for="descripcion_corta"><b>Descripción Corta:</b></label>
+            <h5 class="text-dark" for="descripcion_corta"><b>Descripción Corta:</b></h5>
             <textarea class="form-control" id="descripcion_corta" name="descripcion_corta" rows="4"></textarea>
         </div>
         <div class="form-group">
-            <label class="text-dark"for="descripcion_larga"><b>Descripción Larga:</b></label>
+            <h5 class="text-dark"for="descripcion_larga"><b>Descripción Larga:</b></h5>
             <textarea class="form-control" id="descripcion_larga" name="descripcion_larga" rows="4"></textarea>
         </div>
         <div class="form-group">
-    <label class="text-dark" for="imagenes"><b>Imágenes del Producto:</b></label>
+    <h5 class="text-dark" for="imagenes"><b>Imágenes del Producto:</b></h5>
     <div class="custom-file">
         <input type="file" class="custom-file-input" id="imagenes" name="imagen" accept=".jpg, .jpeg, .png, .gif" required>
-        <label class="text-dark" class="custom-file-label" for="imagenes">Elegir Archivo</label>
+        <h5 class="text-dark" class="custom-file-h5" for="imagenes">Elegir Archivo</h5>
     </div>
     <span id="nombreImagenes"></span>
 </div>

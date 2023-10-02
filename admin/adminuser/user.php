@@ -1,15 +1,6 @@
 <?php
 session_start();
 
-// Verificar si existe la variable de sesión del nombre de usuario
-if (isset($_SESSION['username'])) {
-    // Botón de "Cerrar Sesión"
-    $logoutButton = '<a href="../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
-} else {
-    // Botones de "Login" y "Register"
-    $loginButton = '<a href="../../login/login.php" class="nav-item nav-link">Login</a>';
-    $registerButton = '<a href="../../register/register.php" class="nav-item nav-link">Registrar</a>';
-}
  // Incluye el archivo de conexión a la base de datos
  require_once('../../db_connection/db_connection.php');
 // Verificar si existe la variable de sesión del nombre de usuario
@@ -92,12 +83,10 @@ if (isset($_SESSION['username'])) {
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
-                <form action="">
-                    
-                </form>
+               
             </div>
             <div class="col-lg-3 col-6 text-right">
-            <a href="../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            <a href="user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
             </div>
         </div>
     </div>
@@ -146,7 +135,7 @@ if (isset($_SESSION['username'])) {
                             </div>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="../../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>
+                            <a href="../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesion</a>
                         </div>
                     </div>
                 </div>
@@ -169,29 +158,30 @@ if (isset($_SESSION['username'])) {
 <div class="row justify-content-center mt-3">
     <div class="col-md-6">
         <div class="list-group">
-            <a href="../../user/personal_information/personal_Info.php" class="list-group-item list-group-item-action text-center">
+            <a href="../adminuser/personal_information/personal_Info.php" class="list-group-item list-group-item-action text-center">
                 Información personal
             </a>
-            <a href="../../user/security/change_password.php" class="list-group-item list-group-item-action text-center">
+            <a href="../adminuser/security/change_password.php" class="list-group-item list-group-item-action text-center">
                 Seguridad
             </a>
-            <a href="../../user/address/edit_address.php" class="list-group-item list-group-item-action text-center">
+            <a href="../adminuser/address/edit_address.php" class="list-group-item list-group-item-action text-center">
                 Direcciones
             </a>
             <a href="#" id="eliminarCuentaBtn" class="list-group-item list-group-item-action text-center">
                 Eliminar cuenta
             </a>
-        </div>
-    </div>
-</div>
-
-<!-- Formulario de eliminación de cuenta (oculto) -->
-<form id="eliminarCuentaForm" action="eliminar_cuenta.php" method="POST" style="display: none;">
+            <form id="eliminarCuentaForm" action="Delete_account.php" method="POST" style="display: none;">
     <!-- Campo oculto para confirmar la eliminación -->
     <input type="hidden" name="confirmar_eliminar" value="1">
     <!-- Botón "Eliminar cuenta" real -->
     <button type="submit" class="list-group-item list-group-item-action text-center">Confirmar Eliminar Cuenta</button>
 </form>
+        </div>
+    </div>
+</div>
+
+<!-- Formulario de eliminación de cuenta (oculto) -->
+
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -213,26 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-<div class="container-fluid bg-secondary text-dark mt-2 pt-2">
-        <div class="row px-xl-2 pt-2">
-            <div class="col-lg-4 col-md-8 mb-5 pr-3 pr-xl-5">
-                
-            </div>
-            <div class="col-lg-8 col-md-12">
-                <div class="row">
-                    <div class="col-md-4 mb-5">
-                        
-                        <div class="d-flex flex-column justify-content-start">
-                           
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-7">
-                    
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
         <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
@@ -241,5 +212,10 @@ document.addEventListener("DOMContentLoaded", function () {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="../../lib/easing/easing.min.js"></script>
     <script src="../../js/main.js"></script>
+    <div class="container-fluid  mt-2 pt-2">
+        <div class="row px-xl-2 pt-2">
+            
+        </div>
+    </div>
     </body>
 </html>

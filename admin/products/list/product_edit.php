@@ -45,7 +45,7 @@ include("update_product.php");
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-            <a href="../../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            <a href="../../adminuser/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
             </div>
         </div>
     </div>
@@ -73,7 +73,7 @@ include("update_product.php");
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../admin/products/add_product.php" class="dropdown-item">Productos</a>
+                                    <a href="../../products/report/product_report.php" class="dropdown-item">Productos</a>
                                     <a href="../../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>
@@ -94,7 +94,7 @@ include("update_product.php");
                             </div>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="../../../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>
+                            <a href="../../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesion</a>
                         </div>
                     </div>
                 </div>
@@ -104,26 +104,27 @@ include("update_product.php");
 </div>
 <!-- Navbar End -->
     <!-- Centra el formulario -->
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <h1 class="text-center">Editar Producto</h1>
-                <form action="update_product.php?id=<?php echo $producto_id; ?>" method="post">
-                    <label for="nombre">Nombre del Producto:</label>
-                    <input type="text" id="nombre" name="nombre" value="<?php echo $producto['nombre']; ?>" required>
-                    <br>
-
-                    <label for="precio">Precio:</label>
-                    <input type="number" id="precio" name="precio" value="<?php echo $producto['precio']; ?>" required>
-                    <br>
-
-                    <label for="stock">Stock:</label>
-                    <input type="number" id="stock" name="stock" value="<?php echo $producto['stock']; ?>" required>
-                    <br>
-
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1 class="text-center">Editar Producto</h1>
+            <form action="update_product.php?id=<?php echo $producto_id; ?>" method="post">
+                <div class="form-group">
+                    <h5 for="nombre">Nombre del Producto:</h5>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $producto['nombre']; ?>" required>
+                </div>
+                <div class="form-group">
+                    <h5 for="precio">Precio:</h5>
+                    <input type="number" class="form-control" id="precio" name="precio" value="<?php echo $producto['precio']; ?>" required>
+                </div>
+                <div class="form-group">
+                    <h5 for="stock">Stock:</h5>
+                    <input type="number" class="form-control" id="stock" name="stock" value="<?php echo $producto['stock']; ?>" required>
+                </div>
+                <div class="form-group">
                     <!-- Menú desplegable para Categoría -->
-                    <label for="categoria">Categoría:</label>
-                    <select id="categoria" name="categoria">
+                    <h5 for="categoria">Categoría:</h5>
+                    <select id="categoria" name="categoria" class="form-control">
                         <?php
                         foreach ($categorias as $categoria) {
                             $selected = ($categoria['id'] == $producto['categoria_id']) ? 'selected' : '';
@@ -131,11 +132,11 @@ include("update_product.php");
                         }
                         ?>
                     </select>
-                    <br>
-
+                </div>
+                <div class="form-group">
                     <!-- Menú desplegable para Talle -->
-                    <label for="talle">Talle:</label>
-                    <select id="talle" name="talle">
+                    <h5 for="talle">Talle:</h5>
+                    <select id="talle" name="talle" class="form-control">
                         <?php
                         foreach ($talles as $talle) {
                             $selected = ($talle['id'] == $producto['talle_id']) ? 'selected' : '';
@@ -143,11 +144,11 @@ include("update_product.php");
                         }
                         ?>
                     </select>
-                    <br>
-
+                </div>
+                <div class="form-group">
                     <!-- Menú desplegable para Color -->
-                    <label for="color">Color:</label>
-                    <select id="color" name="color">
+                    <h5 for="color">Color:</h5>
+                    <select id="color" name="color" class="form-control">
                         <?php
                         foreach ($colores as $color) {
                             $selected = ($color['id'] == $producto['color_id']) ? 'selected' : '';
@@ -155,15 +156,15 @@ include("update_product.php");
                         }
                         ?>
                     </select>
-                    <br>
+                </div>
 
-                    <!-- Agrega más campos para los detalles del producto si es necesario -->
+                <!-- Agrega más campos para los detalles del producto si es necesario -->
 
-                    <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
-                </form>
-            </div>
+                <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+            </form>
         </div>
     </div>
+</div>
     <div class="container-fluid bg-secondary text-dark mt-2 pt-2">
         <div class="row px-xl-2 pt-2">
             <div class="col-lg-4 col-md-8 mb-5 pr-3 pr-xl-5">

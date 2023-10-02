@@ -95,7 +95,7 @@ mysqli_close($connection);
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-            <a href="../../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            <a href="../../adminuser/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
             </div>
         </div>
     </div>
@@ -123,7 +123,7 @@ mysqli_close($connection);
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../admin/products/add_product.php" class="dropdown-item">Productos</a>
+                                    <a href="../../products/report/product_report.php" class="dropdown-item">Productos</a>
                                     <a href="../../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@ mysqli_close($connection);
                             </div>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="../../../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>
+                            <a href="../../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesion</a>
                         </div>
                     </div>
                 </div>

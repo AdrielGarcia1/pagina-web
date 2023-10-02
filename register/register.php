@@ -134,7 +134,7 @@
         <div class="col-lg-3 d-none d-lg-block">
             <a class="btn shadow-none d-flex align-items-center justify-content-center bg-primary text-white w-100"
                data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                <h6 class="m-0">REGISTER</h6>
+                <h6 class="m-0">REGISTRO</h6>
             </a>
         </div>
         <div class="col-lg-9">
@@ -158,8 +158,8 @@
                         <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="../login/login.php" class="nav-item nav-link">Login</a>
-                        <a href="../register/register.php" class="nav-item nav-link">Register</a>
+                        <a href="../login/login.php" class="nav-item nav-link">Iniciar Sesión</a>
+                        <a href="../register/register.php" class="nav-item nav-link">Registrar</a>
                     </div>
                 </div>
             </nav>

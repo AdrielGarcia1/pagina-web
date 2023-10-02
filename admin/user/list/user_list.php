@@ -109,7 +109,7 @@ if ($totalUsuarios > 0) {
 </head>
 
 <body>
-    <!-- Topbar Start -->
+        <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-3 px-xl-5">
         </div>
@@ -125,18 +125,18 @@ if ($totalUsuarios > 0) {
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-            <a href="../../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            <a href="../../adminuser/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
             </div>
         </div>
     </div>
 <!-- Topbar End -->
- <!-- Navbar Start -->
+    <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                    <h6 class="m-0">USUARIOS</h6>                    
-                </a>    
+               <a class="btn shadow-none d-flex align-items-center justify-content-center bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
+                  <h6 class="m-0">INICIO</h6>
+               </a>
             </div>
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
@@ -148,35 +148,35 @@ if ($totalUsuarios > 0) {
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../../../admin/admin_index.php" class="nav-item nav-link active">Inicio</a>
+                            <a href="../../admin_index.php" class="nav-item nav-link active">Inicio</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../../admin/products.php" class="dropdown-item">Productos</a>
-                                    <a href="../../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
+                                    <a href="../../products/report/product_report.php" class="dropdown-item">Productos</a>
+                                    <a href="../user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>                            
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../../admin/user/list/user_list.php" class="dropdown-item">Lista</a>                                   
+                                    <a href="user_list.php" class="dropdown-item">Lista</a>                                   
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../../admin/products/list/product_list.php" class="dropdown-item">Lista productos</a>
-                                    <a href="../../../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
-                                    <a href="../../../admin/products/category/add_category.php" class="dropdown-item">Agregar categoria</a>
-                                    <a href="../../../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a> 
+                                     <a href="../../products/list/product_list.php" class="dropdown-item">Lista productos</a>
+                                     <a href="../../products/add_product.php" class="dropdown-item">Agregar producto</a>
+                                     <a href="../../products/category/add_category.php" class="dropdown-item">Agregar categoria</a>
+                                     <a href="../../products/talle/add_talle.php" class="dropdown-item">Agregar talle</a> 
                                 </div>
                             </div>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="../../../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>                            
+                            <a href="../../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesion</a>                            
                         </div>
                     </div>
-                </nav>                
+                </nav>           
             </div>
         </div>
     </div>

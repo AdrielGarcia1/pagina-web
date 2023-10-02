@@ -2,7 +2,7 @@
 // Incluye el archivo de conexión a la base de datos
 // Inicia sesión (si aún no se ha iniciado)
 session_start();
-require_once('../db_connection/db_connection.php');
+require_once('../../../db_connection/db_connection.php');
 // Verificar si existe la variable de sesión del nombre de usuario
 if (isset($_SESSION['username'])) {
     // El usuario ha iniciado sesión

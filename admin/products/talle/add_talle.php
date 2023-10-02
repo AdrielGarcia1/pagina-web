@@ -40,7 +40,27 @@ if (!$resultTalles) {
 </head>
 
 <body>
- <?php include('../../../components/topbar.php'); ?>
+    <!-- Topbar Start -->
+    <div class="container-fluid">
+        <div class="row bg-secondary py-3 px-xl-5">
+        </div>
+        <div class="row align-items-center py-2 px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
+                </a>
+            </div>
+            <div class="col-lg-6 col-6 text-left">
+                <form action="">
+                    
+                </form>
+            </div>
+            <div class="col-lg-3 col-6 text-right">
+            <a href="../../adminuser/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            </div>
+        </div>
+    </div>
+<!-- Topbar End -->
  <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
@@ -63,7 +83,7 @@ if (!$resultTalles) {
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../../admin/products.php" class="dropdown-item">Productos</a>
+                                    <a href="../../products/report/product_report.php" class="dropdown-item">Productos</a>
                                     <a href="../../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>                            
@@ -85,7 +105,7 @@ if (!$resultTalles) {
                         </div>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="../../../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>                            
+                            <a href="../../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesion</a>                            
                         </div>
                     </div>
                 </nav>                
