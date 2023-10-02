@@ -4,14 +4,14 @@ session_start();
 // Verificar si existe la variable de sesión del nombre de usuario
 if (isset($_SESSION['username'])) {
     // Botón de "Cerrar Sesión"
-    $logoutButton = '<a href="../../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
+    $logoutButton = '<a href="../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
 } else {
     // Botones de "Login" y "Register"
-    $loginButton = '<a href="../../../login/login.php" class="nav-item nav-link">Login</a>';
-    $registerButton = '<a href="../../../register/register.php" class="nav-item nav-link">Registrar</a>';
+    $loginButton = '<a href="../../login/login.php" class="nav-item nav-link">Login</a>';
+    $registerButton = '<a href="../../register/register.php" class="nav-item nav-link">Registrar</a>';
 }
  // Incluye el archivo de conexión a la base de datos
- require_once('../../../db_connection/db_connection.php');
+ require_once('../../db_connection/db_connection.php');
 // Verificar si existe la variable de sesión del nombre de usuario
 if (isset($_SESSION['username'])) {
     // El usuario ha iniciado sesión
@@ -64,7 +64,7 @@ if (isset($_SESSION['username'])) {
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../img/d.jpg" rel="icon">
+    <link href="../../img/d.jpg" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -74,10 +74,10 @@ if (isset($_SESSION['username'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../../../css/style.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -121,32 +121,32 @@ if (isset($_SESSION['username'])) {
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="../../../admin/admin_index.php" class="nav-item nav-link active">Inicio</a>
+                            <a href="../../admin/admin_index.php" class="nav-item nav-link active">Inicio</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../../admin/products/add_product.php" class="dropdown-item">Productos</a>
-                                    <a href="../../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
+                                    <a href="../../admin/products/add_product.php" class="dropdown-item">Productos</a>
+                                    <a href="../../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../../admin/user/list/user_list.php" class="dropdown-item">Lista</a>
+                                    <a href="../../admin/user/list/user_list.php" class="dropdown-item">Lista</a>
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../../admin/products/list/product_list.php" class="dropdown-item">Lista productos</a>
-                                    <a href="../../../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
-                                    <a href="../../../admin/products/category/add_category.php" class="dropdown-item">Agregar categoria</a>
-                                    <a href="../../../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a>
+                                    <a href="../../admin/products/list/product_list.php" class="dropdown-item">Lista productos</a>
+                                    <a href="../../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
+                                    <a href="../../admin/products/category/add_category.php" class="dropdown-item">Agregar categoria</a>
+                                    <a href="../../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a>
                                 </div>
                             </div>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="../../../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>
+                            <a href="../../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>
                         </div>
                     </div>
                 </div>
@@ -169,13 +169,13 @@ if (isset($_SESSION['username'])) {
 <div class="row justify-content-center mt-3">
     <div class="col-md-6">
         <div class="list-group">
-            <a href="../../../user/personal_information/personal_Info.php" class="list-group-item list-group-item-action text-center">
+            <a href="../../user/personal_information/personal_Info.php" class="list-group-item list-group-item-action text-center">
                 Información personal
             </a>
-            <a href="../../../user/security/change_password.php" class="list-group-item list-group-item-action text-center">
+            <a href="../../user/security/change_password.php" class="list-group-item list-group-item-action text-center">
                 Seguridad
             </a>
-            <a href="../../../user/address/edit_address.php" class="list-group-item list-group-item-action text-center">
+            <a href="../../user/address/edit_address.php" class="list-group-item list-group-item-action text-center">
                 Direcciones
             </a>
             <a href="#" id="eliminarCuentaBtn" class="list-group-item list-group-item-action text-center">
@@ -213,14 +213,33 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-<?php include('../components/footer.php'); ?>
+<div class="container-fluid bg-secondary text-dark mt-2 pt-2">
+        <div class="row px-xl-2 pt-2">
+            <div class="col-lg-4 col-md-8 mb-5 pr-3 pr-xl-5">
+                
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="row">
+                    <div class="col-md-4 mb-5">
+                        
+                        <div class="d-flex flex-column justify-content-start">
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-7">
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
         <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../lib/easing/easing.min.js"></script>
-    <script src="../../../js/main.js"></script>
+    <script src="../../lib/easing/easing.min.js"></script>
+    <script src="../../js/main.js"></script>
     </body>
 </html>

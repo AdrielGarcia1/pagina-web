@@ -161,7 +161,26 @@ if (!$resultTalles) {
             </div>
         </div>
     </div>
-   <?php include('../../../components/footer.php'); ?>
+<div class="container-fluid bg-secondary text-dark mt-2 pt-2">
+        <div class="row px-xl-2 pt-2">
+            <div class="col-lg-4 col-md-8 mb-5 pr-3 pr-xl-5">
+                
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="row">
+                    <div class="col-md-4 mb-5">
+                        
+                        <div class="d-flex flex-column justify-content-start">
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-7">
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
     <!-- JavaScript Libraries -->

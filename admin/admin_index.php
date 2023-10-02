@@ -43,7 +43,7 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-            <a href="../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            <a href="adminuser/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
             </div>
         </div>
     </div>
@@ -70,7 +70,7 @@
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informes</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../admin/products.php" class="dropdown-item">Productos</a>
+                                    <a href="../admin/products/report/product_report.php" class="dropdown-item">Productos</a>
                                     <a href="../admin/user/user_report.php" class="dropdown-item">Usuarios</a>
                                 </div>
                             </div>                            
@@ -102,8 +102,26 @@
     <?php include('user/report/get_data_today.php'); ?> 
 </div>
     <!-- Navbar End -->
-    
-   <?php include('../components/footer.php'); ?>
+<div class="container-fluid bg-secondary text-dark mt-2 pt-2">
+        <div class="row px-xl-2 pt-2">
+            <div class="col-lg-4 col-md-8 mb-5 pr-3 pr-xl-5">
+                
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="row">
+                    <div class="col-md-4 mb-5">
+                        
+                        <div class="d-flex flex-column justify-content-start">
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-7">
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
