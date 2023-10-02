@@ -1,16 +1,56 @@
 <?php
 session_start();
 
-// Incluir el archivo de conexión a la base de datos
-include('../../../db_connection/db_connection.php');
+// Verificar si existe la variable de sesión del nombre de usuario
+if (isset($_SESSION['username'])) {
+    // Botón de "Cerrar Sesión"
+    $logoutButton = '<a href="../../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
+} else {
+    // Botones de "Login" y "Register"
+    $loginButton = '<a href="../../../login/login.php" class="nav-item nav-link">Login</a>';
+    $registerButton = '<a href="../../../register/register.php" class="nav-item nav-link">Registrar</a>';
+}
+ // Incluye el archivo de conexión a la base de datos
+ require_once('../../../db_connection/db_connection.php');
+// Verificar si existe la variable de sesión del nombre de usuario
+if (isset($_SESSION['username'])) {
+    // El usuario ha iniciado sesión
+    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
 
-// Realizar una consulta para obtener todas las categorías
-$query = "SELECT * FROM categorias";
-$result = mysqli_query($connection, $query);
+    // Realizar una consulta SQL para obtener el correo electrónico del usuario
+    $sql = "SELECT correo FROM usuarios WHERE nombre = ?";
 
-// Verificar si se obtuvieron resultados
-if (!$result) {
-    die("Error al obtener las categorías: " . mysqli_error($connection));
+    // Crear una nueva conexión a la base de datos
+    $conn = mysqli_connect($host, $usuario, $contrasena, $base_de_datos);
+
+    // Verificar si la conexión tuvo éxito
+    if (!$conn) {
+        die("Error de conexión: " . mysqli_connect_error());
+    }
+
+    // Preparar la consulta
+    $stmt = mysqli_prepare($conn, $sql);
+
+    // Verificar si la preparación de la consulta tuvo éxito
+    if ($stmt) {
+        // Asociar el parámetro a la consulta
+        mysqli_stmt_bind_param($stmt, "s", $username);
+
+        // Ejecutar la consulta
+        mysqli_stmt_execute($stmt);
+
+        // Obtener el resultado de la consulta
+        mysqli_stmt_bind_result($stmt, $email);
+
+        // Obtener el correo electrónico
+        mysqli_stmt_fetch($stmt);
+
+        // Cerrar la consulta y la conexión
+        mysqli_stmt_close($stmt);
+        mysqli_close($conn);
+    } else {
+        echo "Error en la preparación de la consulta: " . mysqli_error($conn);
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -24,7 +64,7 @@ if (!$result) {
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../../../img/d.jpg" rel="icon">
+    <link href="../img/d.jpg" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -41,7 +81,7 @@ if (!$result) {
 </head>
 
 <body>
- <!-- Topbar Start -->
+  <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-3 px-xl-5">
         </div>
@@ -115,77 +155,66 @@ if (!$result) {
     </div>
 </div>
 <!-- Navbar End -->
-          <!-- Mostrar la lista de Categoria -->
+    <!-- Contenedor principal para el perfil de usuario -->
     <div class="container mt-5">
+        <!-- Encabezado con nombre de usuario y correo centrados -->
         <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                    <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        padding: 5px;
-         color: black;
-    }
-
-    th {
-        background-color: #f0f0f0;
-    }
-</style>
-                        <h2 class="card-title row justify-content-center">Lista de categorias</h2>
-                        <ul>
-                         <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre de la Categoría</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td>" . $row['id'] . "</td>";
-                                    echo "<td>" . $row['nombre_categoria'] . "</td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                        </ul>
-                    </div>
-                </div>
+            <div class="col-md-6 text-center border p-4">
+                <h2><?php echo $username; ?></h2>
+                <p><?php echo $email; ?></p>
             </div>
         </div>
-    </div>
-    <!-- Contenido principal -->
-<div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content-center">
-                        <h5 class="card-title text-center-custom">Agregar nueva categoría</h5>
-                        </div>
-                        <!-- Formulario para agregar categorías -->
-                        <form class="row justify-content-center" action="process_add_category.php" method="post">                           
-                            <input type="text" id="category_name" name="category_name" required>
-                            <br>
-                            <button type="submit" name="submit" class="btn btn-primary btn-block btn-primary-custom">Cargar Categoría</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+
+        <!-- Opciones del perfil centradas verticalmente -->
+<div class="row justify-content-center mt-3">
+    <div class="col-md-6">
+        <div class="list-group">
+            <a href="../../../user/personal_information/personal_Info.php" class="list-group-item list-group-item-action text-center">
+                Información personal
+            </a>
+            <a href="../../../user/security/change_password.php" class="list-group-item list-group-item-action text-center">
+                Seguridad
+            </a>
+            <a href="../../../user/address/edit_address.php" class="list-group-item list-group-item-action text-center">
+                Direcciones
+            </a>
+            <a href="#" id="eliminarCuentaBtn" class="list-group-item list-group-item-action text-center">
+                Eliminar cuenta
+            </a>
         </div>
     </div>
-</body>
-    <?php include('../../../components/footer.php'); ?>
+</div>
 
-    <!-- Back to Top -->
+<!-- Formulario de eliminación de cuenta (oculto) -->
+<form id="eliminarCuentaForm" action="eliminar_cuenta.php" method="POST" style="display: none;">
+    <!-- Campo oculto para confirmar la eliminación -->
+    <input type="hidden" name="confirmar_eliminar" value="1">
+    <!-- Botón "Eliminar cuenta" real -->
+    <button type="submit" class="list-group-item list-group-item-action text-center">Confirmar Eliminar Cuenta</button>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var eliminarCuentaBtn = document.getElementById("eliminarCuentaBtn");
+    var eliminarCuentaForm = document.getElementById("eliminarCuentaForm");
+
+    eliminarCuentaBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        
+        // Muestra un cuadro de diálogo de confirmación
+        var confirmar = confirm("¿Está seguro de que desea eliminar su cuenta? Esta acción no se puede deshacer.");
+
+        // Si el usuario confirma, muestra el formulario de eliminación de cuenta
+        if (confirmar) {
+            eliminarCuentaForm.style.display = "block";
+        } else {
+            // Si el usuario cancela, no hace nada
+        }
+    });
+});
+</script>
+<?php include('../components/footer.php'); ?>
+        <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
     <!-- JavaScript Libraries -->
@@ -193,5 +222,5 @@ if (!$result) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="../../../lib/easing/easing.min.js"></script>
     <script src="../../../js/main.js"></script>
-</body>
+    </body>
 </html>

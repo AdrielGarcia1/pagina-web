@@ -5,10 +5,9 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 $today = date("Y-m-d");
-$sql = "SELECT HOUR(fecha_registro) AS hora, COUNT(*) AS cantidad_registrados_hoy
-FROM usuarios
-WHERE DATE(fecha_registro) = CURDATE()
-GROUP BY HOUR(fecha_registro)";
+$sql = "SELECT DATE_FORMAT(fecha_registro, '%H:%i') AS hora, COUNT(*) AS cantidad_registrados_hoy FROM usuarios 
+        WHERE DATE(fecha_registro) = CURDATE() GROUP 
+        BY DATE_FORMAT(fecha_registro, '%H:%i');";
 $result = $conn->query($sql);
 
 // Crear un array con los datos seleccionados
@@ -16,9 +15,10 @@ $data = array();
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
     $data[] = array(
-      'hora' => $row['hora'],
-      'cantidad_registrados_hoy' => $row['cantidad_registrados_hoy']
-    );
+  'hora' => date('G:i', strtotime($row['hora'])),
+  'cantidad_registrados_hoy' => $row['cantidad_registrados_hoy']
+);
+
   }
 }
 
@@ -49,20 +49,19 @@ foreach ($data as $row) {
         datasets: [{
           label: 'Usuarios registrados hoy',
           data: <?php echo json_encode($values); ?>,
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          backgroundColor: 'rgba(255, 99, 132, 0.3)',
           borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1
+          borderWidth: 2
         }]
       },
       options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {stepSize: 1}
+                }
             }
-          }]
         }
-      }
     });
   </script>
 </body>

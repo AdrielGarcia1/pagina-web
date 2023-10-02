@@ -1,22 +1,29 @@
-<?php
-// Incluir el archivo de validación y actualización de contraseña
-include('change_password_handler.php');
-?>
+<?php include('update_address.php'); 
+// Verificar si existe la variable de sesión del nombre de usuario
+if (isset($_SESSION['username'])) {
+    // Botón de "Cerrar Sesión"
+    $logoutButton = '<a href="../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
+} else {
+    // Botones de "Login" y "Register"
+    $loginButton = '<a href="../login/login.php" class="nav-item nav-link">Login</a>';
+    $registerButton = '<a href="../register/register.php" class="nav-item nav-link">Registrar</a>';
+}?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <title>TIENDA</title>
+    <title>Editar Perfil</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
 
     <!-- Favicon -->
-    <link href="../../img/d.jpg" rel="icon">
+    <link href="../img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -29,7 +36,7 @@ include('change_password_handler.php');
 </head>
 
 <body>
-    <!-- Topbar Start -->
+<!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-2 px-xl-5">
             <div class="col-lg-6 d-none d-lg-block">
@@ -127,7 +134,7 @@ include('change_password_handler.php');
                                 echo '<a href="../../login/login.php" class="nav-item nav-link">Carrito </a>';
                                 echo '<a href="../../login/login.php" class="nav-item nav-link">Pagar</a>';
                               }
-                            ?>  
+                            ?>   
                             <a href="../../pag/contact.php" class="nav-item nav-link">Contacto</a>
                         </div>
                            <div class="navbar-nav ml-auto py-0">
@@ -147,49 +154,46 @@ include('change_password_handler.php');
         </div>
     </div>
     <!-- Navbar End -->
-
-        <!--Main content -->
+    <!-- Content Start -->
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <h2>Actualizar contraseña</h2>
-                        <?php
-        // Mostrar mensajes de éxito o error
-        if (!empty($successMessage)) {
-            echo '<div class="alert alert-success">' . $successMessage . '</div>';
-        } elseif (!empty($errorMessage)) {
-            echo '<div class="alert alert-danger">' . $errorMessage . '</div>';
-        }
-        ?>
-                <!-- Formulario para mostrar y editar datos del usuario -->
-                <form method="POST" action="" >
-                   <div class="form-group">
-                    <label for="current_password">Contraseña Actual</label>
-                    <input type="password" class="form-control" id="current_password" name="current_password" required>
-                   </div>
-                   <div class="form-group">
-                    <label for="new_password">Nueva Contraseña</label>
-                    <input type="password" class="form-control" id="new_password" name="new_password" required>
-                   </div>
-                   <div class="form-group">
-                    <label for="confirm_password">Confirmar Nueva Contraseña</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                   </div>
-                   <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
-                </form>
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Editar Perfil</h2>
+<!--Main content -->
+<form action="../user/edit_profile.php" method="POST">
+    <div class="form-group">
+        <label for="province">Provincia:</label>
+        <select id="province" name="province" class="form-control" required>
+            <?php while ($row = mysqli_fetch_assoc($provinces_result)) { ?>
+                <option value="<?php echo $row['id']; ?>" <?php if ($row['id'] == $currentProvinceId) echo 'selected="selected"'; ?>><?php echo $row['nombre_provincia']; ?></option>
+            <?php } ?>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="city">Ciudad/Pueblo:</label>
+        <input type="text" id="city" name="city" class="form-control" placeholder="Ingresa tu Ciudad o Pueblo" value="<?php echo $currentCity; ?>" required>
+    </div>
+    <div class="form-group">
+        <label for="address">Dirección:</label>
+        <textarea id="address" name="address" class="form-control" placeholder="Ingresa tu Dirección" required><?php echo $currentAddress; ?></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>
+</form>
+
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-<!-- Main content end -->
+    <!-- Content End -->
 <?php include('../../components/footer.php'); ?>
-        <!-- Back to Top -->
-    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="../../lib/easing/easing.min.js"></script>
-        <!-- Template Javascript -->
-    <script src="../js/main.js"></script>
-    </body>
+</body>
+
 </html>

@@ -73,7 +73,7 @@ if (isset($_SESSION['username'])) {
 
 <head>
     <meta charset="utf-8">
-    <title>Disorder</title>
+    <title>TIENDA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -154,38 +154,52 @@ if (isset($_SESSION['cart_message'])) {
         </div>
     </div>
     <!-- Navbar End -->
-    <!-- Cart Start -->
-    <div class="container-fluid pt-5">
-        <div class="row px-xl-5">
-            <div class="col-lg-8 table-responsive mb-5">
-      <table class="table table-bordered text-center mb-0">
-    <thead class="bg-secondary text-dark">
-        <tr>
-            <th>Producto</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Total</th>
-            <th>Eliminar</th>
-        </tr>
-    </thead>
-    <tbody class="align-middle">
-      <?php
-        // Recorre los datos del carrito y muestra los productos
-        foreach ($cartData as $item) {
-            ?>
-            <tr data-id="<?php echo $item['id']; ?>">
-                <td class="align-middle"><?php echo $item['nombre']; ?></td>
-                <td class="align-middle">$<?php echo $item['precio']; ?></td>
-                <td class="align-middle">
-                    <div class="input-group quantity mx-auto" style="width: 100px;">
-                        <input type="text" class="form-control form-control-sm text-center cantidad" value="<?php echo $item['cantidad']; ?>">
-                    </div>
-                </td>
-                <td class="align-middle">$<?php echo $item['total']; ?></td>
-                <td class="align-middle">
-                <button class="btn btn-sm btn-primary delete-product" data-id="<?php echo $item['id']; ?>"><i class="fa fa-times"></i></button>
+<!-- Cart Start -->
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-8 table-responsive mb-5">
+            <table class="table table-bordered text-center mb-0">
+                <thead class="bg-secondary text-dark">
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    <?php
+                    // Inicializa el subtotal y el envío
+                    $subtotal = 0;
+                    $envio = 2000;
 
-                  <script>
+                    // Recorre los datos del carrito y muestra los productos
+                    foreach ($cartData as $item) {
+                        // Calcula el total para este producto
+                        $totalProducto = $item['precio'] * $item['cantidad'];
+
+                        // Actualiza el subtotal
+                        $subtotal += $totalProducto;
+                        ?>
+                        <tr data-id="<?php echo $item['id']; ?>">
+                            <td class="align-middle text-dark"><?php echo $item['nombre']; ?></td>
+                            <td class="align-middle text-dark">$<?php echo $item['precio']; ?></td>
+                            <td class="align-middle ">
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    <input type="text" class="form-control form-control-sm text-center cantidad text-dark" value="<?php echo $item['cantidad']; ?>">
+                                </div>
+                            </td>
+                            <td class="align-middle text-dark">$<?php echo $totalProducto; ?></td>
+                            <td class="align-middle">
+                                <button class="btn btn-sm btn-primary delete-product" data-id="<?php echo $item['id']; ?>"><i class="fa fa-times"></i></button>
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+                 <script>
 $(document).ready(function() {
     // Agrega un evento de clic a los botones "X" con la clase "delete-product"
     $('.delete-product').click(function() {
@@ -217,25 +231,38 @@ $(document).ready(function() {
     });
 });
 </script>
-              </td>
-            </tr>
-            <?php
-        }
-      ?>
-    </tbody>
-</table>
-
-    </td>    
-</tr>
-
+            </table>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-secondary mb-5">
+                <div class="card-header bg-secondary border-0">
+                    <h4 class="font-weight-semi-bold m-0">Resumen del carrito</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3 pt-1">
+                        <h6 class="font-weight-medium">Subtotal</h6>
+                        <h6 class="font-weight-medium">$<?php echo $subtotal; ?></h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium">Envio</h6>
+                        <h6 class="font-weight-medium">$<?php echo $envio; ?></h6>
+                    </div>
+                </div>
+                <div class="card-footer border-secondary bg-transparent">
+                    <div class="d-flex justify-content-between mt-2">
+                        <h5 class="font-weight-bold">Total</h5>
+                        <h5 class="font-weight-medium">$<?php echo $subtotal + $envio; ?></h5>
+                    </div>
+                    <a href="checkout.php" class="btn btn-block btn-primary my-3 py-3">Pagar</a>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Cart End -->
+</div>
+<!-- Cart End -->
   <?php include('../components/footer.php'); ?>
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

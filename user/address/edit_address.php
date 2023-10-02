@@ -72,7 +72,7 @@ if (isset($_SESSION['username'])) {
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="" class="text-decoration-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold">DISORDER</h1>
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
@@ -194,6 +194,8 @@ if (isset($_SESSION['username'])) {
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="../../lib/easing/easing.min.js"></script>
+        <!-- Template Javascript -->
+    <script src="../js/main.js"></script>
 </body>
 
 </html>

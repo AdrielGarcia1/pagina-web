@@ -67,7 +67,7 @@ mysqli_close($connection);
 
 <head>
     <meta charset="utf-8">
-    <title>Disorder</title>
+    <title>TIENDA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -102,7 +102,7 @@ mysqli_close($connection);
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold">DISORDER</h1>
+                        <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
@@ -152,11 +152,11 @@ mysqli_close($connection);
                          <?php endif; ?>
                         <form method="POST" action="../login/login.php">                         
                             <div class="form-group">
-                                <label class="text-dark" for="username">Nombre de Usuario</label>
+                                <h5 class="text-dark" for="username">Nombre de Usuario</h5>
                                 <input type="text" class="form-control" id="username" name="username" value="<?php echo $username; ?>" placeholder="Ingresa tu nombre de usuario" required>
                             </div>
                             <div class="form-group">
-                                <label class="text-dark" for="password">Contraseña</label>
+                                <h5 class="text-dark" for="password">Contraseña</h5>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
                             </div>
                             <div class="form-group">
@@ -178,5 +178,7 @@ mysqli_close($connection);
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <!-- Template Javascript -->
+    <script src="../js/main.js"></script>
 </body>
 </html>

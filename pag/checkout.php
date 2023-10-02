@@ -2,8 +2,10 @@
 // Incluye el archivo de conexión a la base de datos
 include('../db_connection/db_connection.php');
 session_start();
+
 // Inicializa un arreglo para almacenar los datos del carrito
 $cartData = array();
+
 // Verifica si el usuario ha iniciado sesión
 if (!isset($_SESSION['username'])) {
     // Si el usuario no ha iniciado sesión, muestra un mensaje de error
@@ -13,48 +15,49 @@ if (!isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
     // Consulta SQL para obtener los productos en el carrito de compras del usuario
-$sql = "SELECT productos.id, productos.nombre, productos.precio, carrito_compras.cantidad
-        FROM productos
-        INNER JOIN carrito_compras ON productos.id = carrito_compras.producto_id
-        WHERE carrito_compras.usuario_id = (SELECT id FROM usuarios WHERE nombre = ?)";
+    $sql = "SELECT productos.id, productos.nombre, productos.precio, carrito_compras.cantidad
+            FROM productos
+            INNER JOIN carrito_compras ON productos.id = carrito_compras.producto_id
+            WHERE carrito_compras.usuario_id = (SELECT id FROM usuarios WHERE nombre = ?)";
 
-// Prepara la sentencia SQL
-$stmt = $connection->prepare($sql);
+    // Prepara la sentencia SQL
+    $stmt = $connection->prepare($sql);
 
-if ($stmt === false) {
-    die("Error al preparar la consulta: " . $connection->error);
-}
+    if ($stmt === false) {
+        die("Error al preparar la consulta: " . $connection->error);
+    }
 
-// Enlaza el parámetro
-$stmt->bind_param("s", $username);
+    // Enlaza el parámetro
+    $stmt->bind_param("s", $username);
 
-// Ejecuta la consulta
-if ($stmt->execute()) {
-    $result = $stmt->get_result();
+    // Ejecuta la consulta
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
 
-    // Verifica si hay productos en el carrito
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $productId = $row['id']; // Define $productId con el ID del producto
-            $nombreProducto = $row['nombre'];
-            $precioProducto = $row['precio'];
-            $cantidadProducto = $row['cantidad'];
-            $totalProducto = $precioProducto * $cantidadProducto;
+        // Verifica si hay productos en el carrito
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $productId = $row['id']; // Define $productId con el ID del producto
+                $nombreProducto = $row['nombre'];
+                $precioProducto = $row['precio'];
+                $cantidadProducto = $row['cantidad'];
+                $totalProducto = $precioProducto * $cantidadProducto;
 
-            // Agrega los datos del producto al arreglo $cartData
-            $cartData[] = array(
-                'id' => $productId, // Incluye el ID del producto
-                'nombre' => $nombreProducto,
-                'precio' => $precioProducto,
-                'cantidad' => $cantidadProducto,
-                'total' => $totalProducto
-            );
+                // Agrega los datos del producto al arreglo $cartData
+                $cartData[] = array(
+                    'id' => $productId, // Incluye el ID del producto
+                    'nombre' => $nombreProducto,
+                    'precio' => $precioProducto,
+                    'cantidad' => $cantidadProducto,
+                    'total' => $totalProducto
+                );
+            }
         }
     }
+    // Cierra la sentencia
+    $stmt->close();
 }
-// Cierra la sentencia
-$stmt->close();
-}
+
 // Verifica si se ha enviado el formulario
 if (isset($_POST['realizar_pedido'])) {
     // Obtiene el nombre de usuario desde la sesión
@@ -108,14 +111,52 @@ if (isset($_POST['realizar_pedido'])) {
                     if (!$stmtDetalle->execute()) {
                         echo "Error al insertar detalle de venta: " . $stmtDetalle->error;
                         $stmtDetalle->close();
-                        break; 
+                        break;
                     }
 
                     $stmtDetalle->close();
                 }
 
+                // Actualizar el stock de productos vendidos
+                foreach ($cartData as $product) {
+                    $productoId = $product['id'];
+                    $cantidad = $product['cantidad'];
+
+                    $updateStockSQL = "UPDATE productos SET stock = stock - ? WHERE id = ?";
+                    $stmtUpdateStock = $connection->prepare($updateStockSQL);
+
+                    if ($stmtUpdateStock === false) {
+                        die("Error en la preparación de la consulta de actualización de stock: " . $connection->error);
+                    }
+
+                    $stmtUpdateStock->bind_param("ii", $cantidad, $productoId);
+
+                    if (!$stmtUpdateStock->execute()) {
+                        echo "Error al actualizar el stock del producto: " . $stmtUpdateStock->error;
+                    }
+
+                    $stmtUpdateStock->close();
+                }
+                // Después de actualizar el stock, elimina los productos del carrito de compras
+$deleteCartSQL = "DELETE FROM carrito_compras WHERE usuario_id = ?";
+$stmtDeleteCart = $connection->prepare($deleteCartSQL);
+
+if ($stmtDeleteCart === false) {
+    die("Error en la preparación de la consulta para eliminar el carrito de compras: " . $connection->error);
+}
+
+$stmtDeleteCart->bind_param("i", $userId);
+
+if ($stmtDeleteCart->execute()) {
+    // Los datos del carrito de compras se han eliminado con éxito
+} else {
+    echo "Error al eliminar los datos del carrito de compras: " . $stmtDeleteCart->error;
+}
                 // Cierre de la transacción
                 $connection->commit();
+
+                // Ahora puedes mostrar un mensaje de confirmación
+                echo "¡La compra se ha realizado con éxito!";
             } else {
                 echo "Error al insertar venta: " . $stmtVenta->error;
             }
@@ -126,8 +167,8 @@ if (isset($_POST['realizar_pedido'])) {
         }
     }
 }
-if (isset($_SESSION['username'])) {
-    // El usuario ha iniciado sesión
+
+if (isset($_SESSION['username'])) {    
     $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
 
     // Crea una nueva conexión a la base de datos (similar a user.php)
@@ -175,13 +216,14 @@ if (isset($_SESSION['username'])) {
     $loginButton = '<a href="../login/login.php" class="nav-item nav-link">Login</a>';
     $registerButton = '<a href="../register/register.php" class="nav-item nav-link">Registrar</a>';
   }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Disorder</title>
+    <title>TIENDA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -262,45 +304,45 @@ if (isset($_SESSION['username'])) {
                     <h4 class="font-weight-semi-bold mb-4">Datos de Envio</h4>
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label>Nombre</label>
+                            <h5 class="text-dark">Nombre</h5>
                             <input class="form-control" type="text" placeholder="John" value="<?php echo $nombre_real; ?>">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Apellido</label>
+                            <h5 class="text-dark">Apellido</h5>
                             <input class="form-control" type="text" placeholder="Perez" value="<?php echo $apellido; ?>">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Mail</label>
+                            <h5 class="text-dark">Mail</h5>
                             <input class="form-control" type="text" placeholder="example@email.com" value="<?php echo $correo; ?>">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Número de telefono</label>
+                            <h5 class="text-dark">Número de telefono</h5>
                             <input class="form-control" type="text" placeholder="+54 9 2625 489458" value="<?php echo $numero_telefono; ?>">                            
                         </div>  
                         <div class="col-md-6 form-group">
-                            <label>DNI</label>
+                            <h5 class="text-dark">DNI</h5>
                             <input class="form-control" type="text" placeholder="41962761" value="<?php echo $DNI; ?>">                            
                         </div>                       
                         <div class="col-md-6 form-group">
-                            <label>Provincia</label>
+                            <h5 class="text-dark">Provincia</h5>
                             <input class="form-control" type="text" placeholder="Buenos Aires" value="<?php echo $nombre_provincia; ?>">                                                         
                         </div>
                         <div class="col-md-6 form-group">
-                             <label>Ciudad/Pueblo</label>
+                             <h5 class="text-dark">Ciudad/Pueblo</h5>
                              <input class="form-control" type="text" placeholder="Ej:General Alvear" value="<?php echo $ciudad_pueblo; ?>">                            
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Dirección</label>
+                            <h5 class="text-dark">Dirección</h5>
                             <input class="form-control" type="text" placeholder="Ej: San Juan 234" value="<?php echo $direccion; ?>">                            
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Código postal</label>
+                            <h5 class="text-dark">Código postal</h5>
                             <input class="form-control" type="text" placeholder="123" value="<?php echo $codigo_postal; ?>">                            
                         </div>
                         <!--<div class="col-md-12 form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="newaccount">
-                                <label class="custom-control-label" for="newaccount">Crear cuenta</label>
+                                <h5 class="custom-control-h5" for="newaccount">Crear cuenta</h5>
                             </div>
                         </div>-->
                     </div>
@@ -309,10 +351,10 @@ if (isset($_SESSION['username'])) {
             <div class="col-lg-4">
             <div class="card border-secondary mb-5">
                 <div class="card-header bg-secondary border-0">
-                    <h4 class="font-weight-semi-bold m-0">Order Total</h4>
+                    <h4 class="font-weight-semi-bold m-0">Total del pedido</h4>
                 </div>
                     <div class="card-body">
-    <h5 class="font-weight-medium mb-3">Products</h5>
+    <h5 class="font-weight-medium mb-3">Productos</h5>
     <!-- Comprobar si $cartData no es nulo y es un array antes de usar foreach -->
     <?php
     $subtotal = 0;
@@ -324,7 +366,7 @@ if (isset($_SESSION['username'])) {
             $totalProducto = $product['total'];
             $subtotal += $totalProducto;
 
-            echo '<div class="d-flex justify-content-between">';
+            echo '<div class="d-flex justify-content-between text-dark">';
             echo '<p>' . $nombreProducto . '</p>';
             echo '<p>$' . number_format($precioProducto, 2) . '</p>';
             echo '</div>';
@@ -340,7 +382,7 @@ if (isset($_SESSION['username'])) {
                   <h6 class="font-weight-medium">$<?php echo number_format($subtotal, 2); ?></h6>
                 </div>
                 <div class="d-flex justify-content-between">
-                  <h6 class="font-weight-medium">Shipping</h6>
+                  <h6 class="font-weight-medium">Envio</h6>
                   <h6 class="font-weight-medium">$2,000.00</h6>
                 </div>
                 </div>

@@ -1,25 +1,5 @@
 <?php
-include_once("../../db_connection/db_connection.php");
-
-// Inicia sesión (si aún no se ha iniciado)
 session_start();
-
-// Consulta SQL para obtener las fechas disponibles
-$sql = "SELECT DISTINCT DATE(fecha_registro) AS fecha FROM usuarios WHERE tipo = 'cliente'";
-$resultadoFechas = mysqli_query($connection, $sql);
-
-// Inicializa las fechas disponibles
-$fechasDisponibles = [];
-
-while ($filaFecha = mysqli_fetch_assoc($resultadoFechas)) {
-    $fechasDisponibles[] = $filaFecha['fecha'];
-}
-
-// Convierte las fechas al formato deseado (puedes personalizar esto según tus necesidades)
-$fechasFormateadas = [];
-foreach ($fechasDisponibles as $fecha) {
-    $fechasFormateadas[] = date("d-m-Y", strtotime($fecha));
-}
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +7,7 @@ foreach ($fechasDisponibles as $fecha) {
 
 <head>
     <meta charset="utf-8">
-    <title>Disorder</title>
+    <title>TIENDA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -84,7 +64,7 @@ foreach ($fechasDisponibles as $fecha) {
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold">DISORDER</h1>
+                        <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
@@ -102,18 +82,19 @@ foreach ($fechasDisponibles as $fecha) {
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../admin/user/user_list.php" class="dropdown-item">Lista</a>                                   
+                                    <a href="../../admin/user/list/user_list.php" class="dropdown-item">Lista</a>                                   
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
+                                     <a href="../../admin/products/list/product_list.php" class="dropdown-item">Lista productos</a>
+                                     <a href="../../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
                                      <a href="../../admin/products/category/add_category.php" class="dropdown-item">Agregar categoria</a> 
-                                     <a href="../../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a> 
+                                     <a href="../../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a>                              
+                                     </div>
                                 </div>
                             </div>
-                        </div>
                         <div class="navbar-nav ml-auto py-0">
                             <a href="../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesion</a>                            
                         </div>
@@ -123,14 +104,7 @@ foreach ($fechasDisponibles as $fecha) {
         </div>
     </div>
     <!-- Navbar End -->
-
-     <!-- Aquí se mostrará el gráfico -->
-    <div class="container mt-5">
-        <canvas id="myChart"></canvas>
-        </div>
-
-    <!-- Agrega este elemento select en tu formulario -->
-<form action="">
+<form class="container-fluid justify-content-center">
     <div class="input-group">
         <select id="timeRange" class="form-control">
         <option value="" >seleccionar</option>    
@@ -146,6 +120,10 @@ foreach ($fechasDisponibles as $fecha) {
         </div>
     </div>
 </form>
+     <!-- Aquí se mostrará el gráfico -->
+    <div class="container mt-5 text-dark">
+        <canvas id="myChart"></canvas>
+        </div>
 
 <!-- JavaScript para manejar el cambio en el menú desplegable -->
     <script>
@@ -179,29 +157,30 @@ foreach ($fechasDisponibles as $fecha) {
                 });
         });
 
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
             type: 'line',
-            data: {
-                labels: [], // Aquí deberían estar tus etiquetas de fecha
-                datasets: [{
-                    label: 'Cantidad de Usuarios',
-                    data: [], // Aquí deberían estar tus datos de cantidad de usuarios
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+        data: {
+            labels: [], // Aquí deberían estar tus etiquetas de fecha
+            datasets: [{
+                label: 'Cantidad de Usuarios',
+                data: [], // Aquí deberían estar tus datos de cantidad de usuarios
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {stepSize: 1} // Esta es la línea que debes agregar
                 }
             }
-        });
+        }
+    });
+
     </script>
-<?php include('../../components/footer.php'); ?>
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
@@ -209,6 +188,7 @@ foreach ($fechasDisponibles as $fecha) {
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="../../lib/easing/easing.min.js"></script>
+    <script src="../../lib/easing/easing.min.js"></script>    <!-- Template Javascript -->
+    <script src="../../js/main.js"></script>
 </body>
 </html>

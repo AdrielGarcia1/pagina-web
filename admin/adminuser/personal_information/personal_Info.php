@@ -1,6 +1,57 @@
 <?php
-// Incluir el archivo de validación y actualización de contraseña
-include('change_password_handler.php');
+session_start();
+
+// Verificar si existe la variable de sesión del nombre de usuario
+if (isset($_SESSION['username'])) {
+    // Botón de "Cerrar Sesión"
+    $logoutButton = '<a href="../../login/cerrar_sesion.php" class="nav-item nav-link">Cerrar Sesión</a>';
+} else {
+    // Botones de "Login" y "Register"
+    $loginButton = '<a href="../../login/login.php" class="nav-item nav-link">Login</a>';
+    $registerButton = '<a href=".././register/register.php" class="nav-item nav-link">Registrar</a>';
+}
+
+// Incluye el archivo de conexión a la base de datos
+require_once('../../db_connection/db_connection.php');
+
+// Inicia sesión (si aún no se ha iniciado)
+if (isset($_SESSION['username'])) {
+    // El usuario ha iniciado sesión
+    $username = $_SESSION['username']; // Obtener el nombre de usuario de la sesión
+
+    // Crea una nueva conexión a la base de datos (similar a user.php)
+    $conn = mysqli_connect($host, $usuario, $contrasena, $base_de_datos);
+
+    // Verificar si la conexión tuvo éxito
+    if (!$conn) {
+        die("Error de conexión: " . mysqli_connect_error());
+    }
+
+    // Realiza la consulta SQL para obtener la información del usuario
+    $sql = "SELECT nombre, nombre_real, apellido, numero_telefono, correo, DNI FROM usuarios WHERE nombre = ?";
+
+    // Preparar la consulta
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if ($stmt) {
+        // Asociar el parámetro a la consulta
+        mysqli_stmt_bind_param($stmt, "s", $username);
+
+        // Ejecutar la consulta
+        mysqli_stmt_execute($stmt);
+
+        // Obtener los resultados de la consulta
+        mysqli_stmt_bind_result($stmt, $nombre, $nombre_real, $apellido, $numero_telefono, $correo, $DNI);
+
+        // Obtener los datos del usuario
+        mysqli_stmt_fetch($stmt);
+
+        // Cerrar la consulta
+        mysqli_stmt_close($stmt);
+    } else {
+        echo "Error en la preparación de la consulta: " . mysqli_error($conn);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +80,7 @@ include('change_password_handler.php');
 </head>
 
 <body>
-    <!-- Topbar Start -->
+       <!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-2 px-xl-5">
             <div class="col-lg-6 d-none d-lg-block">
@@ -118,7 +169,7 @@ include('change_password_handler.php');
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="../../pag/index.php" class="nav-item nav-link active">Inicio</a>
-                            <a href="../../pag/shop.php" class="nav-item nav-link">Productos</a>                            
+                            <a href="../../pag/shop.php" class="nav-item nav-link">Productos</a>                          
                             <?php                 
                               if (isset($_SESSION['username'])) {                                     
                                 echo '<a href="../../pag/cart.php" class="nav-item nav-link">Carrito</a>';
@@ -127,7 +178,7 @@ include('change_password_handler.php');
                                 echo '<a href="../../login/login.php" class="nav-item nav-link">Carrito </a>';
                                 echo '<a href="../../login/login.php" class="nav-item nav-link">Pagar</a>';
                               }
-                            ?>  
+                            ?>   
                             <a href="../../pag/contact.php" class="nav-item nav-link">Contacto</a>
                         </div>
                            <div class="navbar-nav ml-auto py-0">
@@ -149,37 +200,42 @@ include('change_password_handler.php');
     <!-- Navbar End -->
 
         <!--Main content -->
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <h2>Actualizar contraseña</h2>
-                        <?php
-        // Mostrar mensajes de éxito o error
-        if (!empty($successMessage)) {
-            echo '<div class="alert alert-success">' . $successMessage . '</div>';
-        } elseif (!empty($errorMessage)) {
-            echo '<div class="alert alert-danger">' . $errorMessage . '</div>';
-        }
-        ?>
-                <!-- Formulario para mostrar y editar datos del usuario -->
-                <form method="POST" action="" >
-                   <div class="form-group">
-                    <label for="current_password">Contraseña Actual</label>
-                    <input type="password" class="form-control" id="current_password" name="current_password" required>
-                   </div>
-                   <div class="form-group">
-                    <label for="new_password">Nueva Contraseña</label>
-                    <input type="password" class="form-control" id="new_password" name="new_password" required>
-                   </div>
-                   <div class="form-group">
-                    <label for="confirm_password">Confirmar Nueva Contraseña</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                   </div>
-                   <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
-                </form>
-            </div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <h2>Mi Información Personal</h2>
+
+            <!-- Formulario para mostrar y editar datos del usuario -->
+            <form action="update_info.php" method="POST">
+                <div class="form-group">
+                    <label for="nombre">Nombre de Usuario:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombre_real">Nombre Real:</label>
+                    <input type="text" class="form-control" id="nombre_real" name="nombre_real" value="<?php echo $nombre_real; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo $apellido; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico:</label>
+                    <input type="email" class="form-control" id="correo" name="correo" value="<?php echo $correo; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="numero_telefono">Número de Teléfono:</label>
+                    <input type="text" class="form-control" id="numero_telefono" name="numero_telefono" value="<?php echo $numero_telefono; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="DNI">DNI:</label>
+                    <input type="text" class="form-control" id="DNI" name="DNI" value="<?php echo $DNI; ?>" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Actualizar Información</button>
+            </form>
         </div>
     </div>
+</div>
 <!-- Main content end -->
 <?php include('../../components/footer.php'); ?>
         <!-- Back to Top -->
@@ -189,7 +245,5 @@ include('change_password_handler.php');
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="../../lib/easing/easing.min.js"></script>
-        <!-- Template Javascript -->
-    <script src="../js/main.js"></script>
     </body>
 </html>

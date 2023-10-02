@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Disorder</title>
+    <title>TIENDA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -140,7 +140,7 @@
         <div class="col-lg-9">
             <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                 <a href="" class="text-decoration-none d-block d-lg-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold">DISORDER</h1>
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
                 </a>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
@@ -179,58 +179,58 @@ require_once "register_process.php";
                     <h2 class="card-title text-center">Registro de Usuario</h2>
                     <form action="../register/register.php" method="POST" onsubmit="return validarRegistro();">
                         <div class="form-group">
-                            <label for="username">Nombre de Usuario:</label>
+                            <h5 for="username">Nombre de Usuario:</h5>
                             <input type="text" id="username" name="username" class="form-control"
                                    placeholder="Ingresa tu Nombre de Usuario" required>
                             <div id="usernameMessage" class="text-danger"></div>
                             <div class="text-danger"><?php echo $errorUsername; ?></div>
                         </div>
                         <div class="form-group">
-                            <label for="nombre_real">Nombre Real:</label>
+                            <h5 for="nombre_real">Nombre Real:</h5>
                             <input type="text" id="nombre_real" name="nombre_real" class="form-control"
                                    placeholder="Ingresa tu Nombre Real" required>
                         </div>
                         <div class="form-group">
-                            <label for="apellido">Apellido:</label>
+                            <h5 for="apellido">Apellido:</h5>
                             <input type="text" id="apellido" name="apellido" class="form-control"
                                    placeholder="Ingresa tu Apellido" required>
                         </div>
                         <div class="form-group">
-                            <label for="numero_telefono">Número de Teléfono:</label>
+                            <h5 for="numero_telefono">Número de Teléfono:</h5>
                             <input type="text" id="numero_telefono" name="numero_telefono" class="form-control"
                                    placeholder="Ingresa tu Número de Teléfono" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">Correo Electrónico:</label>
+                            <h5 for="email">Correo Electrónico:</h5>
                             <input type="email" id="email" name="email" class="form-control"
                                    placeholder="Ingresa tu Correo Electrónico" required>
                             <div id="emailMessage" class="text-danger"></div>
                             <div class="text-danger"><?php echo $errorEmail; ?></div>
                         </div>
                         <div class="form-group">
-                            <label for="password">Contraseña:</label>
+                            <h5 for="password">Contraseña:</h5>
                             <input type="password" id="password" name="password" class="form-control"
                                    placeholder="Ingresa tu Contraseña" required>
                         </div>
                         <div class="form-group">
-                            <label for="confirm_password">Confirmar Contraseña:</label>
+                            <h5 for="confirm_password">Confirmar Contraseña:</h5>
                             <input type="password" id="confirm_password" name="confirm_password" class="form-control"
                                    placeholder="Ingresa nuevamente tu Contraseña" required>
                         </div>
                         <div class="form-group">
-                            <label for="dni">DNI:</label>
+                            <h5 for="dni">DNI:</h5>
                             <input type="text" id="dni" name="dni" class="form-control"
                                    placeholder="Ingresa tu DNI" required>
                             <div id="dniMessage" class="text-danger"></div>
                             <div class="text-danger"><?php echo $errorDNI; ?></div>
                         </div>
                         <div class="form-group">
-                            <label for="codigo_postal">Código Postal:</label>
+                            <h5 for="codigo_postal">Código Postal:</h5>
                             <input type="text" id="codigo_postal" name="codigo_postal" class="form-control"
                                    placeholder="Ingresa tu Código Postal" required>
                         </div>
                         <div class="form-group">
-                            <label for="province">Provincia:</label>
+                            <h5 for="province">Provincia:</h5>
                             <select id="province" name="province" class="form-control" required>
                                 <?php while ($row = mysqli_fetch_assoc($provinces_result)) { ?>
                                     <option value="<?php echo $row['id']; ?>"><?php echo $row['nombre_provincia']; ?></option>
@@ -238,12 +238,12 @@ require_once "register_process.php";
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="city">Ciudad/Pueblo:</label>
+                            <h5 for="city">Ciudad/Pueblo:</h5>
                             <input type="text" id="city" name="city" class="form-control"
                                    placeholder="Ingresa tu Ciudad o Pueblo" required>
                         </div>
                         <div class="form-group">
-                            <label for="address">Dirección:</label>
+                            <h5 for="address">Dirección:</h5>
                             <textarea id="address" name="address" class="form-control"
                                       placeholder="Ingresa tu Dirección" required></textarea>
                         </div>
@@ -261,5 +261,7 @@ require_once "register_process.php";
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 <script src="../lib/easing/easing.min.js"></script>
+    <!-- Template Javascript -->
+    <script src="../js/main.js"></script>
 </body>
 </html>

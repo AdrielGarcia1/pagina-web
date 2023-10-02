@@ -1,20 +1,48 @@
 <?php
-// Inicia sesión (si aún no se ha iniciado)
 session_start();
-include('../../../db_connection/db_connection.php');
 
-// Realizar una consulta para obtener todos los talles
-$queryTalles = "SELECT * FROM talles";
-$resultTalles = mysqli_query($connection, $queryTalles);
+// Incluye el archivo de conexión a la base de datos
+require_once('../../../db_connection/db_connection.php');
 
-// Verificar si se obtuvieron resultados
-if (!$resultTalles) {
-    die("Error al obtener los talles: " . mysqli_error($connection));
+// Inicializa variables para almacenar los datos del usuario
+$nombre = $nombre_real = $apellido = $correo = $numero_telefono = $DNI = "";
+
+// Verificar si se ha enviado el ID del usuario a editar
+if (isset($_GET["id"])) {
+    // Obtener el ID del usuario a editar desde la URL
+    $id = $_GET["id"];
+
+    // Consultar la base de datos para obtener los datos del usuario a editar
+    $sql = "SELECT nombre, nombre_real, apellido, correo, numero_telefono, DNI, estado FROM usuarios WHERE id = ?";
+    
+    // Preparar la consulta
+    $stmt = mysqli_prepare($connection, $sql);
+
+    if ($stmt) {
+        // Asociar el parámetro a la consulta
+        mysqli_stmt_bind_param($stmt, "i", $id);
+
+        // Ejecutar la consulta
+        mysqli_stmt_execute($stmt);
+
+        // Obtener los resultados de la consulta
+        mysqli_stmt_bind_result($stmt, $nombre, $nombre_real, $apellido, $correo, $numero_telefono, $DNI, $estado);
+
+        // Obtener los datos del usuario
+        mysqli_stmt_fetch($stmt);
+
+        // Cerrar la consulta
+        mysqli_stmt_close($stmt);
+    } else {
+        echo "Error en la preparación de la consulta: " . mysqli_error($connection);
+    }
 }
+// Cerrar la conexión a la base de datos
+mysqli_close($connection);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>TIENDA</title>
@@ -40,7 +68,27 @@ if (!$resultTalles) {
 </head>
 
 <body>
- <?php include('../../../components/topbar.php'); ?>
+    <!-- Topbar Start -->
+    <div class="container-fluid">
+        <div class="row bg-secondary py-3 px-xl-5">
+        </div>
+        <div class="row align-items-center py-2 px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+                <a href="" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
+                </a>
+            </div>
+            <div class="col-lg-6 col-6 text-left">
+                <form action="">
+                    
+                </form>
+            </div>
+            <div class="col-lg-3 col-6 text-right">
+            <a href="../../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>
+            </div>
+        </div>
+    </div>
+<!-- Topbar End -->
  <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
@@ -83,7 +131,6 @@ if (!$resultTalles) {
                                 </div>
                             </div>
                         </div>
-                        </div>
                         <div class="navbar-nav ml-auto py-0">
                             <a href="../../../login/login.php" class="nav-item nav-link">Cerrar Sesion</a>                            
                         </div>
@@ -93,82 +140,54 @@ if (!$resultTalles) {
         </div>
     </div>
     <!-- Navbar End -->
-      <!-- Mostrar la lista de talles -->
-   <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
 
-    th, td {
-        padding: 5px;
-         color: black;
-    }
-
-    th {
-        background-color: #f0f0f0;
-    }
-</style>
-                    <div class="row justify-content-center">
-                      <h2 class="card-title text-center-custom">Lista de Talles</h2>
-                    </div>
-                    <!-- Tabla de talles -->
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>                                
-                                <th>ID</th>                                
-                                <th>Talle</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            while ($rowTalles = mysqli_fetch_assoc($resultTalles)) {
-                                echo "<tr>";
-                                echo "<td>" . $rowTalles['id'] . "</td>";
-                                echo "<td>" . $rowTalles['nombre_talle'] . "</td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <!--Main content -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            
+             <h2>Editar Usuario</h2>
+            <!-- Formulario para mostrar y editar datos del usuario -->
+            
+    <form action="user_update.php" method="POST">
+        <input type="hidden" name="usuario_id" value="<?php echo $id; ?>">
+        <div class="form-group">
+            <h5 for="nombre">Nombre de Usuario:</h5>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre; ?>" required>
+        </div>
+        <div class="form-group">
+            <h5 for="nombre_real">Nombre Real:</h5>
+            <input type="text" class="form-control" id="nombre_real" name="nombre_real" value="<?php echo $nombre_real; ?>" required>
+        </div>
+        <div class="form-group">
+            <h5 for="apellido">Apellido:</h5>
+            <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo $apellido; ?>" required>
+        </div>
+        <div class="form-group">
+            <h5 for="correo">Correo Electrónico:</h5>
+            <input type="email" class="form-control" id="correo" name="correo" value="<?php echo $correo; ?>" required>
+        </div>
+        <div class="form-group">
+            <h5 for="numero_telefono">Número de Teléfono:</h5>
+            <input type="text" class="form-control" id="numero_telefono" name="numero_telefono" value="<?php echo $numero_telefono; ?>" required>
+        </div>
+        <div class="form-group">
+            <h5 for="DNI">DNI:</h5>
+            <input type="text" class="form-control" id="DNI" name="DNI" value="<?php echo $DNI; ?>" required>
+        </div>        
+        <button type="submit" class="btn btn-primary">Actualizar Información</button>
+    </form>
         </div>
     </div>
 </div>
-    <!-- Formulario para agregar talles -->
-    <div class="container mt-3">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                      <div class="row justify-content-center">
-                        <h5 class="card-title text-center-custom">Agregar nuevo talle</h5>
-                      </div>                      
-                        <form action="process_add_talle.php" method="post">  
-                           <div class="row justify-content-center">
-                            <input type="text" id="talle_name" name="talle_name" required>
-                           </div>
-                            <button type="submit" name="submit" class="btn btn-primary btn-block btn-primary-custom">Cargar Talle</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-   <?php include('../../../components/footer.php'); ?>
-    <!-- Back to Top -->
+<!-- Main content end -->
+<?php include('../../../components/footer.php'); ?>
+        <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="../../../lib/easing/easing.min.js"></script>
-    <script src="../../../lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="../../../js/main.js"></script>
-</body>
+    </body>
 </html>

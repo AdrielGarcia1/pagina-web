@@ -111,7 +111,7 @@ mysqli_close($connection);
         <div class="col-lg-9">
             <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                 <a href="" class="text-decoration-none d-block d-lg-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold">DISORDER</h1>
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
                 </a>
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -130,12 +130,13 @@ mysqli_close($connection);
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios</a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="../../../admin/user/user_list.php" class="dropdown-item">Lista</a>
+                                    <a href="../../../admin/user/list/user_list.php" class="dropdown-item">Lista</a>
                                 </div>
                             </div>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Productos</a>
                                 <div class="dropdown-menu rounded-0 m-0">
+                                    <a href="../../../admin/products/list/product_list.php" class="dropdown-item">Lista productos</a>
                                     <a href="../../../admin/products/add_product.php" class="dropdown-item">Agregar producto</a>
                                     <a href="../../../admin/products/category/add_category.php" class="dropdown-item">Agregar categoria</a>
                                     <a href="../../../admin/products/talle/add_talle.php" class="dropdown-item">Agregar talle</a>
@@ -243,6 +244,6 @@ function confirmarEliminacion(id) {
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-
+    <script src="../../../js/main.js"></script>
 </body>
 </html>
