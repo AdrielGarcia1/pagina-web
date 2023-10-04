@@ -128,11 +128,9 @@ if (isset($_SESSION['cart_message'])) {
                             <a href="../pag/shop.php" class="nav-item nav-link">Productos</a>                            
                             <?php                 
                               if (isset($_SESSION['username'])) {                                     
-                                echo '<a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>';
-                                echo ' <a href="../pag/checkout.php" class="nav-item nav-link">Pagar</a>';
+                                echo '<a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>';                                
                               } else {                                  
-                                echo '<a href="../login/login.php" class="nav-item nav-link">Carrito </a>';
-                                echo '<a href="../login/login.php" class="nav-item nav-link">Pagar</a>';
+                                echo '<a href="../login/login.php" class="nav-item nav-link">Carrito </a>';                                
                               }
                             ?>  
                             <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>
@@ -172,7 +170,12 @@ if (isset($_SESSION['cart_message'])) {
                     <?php
                     // Inicializa el subtotal y el envío
                     $subtotal = 0;
-                    $envio = 2000;
+                    // Verifica si hay productos en el carrito
+                    if (count($cartData) > 0) {
+                         $envio = 2000; // Envío no cero cuando hay productos en el carrito
+                    } else {
+                      $envio = 0; // Envío igual a cero cuando no hay productos en el carrito
+                     }
 
                     // Recorre los datos del carrito y muestra los productos
                     foreach ($cartData as $item) {
@@ -253,7 +256,13 @@ $(document).ready(function() {
                         <h5 class="font-weight-bold">Total</h5>
                         <h5 class="font-weight-medium">$<?php echo $subtotal + $envio; ?></h5>
                     </div>
-                    <a href="checkout.php" class="btn btn-block btn-primary my-3 py-3">Pagar</a>
+                    <?php
+                    if (count($cartData) > 0) {
+                       echo '<a href="checkout.php" class="btn btn-block btn-primary my-3 py-3">Pagar</a>';
+                    }else{
+                        echo'No hay productos en el carrito';
+                    }
+                    ?>
                 </div>
             </div>
         </div>

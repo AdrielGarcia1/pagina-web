@@ -77,11 +77,9 @@ if (!empty($categoria_filtro)) {
                             <a href="../pag/shop.php" class="nav-item nav-link active">Productos</a>
                             <?php                 
                             if (isset($_SESSION['username'])) {                                     
-                                echo '<a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>';
-                                echo ' <a href="../pag/checkout.php" class="nav-item nav-link">Pagar</a>';
+                                echo '<a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>';                                
                             } else {                                  
-                                echo '<a href="../login/login.php" class="nav-item nav-link">Carrito</a>';
-                                echo '<a href="../login/login.php" class="nav-item nav-link">Pagar</a>';
+                                echo '<a href="../login/login.php" class="nav-item nav-link">Carrito</a>';                                
                             }
                             ?>                          
                             <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>

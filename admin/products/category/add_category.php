@@ -115,34 +115,19 @@ if (!$result) {
     </div>
 </div>
 <!-- Navbar End -->
-          <!-- Mostrar la lista de Categoria -->
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                    <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        padding: 5px;
-         color: black;
-    }
-
-    th {
-        background-color: #f0f0f0;
-    }
-</style>
-                        <h2 class="card-title row justify-content-center">Lista de categorias</h2>
-                        <ul>
-                         <table class="table table-bordered table-striped">
+          <!-- Mostrar la lista de Categoría -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title row justify-content-center">Lista de categorías</h2>                    
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Nombre de la Categoría</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -151,17 +136,22 @@ if (!$result) {
                                     echo "<tr>";
                                     echo "<td>" . $row['id'] . "</td>";
                                     echo "<td>" . $row['nombre_categoria'] . "</td>";
+                                    echo "<td>";                                    
+                                    echo "<form action='delete_category.php' method='post'>";
+                                    echo "<input type='hidden' name='category_id' value='" . $row['id'] . "'>";
+                                    echo "<button type='submit' class='btn btn-sm btn-primary delete-category' data-id='" . $row['id'] . "'><i class='fa fa-times'></i></button>";
+                                    echo "</form>";
+                                    echo "</td>";
                                     echo "</tr>";
                                 }
                                 ?>
                             </tbody>
-                        </table>
-                        </ul>
-                    </div>
+                        </table>                    
                 </div>
             </div>
         </div>
     </div>
+</div>
     <!-- Contenido principal -->
 <div class="container mt-5">
         <div class="row justify-content-center">

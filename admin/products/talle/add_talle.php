@@ -113,36 +113,21 @@ if (!$resultTalles) {
         </div>
     </div>
     <!-- Navbar End -->
+
       <!-- Mostrar la lista de talles -->
-   <div class="container mt-5">
+  <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="card">
-                <div class="card-body">
-                <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        padding: 5px;
-         color: black;
-    }
-
-    th {
-        background-color: #f0f0f0;
-    }
-</style>
-                    <div class="row justify-content-center">
-                      <h2 class="card-title text-center-custom">Lista de Talles</h2>
-                    </div>
+                <div class="card-body">                    
+                    <h2 class="card-title row justify-content-center">Lista de Talles</h2>                     
                     <!-- Tabla de talles -->
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped justify-content-center">
                         <thead>
                             <tr>                                
                                 <th>ID</th>                                
                                 <th>Talle</th>
+                                <th class="acciones-column">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -151,11 +136,17 @@ if (!$resultTalles) {
                                 echo "<tr>";
                                 echo "<td>" . $rowTalles['id'] . "</td>";
                                 echo "<td>" . $rowTalles['nombre_talle'] . "</td>";
+                                echo "<td>";            
+                                echo "<form action='delete_talle.php' method='post'>";
+                                echo "<input type='hidden' name='talle_id' value='" . $rowTalles['id'] . "'>";
+                                echo "<button type='submit' class='btn btn-sm btn-primary delete-talle' data-id='" . $rowTalles['id'] . "'><i class='fa fa-times'></i></button>";
+                                echo "</form>";
+                                echo "</td>";
                                 echo "</tr>";
                             }
                             ?>
                         </tbody>
-                    </table>
+                    </table>                  
                 </div>
             </div>
         </div>

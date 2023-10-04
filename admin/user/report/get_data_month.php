@@ -14,7 +14,7 @@ $fechas = [];
 $cantidades = [];
 
 while ($fila = mysqli_fetch_assoc($resultado)) {
-    $fechas[] = date('d-m-Y', strtotime($fila['fecha']));
+    $fechas[] = $fila['fecha']; // Dejar las fechas en el formato 'Y-m-d'
     $cantidades[] = $fila['cantidad'];
 }
 

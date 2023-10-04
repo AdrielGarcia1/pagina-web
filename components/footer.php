@@ -13,11 +13,9 @@
                             <a class="text-dark mb-2" href="../pag/shop.php"><i class="fa fa-angle-right mr-2"></i>Productos</a> 
                             <?php                 
                               if (isset($_SESSION['username'])) {                                     
-                                echo '<a class="text-dark mb-2" href="../pag/cart.php"><i class="fa fa-angle-right mr-2"></i>Carrito</a>';
-                                echo '<a class="text-dark mb-2" href="../pag/checkout.php"><i class="fa fa-angle-right mr-2"></i>Pagar</a>';
+                                echo '<a class="text-dark mb-2" href="../pag/cart.php"><i class="fa fa-angle-right mr-2"></i>Carrito</a>';                                
                               } else {                                  
-                                echo '<a class="text-dark mb-2" href="../login/login.php"><i class="fa fa-angle-right mr-2"></i>Carrito</a>';
-                                echo '<a class="text-dark mb-2" href="../login/login.php"><i class="fa fa-angle-right mr-2"></i>Pagar</a>';
+                                echo '<a class="text-dark mb-2" href="../login/login.php"><i class="fa fa-angle-right mr-2"></i>Carrito</a>';                                
                               }
                             ?>                             
                             <a class="text-dark" href="../pag/contact.php"><i class="fa fa-angle-right mr-2"></i>Contacto</a>

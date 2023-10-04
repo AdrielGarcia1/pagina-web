@@ -113,7 +113,7 @@ if (isset($_SESSION['username'])) {
     // Verificar si el usuario ha iniciado sesión
     if (isset($_SESSION['username'])) {
         // El usuario ha iniciado sesión, por lo que muestra el enlace al perfil
-        echo '<a href="../../user/user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>';
+        echo '<a href="user.php" class="btn border"><i class="fas fa-user text-primary"></i></a>';
     } else {
         // El usuario no ha iniciado sesión, muestra el enlace a la página de inicio de sesión
         echo '<a href="../../login/login.php" class="btn border"><i class="fas fa-sign-in-alt text-primary"></i></a>';
@@ -148,11 +148,9 @@ if (isset($_SESSION['username'])) {
                             <a href="../pag/shop.php" class="nav-item nav-link">Productos</a>                            
                             <?php                 
                               if (isset($_SESSION['username'])) {                                     
-                                echo '<a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>';
-                                echo ' <a href="../pag/checkout.php" class="nav-item nav-link">Pagar</a>';
+                                echo '<a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>';                                
                               } else {                                  
-                                echo '<a href="../login/login.php" class="nav-item nav-link">Carrito </a>';
-                                echo '<a href="../login/login.php" class="nav-item nav-link">Pagar</a>';
+                                echo '<a href="../login/login.php" class="nav-item nav-link">Carrito </a>';                                
                               }
                             ?> 
                             <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>

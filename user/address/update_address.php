@@ -48,8 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ejecuta la consulta
     if (mysqli_query($connection, $update_user_query)) {
         // Redirige a la página de perfil del usuario o a donde desees
-        header("Location: ../user/user_profile.php");
+        // Después de que los cambios se realicen con éxito, redirige a edit_address.php con un parámetro de éxito
+        header("Location: edit_address.php?success=1");
         exit();
+
     } else {
         echo "Error al actualizar la información del usuario: " . mysqli_error($connection);
     }

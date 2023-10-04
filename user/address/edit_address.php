@@ -8,6 +8,7 @@ if (isset($_SESSION['username'])) {
     $loginButton = '<a href="../login/login.php" class="nav-item nav-link">Login</a>';
     $registerButton = '<a href="../register/register.php" class="nav-item nav-link">Registrar</a>';
 }?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,11 +101,9 @@ if (isset($_SESSION['username'])) {
                             <a href="../../pag/shop.php" class="nav-item nav-link">Productos</a>                            
                             <?php                 
                               if (isset($_SESSION['username'])) {                                     
-                                echo '<a href="../../pag/cart.php" class="nav-item nav-link">Carrito</a>';
-                                echo ' <a href="../../pag/checkout.php" class="nav-item nav-link">Pagar</a>';
+                                echo '<a href="../../pag/cart.php" class="nav-item nav-link">Carrito</a>';                                
                               } else {                                  
-                                echo '<a href="../../login/login.php" class="nav-item nav-link">Carrito </a>';
-                                echo '<a href="../../login/login.php" class="nav-item nav-link">Pagar</a>';
+                                echo '<a href="../../login/login.php" class="nav-item nav-link">Carrito </a>';                                
                               }
                             ?>   
                             <a href="../../pag/contact.php" class="nav-item nav-link">Contacto</a>
@@ -134,7 +133,13 @@ if (isset($_SESSION['username'])) {
                     <div class="card-body">
                         <h2 class="card-title text-center">Editar Perfil</h2>
 <!--Main content -->
-<form action="../user/edit_profile.php" method="POST">
+<?php
+// Verifica si existe el parámetro de éxito en la URL
+if (isset($_GET['success']) && $_GET['success'] == '1') {
+    echo '<div class="alert alert-success">Los cambios se realizaron con éxito.</div>';
+}
+?>
+<form action="update_address.php" method="POST">
     <div class="form-group">
         <label for="province">Provincia:</label>
         <select id="province" name="province" class="form-control" required>

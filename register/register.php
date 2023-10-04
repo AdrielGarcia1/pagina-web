@@ -1,3 +1,6 @@
+<?php
+require_once "register_process.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +20,48 @@
     <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<body>
+<?php include('../components/topbar.php'); ?>
+<!-- Navbar Start -->
+<div class="container-fluid mb-5">
+    <div class="row border-top px-xl-5">
+        <div class="col-lg-3 d-none d-lg-block">
+            <a class="btn shadow-none d-flex align-items-center justify-content-center bg-primary text-white w-100"
+               data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
+                <h6 class="m-0">REGISTRO</h6>
+            </a>
+        </div>
+        <div class="col-lg-9">
+            <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                <a href="" class="text-decoration-none d-block d-lg-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
+                </a>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav mr-auto py-0">
+                        <a href="../pag/index.php" class="nav-item nav-link">Inicio</a>
+                        <a href="../pag/shop.php" class="nav-item nav-link">Productos</a>
+                        <?php                 
+                              if (isset($_SESSION['username'])) {                                     
+                                echo '<a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>';                                
+                              } else {                                  
+                                echo '<a href="../login/login.php" class="nav-item nav-link">Carrito </a>';                               
+                              }
+                        ?> 
+                        <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>
+                    </div>
+                    <div class="navbar-nav ml-auto py-0">
+                        <a href="../login/login.php" class="nav-item nav-link">Iniciar Sesión</a>
+                        <a href="../register/register.php" class="nav-item nav-link">Registrar</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Navbar End -->
+
 <script>
  $(document).ready(function () {
         // Función para verificar la disponibilidad del nombre de usuario
@@ -126,50 +169,6 @@
         return true;
     }
 </script>
-<body>
-<?php include('../components/topbar.php'); ?>
-<!-- Navbar Start -->
-<div class="container-fluid mb-5">
-    <div class="row border-top px-xl-5">
-        <div class="col-lg-3 d-none d-lg-block">
-            <a class="btn shadow-none d-flex align-items-center justify-content-center bg-primary text-white w-100"
-               data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                <h6 class="m-0">REGISTRO</h6>
-            </a>
-        </div>
-        <div class="col-lg-9">
-            <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
-                <a href="" class="text-decoration-none d-block d-lg-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold">TIENDA</h1>
-                </a>
-                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                    <div class="navbar-nav mr-auto py-0">
-                        <a href="../pag/index.php" class="nav-item nav-link">Inicio</a>
-                        <a href="../pag/shop.php" class="nav-item nav-link">Productos</a>
-                        <?php                 
-                              if (isset($_SESSION['username'])) {                                     
-                                echo '<a href="../pag/cart.php" class="nav-item nav-link">Carrito</a>';
-                                echo ' <a href="../pag/checkout.php" class="nav-item nav-link">Pagar</a>';
-                              } else {                                  
-                                echo '<a href="../login/login.php" class="nav-item nav-link">Carrito </a>';
-                                echo '<a href="../login/login.php" class="nav-item nav-link">Pagar</a>';
-                              }
-                            ?> 
-                        <a href="../pag/contact.php" class="nav-item nav-link">Contacto</a>
-                    </div>
-                    <div class="navbar-nav ml-auto py-0">
-                        <a href="../login/login.php" class="nav-item nav-link">Iniciar Sesión</a>
-                        <a href="../register/register.php" class="nav-item nav-link">Registrar</a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
-</div>
-<!-- Navbar End -->
-<?php
-require_once "register_process.php";
-?>
 <!-- Register Form Start -->
 <div class="container mt-5">
     <div class="row justify-content-center text-dark">

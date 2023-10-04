@@ -9582,3 +9582,8 @@ a.text-dark:hover, a.text-dark:focus {
     transform: translateY(-15px);
   }
 }
+/* Estilo para la columna de acciones */
+.acciones-column {
+    width: 100px; /* Ajusta el valor según tus preferencias */
+    /* Otros estilos si es necesario */
+}
