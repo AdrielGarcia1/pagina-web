@@ -178,27 +178,27 @@ if (isset($_SESSION['username'])) {
             <!-- Formulario para mostrar y editar datos del usuario -->
             <form action="update_info.php" method="POST">
                 <div class="form-group">
-                    <label for="nombre">Nombre de Usuario:</label>
+                    <h5 for="nombre">Nombre de Usuario:</h5>
                     <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $nombre; ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="nombre_real">Nombre Real:</label>
+                    <h5 for="nombre_real">Nombre Real:</h5>
                     <input type="text" class="form-control" id="nombre_real" name="nombre_real" value="<?php echo $nombre_real; ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="apellido">Apellido:</label>
+                    <h5 for="apellido">Apellido:</h5>
                     <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo $apellido; ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="correo">Correo Electrónico:</label>
+                    <h5 for="correo">Correo Electrónico:</h5>
                     <input type="email" class="form-control" id="correo" name="correo" value="<?php echo $correo; ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="numero_telefono">Número de Teléfono:</label>
+                    <h5 for="numero_telefono">Número de Teléfono:</h5>
                     <input type="text" class="form-control" id="numero_telefono" name="numero_telefono" value="<?php echo $numero_telefono; ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="DNI">DNI:</label>
+                    <h5 for="DNI">DNI:</h5>
                     <input type="text" class="form-control" id="DNI" name="DNI" value="<?php echo $DNI; ?>" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Actualizar Información</button>

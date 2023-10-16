@@ -135,15 +135,15 @@ include('change_password_handler.php');
                 <!-- Formulario para mostrar y editar datos del usuario -->
                 <form method="POST" action="" >
                    <div class="form-group">
-                    <label for="current_password">Contraseña Actual</label>
+                    <h5 for="current_password">Contraseña Actual</h5>
                     <input type="password" class="form-control" id="current_password" name="current_password" required>
                    </div>
                    <div class="form-group">
-                    <label for="new_password">Nueva Contraseña</label>
+                    <h5 for="new_password">Nueva Contraseña</h5>
                     <input type="password" class="form-control" id="new_password" name="new_password" required>
                    </div>
                    <div class="form-group">
-                    <label for="confirm_password">Confirmar Nueva Contraseña</label>
+                    <h5 for="confirm_password">Confirmar Nueva Contraseña</h5>
                     <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
                    </div>
                    <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>

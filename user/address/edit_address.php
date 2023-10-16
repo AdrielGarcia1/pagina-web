@@ -141,7 +141,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
 ?>
 <form action="update_address.php" method="POST">
     <div class="form-group">
-        <label for="province">Provincia:</label>
+        <h5 for="province">Provincia:</h5>
         <select id="province" name="province" class="form-control" required>
             <?php while ($row = mysqli_fetch_assoc($provinces_result)) { ?>
                 <option value="<?php echo $row['id']; ?>" <?php if ($row['id'] == $currentProvinceId) echo 'selected="selected"'; ?>><?php echo $row['nombre_provincia']; ?></option>
@@ -149,11 +149,11 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         </select>
     </div>
     <div class="form-group">
-        <label for="city">Ciudad/Pueblo:</label>
+        <h5 for="city">Ciudad/Pueblo:</h5>
         <input type="text" id="city" name="city" class="form-control" placeholder="Ingresa tu Ciudad o Pueblo" value="<?php echo $currentCity; ?>" required>
     </div>
     <div class="form-group">
-        <label for="address">Dirección:</label>
+        <h5 for="address">Dirección:</h5>
         <textarea id="address" name="address" class="form-control" placeholder="Ingresa tu Dirección" required><?php echo $currentAddress; ?></textarea>
     </div>
     <button type="submit" class="btn btn-primary btn-block">Guardar Cambios</button>

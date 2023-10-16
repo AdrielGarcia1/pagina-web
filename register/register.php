@@ -186,19 +186,65 @@ require_once "register_process.php";
                         </div>
                         <div class="form-group">
                             <h5 for="nombre_real">Nombre Real:</h5>
-                            <input type="text" id="nombre_real" name="nombre_real" class="form-control"
-                                   placeholder="Ingresa tu Nombre Real" required>
+    <input type="text" id="nombre_real" name="nombre_real" class="form-control"
+        placeholder="Ingresa tu Nombre Real" required>
+    <div id="nombreRealMessage" class="text-danger"></div> 
                         </div>
                         <div class="form-group">
                             <h5 for="apellido">Apellido:</h5>
-                            <input type="text" id="apellido" name="apellido" class="form-control"
-                                   placeholder="Ingresa tu Apellido" required>
+    <input type="text" id="apellido" name="apellido" class="form-control"
+        placeholder="Ingresa tu Apellido" required>
+    <div id="apellidoMessage" class="text-danger"></div> 
                         </div>
+                        <script>
+        $(document).ready(function () {
+            // Función para validar el campo "nombre_real"
+            $("#nombre_real").on("input", function () {
+                var nombreReal = $(this).val();
+                var regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑ\s]+$/;
+
+                if (!regex.test(nombreReal)) {
+                    $("#nombreRealMessage").text("Nombre real no válido. Solo letras y espacios permitidos.");
+                } else {
+                    $("#nombreRealMessage").text("");
+                }
+            });
+
+            // Función para validar el campo "apellido"
+            $("#apellido").on("input", function () {
+                var apellido = $(this).val();
+                var regex = /^[a-zA-ZáÁéÉíÍóÓúÚñÑ\s]+$/;
+
+                if (!regex.test(apellido)) {
+                    $("#apellidoMessage").text("Apellido no válido. Solo letras y espacios permitidos.");
+                } else {
+                    $("#apellidoMessage").text("");
+                }
+            });
+        });
+    </script>
                         <div class="form-group">
                             <h5 for="numero_telefono">Número de Teléfono:</h5>
-                            <input type="text" id="numero_telefono" name="numero_telefono" class="form-control"
-                                   placeholder="Ingresa tu Número de Teléfono" required>
+    <input type="text" id="numero_telefono" name="numero_telefono" class="form-control"
+           placeholder="Ingresa tu Número de Teléfono" required>
+    <div id="telefonoMessage" class="text-danger"></div>
                         </div>
+                        <script>
+    $(document).ready(function () {
+        // Función para validar el campo "numero_telefono"
+        $("#numero_telefono").on("input", function () {
+            var numeroTelefono = $(this).val();
+            var regex = /^[0-9]+$/; // Expresión regular para números
+
+            // Verifica si el número de teléfono cumple con los requisitos
+            if (numeroTelefono.length < 9 || numeroTelefono.length > 12 || !regex.test(numeroTelefono)) {
+                $("#telefonoMessage").text("Número de teléfono no válido. Debe tener entre 9 y 12 dígitos y contener solo números.");
+            } else {
+                $("#telefonoMessage").text("");
+            }
+        });
+    });
+</script>
                         <div class="form-group">
                             <h5 for="email">Correo Electrónico:</h5>
                             <input type="email" id="email" name="email" class="form-control"
